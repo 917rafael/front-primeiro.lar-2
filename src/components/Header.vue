@@ -1,14 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
 const menuOpen = ref(false);
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
+const props = defineProps({ scrolled: Boolean });
 </script>
 
 
 <template>
-  <header class="header-transparente">
+  <header :class="['header-transparente', { 'header-preto': scrolled }]">
     <div class="header-content">
       <div class="logo">
         <!-- <img src="/src/assets/logo.svg" alt="Logo" /> -->
@@ -41,6 +42,11 @@ function toggleMenu() {
   z-index: 100;
   transition: background 0.3s;
   box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+}
+.header-preto {
+  background: #111 !important;
+  backdrop-filter: none !important;
+  border-bottom: 1.5px solid #222 !important;
 }
 
 .header-content {
@@ -102,7 +108,7 @@ function toggleMenu() {
 }
 
 .nav-link {
-  color: #222;
+  color: #ffffff;
   text-decoration: none;
   font-size: 1.08rem;
   font-weight: 500;
