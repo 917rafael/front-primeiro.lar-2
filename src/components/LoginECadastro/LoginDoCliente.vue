@@ -25,7 +25,7 @@ function login() {
 </script>
 
 <template>
-  <div class="login-container right-align">
+
     <form class="login-form" @submit.prevent="login">
       <div class="login-header">
         <img src="/src/assets/img/image.png" alt="Logo" class="login-logo" />
@@ -65,23 +65,12 @@ function login() {
         <a href="/cadastro">Cadastre-se</a>
       </div>
     </form>
-  </div>
+
 </template>
 
 <style scoped>
 
-.login-container {
-  min-height: 100vh; 
-  max-height: 100vh; 
-  height: 100vh;    
-  display: flex;
-  align-items: center;
-  width: 100%; 
-}
 
-.right-align {
-  justify-content: flex-end;
-}
 
 .login-form {
   border-top-left-radius: 1.2rem;
@@ -91,7 +80,7 @@ function login() {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  max-width: 700px;
+  max-width: 600px;
   min-height: 100vh;
   max-height: 100vh; 
   height: 100vh;     
@@ -352,13 +341,5 @@ button[type="submit"]:hover {
   color: #ff9966;
 }
 
-@media (max-width: 500px) {
-  .login-container {
-    justify-content: center;
-  }
-  .login-form {
-    padding: 1.2rem 0.5rem;
-    max-width: 95vw;
-  }
-}
+
 </style>

@@ -1,10 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 
-const nome = ref('')
-const email = ref('')
-const senha = ref('')
-const confirmarSenha = ref('')
+const emit = defineEmits(['cadastro-sucesso'])
+
+const nome = ref('rafael')
+const email = ref('rafel@gmail.com')
+const senha = ref('123')
+const confirmarSenha = ref('123')
 const erro = ref('')
 const sucesso = ref('')
 
@@ -25,11 +27,14 @@ function cadastrar() {
   email.value = ''
   senha.value = ''
   confirmarSenha.value = ''
+  setTimeout(() => {
+    emit('cadastro-sucesso')
+  }, 350) // Reduzido para animação iniciar mais rápido
 }
 </script>
 
 <template>
-  <div class="cadastro-container right-align">
+ 
     <form class="cadastro-form" @submit.prevent="cadastrar">
       <div class="cadastro-header">
         <img src="/src/assets/img/image.png" alt="Logo" class="cadastro-logo" />
@@ -73,23 +78,11 @@ function cadastrar() {
         <a href="/login">Entrar</a>
       </div>
     </form>
-  </div>
+
 </template>
 
 <style scoped>
-.cadastro-container {
-  min-height: 100vh;
-  max-height: 100vh;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  background: linear-gradient(120deg, #6a11cb 0%, #2575fc 100%);
-}
 
-.right-align {
-  justify-content: flex-end;
-}
 
 .cadastro-form {
  border-top-left-radius: 1.2rem;
@@ -98,7 +91,7 @@ function cadastrar() {
   padding: 2.5rem 2rem;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
   width: 150%;
-  max-width: 700px;
+  max-width: 600px;
   min-height: 100vh;
   max-height: 100vh;
   height: 100vh;
@@ -294,13 +287,5 @@ button[type="submit"]:hover {
   border: 1px solid #1b8a3d;
 }
 
-@media (max-width: 500px) {
-  .cadastro-container {
-    justify-content: center;
-  }
-  .cadastro-form {
-    padding: 1.2rem 0.5rem;
-    max-width: 95vw;
-  }
-}
+
 </style>
