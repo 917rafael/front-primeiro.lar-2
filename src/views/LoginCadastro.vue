@@ -51,6 +51,18 @@ function handleCadastroSucesso() {
     width: 100%;
     padding: 0 2rem 0 0;
     flex: 1 1 0%;
+    margin-right: -2%;
+}
+
+.img-area-2{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 0 2rem 0 0;
+    flex: 1 1 0%;
+    margin-right: -5%;
+    margin-left: -100%;
 }
     
 .img {

@@ -34,59 +34,69 @@ function cadastrar() {
 </script>
 
 <template>
- 
-    <form class="cadastro-form" @submit.prevent="cadastrar">
-      <div class="cadastro-header">
-        <img src="/src/assets/img/image.png" alt="Logo" class="cadastro-logo" />
-        <h2>Crie sua conta</h2>
-        <p class="cadastro-subtitle">Junte-se a nós! Preencha os dados abaixo para começar.</p>
-      </div>
-      <div v-if="erro" class="alert erro">{{ erro }}</div>
-      <div v-if="sucesso" class="alert sucesso">{{ sucesso }}</div>
-      <div class="form-group floating-label">
-        <span class="input-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="#2575fc" stroke-width="1.5" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.418 0-8 2.015-8 4.5V21h16v-2.5c0-2.485-3.582-4.5-8-4.5Z"/></svg>
-        </span>
-        <input id="nome" v-model="nome" type="text" required placeholder=" " />
-        <label for="nome">Nome</label>
-      </div>
-      <div class="form-group floating-label">
-        <span class="input-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="#2575fc" stroke-width="1.5" d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11Zm1.6.6 7.4 6.2a2 2 0 0 0 2.6 0l7.4-6.2"/></svg>
-        </span>
-        <input id="email" v-model="email" type="email" required placeholder=" " />
-        <label for="email">E-mail</label>
-      </div>
-      <div class="form-group floating-label">
-        <span class="input-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect width="14" height="10" x="5" y="11" stroke="#2575fc" stroke-width="1.5" rx="2"/><path stroke="#2575fc" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>
-        </span>
-        <input id="senha" v-model="senha" type="password" required placeholder=" " />
-        <label for="senha">Senha</label>
-      </div>
-      <div class="form-group floating-label">
-        <span class="input-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect width="14" height="10" x="5" y="11" stroke="#2575fc" stroke-width="1.5" rx="2"/><path stroke="#2575fc" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>
-        </span>
-        <input id="confirmarSenha" v-model="confirmarSenha" type="password" required placeholder=" " />
-        <label for="confirmarSenha">Confirmar Senha</label>
-      </div>
-      <div class="divider"><span>ou</span></div>
-      <button type="submit">Cadastrar</button>
-      <div class="link-login">
-        <span>Já tem uma conta?</span>
-        <a href="/login">Entrar</a>
-      </div>
-    </form>
+
+  <form class="cadastro-form" @submit.prevent="cadastrar">
+    <div class="cadastro-header">
+      <img src="/src/assets/img/image.png" alt="Logo" class="cadastro-logo" />
+      <h2>Crie sua conta</h2>
+      <p class="cadastro-subtitle">Junte-se a nós! Preencha os dados abaixo para começar.</p>
+    </div>
+    <div v-if="erro" class="alert erro">{{ erro }}</div>
+    <div v-if="sucesso" class="alert sucesso">{{ sucesso }}</div>
+    <div class="form-group floating-label">
+      <span class="input-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <path stroke="#2575fc" stroke-width="1.5"
+            d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.418 0-8 2.015-8 4.5V21h16v-2.5c0-2.485-3.582-4.5-8-4.5Z" />
+        </svg>
+      </span>
+      <input id="nome" v-model="nome" type="text" required placeholder=" " />
+      <label for="nome">Nome</label>
+    </div>
+    <div class="form-group floating-label">
+      <span class="input-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <path stroke="#2575fc" stroke-width="1.5"
+            d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11Zm1.6.6 7.4 6.2a2 2 0 0 0 2.6 0l7.4-6.2" />
+        </svg>
+      </span>
+      <input id="email" v-model="email" type="email" required placeholder=" " />
+      <label for="email">E-mail</label>
+    </div>
+    <div class="form-group floating-label">
+      <span class="input-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <rect width="14" height="10" x="5" y="11" stroke="#2575fc" stroke-width="1.5" rx="2" />
+          <path stroke="#2575fc" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4" />
+        </svg>
+      </span>
+      <input id="senha" v-model="senha" type="password" required placeholder=" " />
+      <label for="senha">Senha</label>
+    </div>
+    <div class="form-group floating-label">
+      <span class="input-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <rect width="14" height="10" x="5" y="11" stroke="#2575fc" stroke-width="1.5" rx="2" />
+          <path stroke="#2575fc" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4" />
+        </svg>
+      </span>
+      <input id="confirmarSenha" v-model="confirmarSenha" type="password" required placeholder=" " />
+      <label for="confirmarSenha">Confirmar Senha</label>
+    </div>
+    <div class="divider"><span>ou</span></div>
+    <button type="submit">Cadastrar</button>
+    <div class="link-login">
+      <span>Já tem uma conta?</span>
+      <a href="/login">Entrar</a>
+    </div>
+  </form>
 
 </template>
 
 <style scoped>
-
-
 .cadastro-form {
- border-top-left-radius: 1.2rem;
- border-bottom-left-radius: 20px;
+  border-top-left-radius: 1.2rem;
+  border-bottom-left-radius: 20px;
   background: #fff;
   padding: 2.5rem 2rem;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
@@ -180,12 +190,12 @@ function cadastrar() {
   font-size: 1rem;
   pointer-events: none;
   background: transparent;
-  transition: 0.2s cubic-bezier(.4,0,.2,1);
+  transition: 0.2s cubic-bezier(.4, 0, .2, 1);
   z-index: 2;
 }
 
-.floating-label input:focus + label,
-.floating-label input:not(:placeholder-shown) + label {
+.floating-label input:focus+label,
+.floating-label input:not(:placeholder-shown)+label {
   top: 0.3rem;
   left: 2.3rem;
   font-size: 0.82rem;
@@ -241,7 +251,8 @@ button[type="submit"]:hover {
   z-index: 1;
 }
 
-.divider:before, .divider:after {
+.divider:before,
+.divider:after {
   content: '';
   flex: 1;
   border-bottom: 1px solid #eee;
@@ -286,6 +297,4 @@ button[type="submit"]:hover {
   color: #1b8a3d;
   border: 1px solid #1b8a3d;
 }
-
-
 </style>

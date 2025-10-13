@@ -26,52 +26,55 @@ function login() {
 
 <template>
 
-    <form class="login-form" @submit.prevent="login">
-      <div class="login-header">
-        <img src="/src/assets/img/image.png" alt="Logo" class="login-logo" />
-        <h2>Bem-vindo de volta!</h2>
-        <p class="login-subtitle">Acesse sua conta para continuar</p>
-      </div>
-      <div v-if="erro" class="alert erro">{{ erro }}</div>
-      <div v-if="sucesso" class="alert sucesso">{{ sucesso }}</div>
-      <div class="form-group floating-label">
-        <span class="input-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="#ff5e62" stroke-width="1.5" d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11Zm1.6.6 7.4 6.2a2 2 0 0 0 2.6 0l7.4-6.2"/></svg>
-        </span>
-        <input id="email" v-model="email" type="email" required placeholder=" " />
-        <label for="email">E-mail</label>
-      </div>
-      <div class="form-group floating-label">
-        <span class="input-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect width="14" height="10" x="5" y="11" stroke="#ff5e62" stroke-width="1.5" rx="2"/><path stroke="#ff5e62" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>
-        </span>
-        <input id="senha" v-model="senha" type="password" required placeholder=" " />
-        <label for="senha">Senha</label>
-      </div>
-      <div class="login-options">
-        <label class="remember-me">
-          <input type="checkbox" /> Lembrar de mim
-        </label>
-        <a href="#" class="forgot-password">Esqueceu a senha?</a>
-      </div>
-      <button type="submit" class="login-btn-pro">Entrar</button>
-      <div class="divider"><span>ou</span></div>
-      <button type="button" class="google-login-pro">
-        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="google-icon" />
-        Entrar com Google
-      </button>
-      <div class="link-cadastro">
-        <span>Não tem uma conta?</span>
-        <a href="/cadastro">Cadastre-se</a>
-      </div>
-    </form>
+  <form class="login-form" @submit.prevent="login">
+    <div class="login-header">
+      <img src="/src/assets/img/image.png" alt="Logo" class="login-logo" />
+      <h2>Bem-vindo de volta!</h2>
+      <p class="login-subtitle">Acesse sua conta para continuar</p>
+    </div>
+    <div v-if="erro" class="alert erro">{{ erro }}</div>
+    <div v-if="sucesso" class="alert sucesso">{{ sucesso }}</div>
+    <div class="form-group floating-label">
+      <span class="input-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <path stroke="#ff5e62" stroke-width="1.5"
+            d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11Zm1.6.6 7.4 6.2a2 2 0 0 0 2.6 0l7.4-6.2" />
+        </svg>
+      </span>
+      <input id="email" v-model="email" type="email" required placeholder=" " />
+      <label for="email">E-mail</label>
+    </div>
+    <div class="form-group floating-label">
+      <span class="input-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <rect width="14" height="10" x="5" y="11" stroke="#ff5e62" stroke-width="1.5" rx="2" />
+          <path stroke="#ff5e62" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4" />
+        </svg>
+      </span>
+      <input id="senha" v-model="senha" type="password" required placeholder=" " />
+      <label for="senha">Senha</label>
+    </div>
+    <div class="login-options">
+      <label class="remember-me">
+        <input type="checkbox" /> Lembrar de mim
+      </label>
+      <a href="#" class="forgot-password">Esqueceu a senha?</a>
+    </div>
+    <button type="submit" class="login-btn-pro">Entrar</button>
+    <div class="divider"><span>ou</span></div>
+    <button type="button" class="google-login-pro">
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="google-icon" />
+      Entrar com Google
+    </button>
+    <div class="link-cadastro">
+      <span>Não tem uma conta?</span>
+      <a href="/LoginCadastro">Cadastre-se</a>
+    </div>
+  </form>
 
 </template>
 
 <style scoped>
-
-
-
 .login-form {
   border-top-left-radius: 1.2rem;
   border-bottom-left-radius: 20px;
@@ -82,8 +85,8 @@ function login() {
   gap: 1.2rem;
   max-width: 600px;
   min-height: 100vh;
-  max-height: 100vh; 
-  height: 100vh;     
+  max-height: 100vh;
+  height: 100vh;
   align-items: center;
   width: 150%;
 }
@@ -160,12 +163,12 @@ function login() {
   font-size: 1rem;
   pointer-events: none;
   background: transparent;
-  transition: 0.2s cubic-bezier(.4,0,.2,1);
+  transition: 0.2s cubic-bezier(.4, 0, .2, 1);
   z-index: 2;
 }
 
-.floating-label input:focus + label,
-.floating-label input:not(:placeholder-shown) + label {
+.floating-label input:focus+label,
+.floating-label input:not(:placeholder-shown)+label {
   top: 0.3rem;
   left: 2.3rem;
   font-size: 0.82rem;
@@ -257,7 +260,8 @@ button[type="submit"]:hover {
   z-index: 1;
 }
 
-.divider:before, .divider:after {
+.divider:before,
+.divider:after {
   content: '';
   flex: 1;
   border-bottom: 1px solid #eee;
@@ -340,6 +344,4 @@ button[type="submit"]:hover {
 .link-cadastro a:hover {
   color: #ff9966;
 }
-
-
 </style>
