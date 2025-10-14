@@ -33,6 +33,7 @@ watch(estadoSelecionado, async (uf) => {
 <template>
   <Header :scrolled="isHeaderScrolled" />
   <section class="banner">
+<<<<<<< HEAD
     <div class="banner-content banner-flex-align">
       <div class="banner-left">
         <h1>Encontre o imóvel dos seus sonhos</h1>
@@ -46,6 +47,12 @@ watch(estadoSelecionado, async (uf) => {
       <div class="banner-btn-right">
         <button>Ver imóveis</button>
       </div>
+=======
+    <div class="banner-content">
+      <h1>Encontre os imóveis dos seus sonhos</h1>
+      <p>Casas, apartamentos e terrenos com as melhores condições do mercado.</p>
+      <button>Ver imóveis</button>
+>>>>>>> 64271cd ( login e cadastro #13)
     </div>
   </section>
 
