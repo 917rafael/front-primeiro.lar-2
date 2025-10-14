@@ -66,7 +66,7 @@ watch(estadoSelecionado, async (uf) => {
         </option>
       </select>
       <select v-if="estadoSelecionado" v-model="cidadeSelecionada">
-        <option value="">Selecione a cidade</option>
+        <option value="">Selecione a sua cidade</option>
         <option v-for="cidade in cidades" :key="cidade.id" :value="cidade.nome">
           {{ cidade.nome }}
         </option>
