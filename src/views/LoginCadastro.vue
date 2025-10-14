@@ -61,7 +61,7 @@ function handleCadastroSucesso() {
     width: 100%;
     padding: 0 2rem 0 0;
     flex: 1 1 0%;
-    margin-right: -5%;
+    margin-right: -10%;
     margin-left: -100%;
 }
     
