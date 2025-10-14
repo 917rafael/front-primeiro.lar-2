@@ -278,6 +278,7 @@ body {
   min-height: 85vh;
   height: 85vh;
   max-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -416,6 +417,20 @@ body {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+  background: var(--primary-color, #2575fc);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.banner-btn-right button:hover {
+  background: #fff;
+  color: #222;
+  border: 1.5px solid var(--primary-color, #2575fc);
+  transform: scale(1.07) translateY(-50%);
+  z-index: 1;
 }
 
 .banner-btn-wrapper {
