@@ -53,7 +53,7 @@ watch(estadoSelecionado, async (uf) => {
     <h2>Busque seu imóvel</h2>
     <form class="search-form">
       <select v-model="estadoSelecionado">
-        <option value="">Selecione o estado</option>
+        <option value="">Selecione o seu estado</option>
         <option v-for="estado in estados" :key="estado.id" :value="estado.sigla">
           {{ estado.nome }}
         </option>
