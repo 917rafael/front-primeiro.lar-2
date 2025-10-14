@@ -7,28 +7,24 @@
           <h4>Cartões do Grupo</h4>
           <div class="icons">
             <img src="@/assets/cards/casas-bahia.jpg" alt="Casas Bahia" title="Casas Bahia" />
-            <img src="@/assets/cards/pontofrio.svg" alt="Pontofrio" title="Pontofrio" />
-            <img src="@/assets/cards/extra.svg" alt="Extra" title="Extra" />
+            <img src="@/assets/cards/pontofrio.jpeg" alt="Pontofrio" title="Pontofrio" />
+            <img src="@/assets/cards/extra.png" alt="Extra" title="Extra" />
           </div>
         </div>
         <div class="group">
           <h4>Outras formas</h4>
           <div class="icons">
-            <img src="@/assets/cards/banqi.svg" alt="BanQi" title="BanQi" />
-            <img src="@/assets/cards/pix.svg" alt="Pix" title="Pix" />
+            <img src="@/assets/cards/banqi.png" alt="BanQi" title="BanQi" />
+            <img src="@/assets/cards/pix.png" alt="Pix" title="Pix" />
           </div>
         </div>
         <div class="group">
           <h4>Crédito</h4>
           <div class="icons">
-            <img src="@/assets/cards/visa.svg" alt="Visa" title="Visa" />
-            <img src="@/assets/cards/mastercard.svg" alt="Mastercard" title="Mastercard" />
-            <img src="@/assets/cards/elo.svg" alt="Elo" title="Elo" />
-            <img src="@/assets/cards/amex.svg" alt="American Express" title="American Express" />
-            <img src="@/assets/cards/diners.svg" alt="Diners Club" title="Diners Club" />
-            <img src="@/assets/cards/hipercard.svg" alt="Hipercard" title="Hipercard" />
-            <img src="@/assets/cards/banescard.svg" alt="Banescard" title="Banescard" />
-            <img src="@/assets/cards/jcb.svg" alt="JCB" title="JCB" />
+            <img src="@/assets/cards/visa.png" alt="Visa" title="Visa" />
+            <img src="@/assets/cards/mastercard.png" alt="Mastercard" title="Mastercard" />
+            <img src="@/assets/cards/elo.png" alt="Elo" title="Elo" />
+            <img src="@/assets/cards/hipercard.png" alt="Hipercard" title="Hipercard" />
           </div>
         </div>
       </div>
@@ -36,28 +32,28 @@
 
     <section class="social-and-app">
       <div class="social-media">
-        <h3>ACOMPANHE NAS REDES SOCIAIS</h3>
+        <h3>Redes Sociais</h3>
         <div class="social-icons">
-          <img src="@/assets/social/facebook.svg" alt="Facebook" title="Facebook" />
-          <img src="@/assets/social/twitter.svg" alt="Twitter" title="Twitter" />
-          <img src="@/assets/social/instagram.svg" alt="Instagram" title="Instagram" />
-          <img src="@/assets/social/youtube.svg" alt="YouTube" title="YouTube" />
+          <img src="@/assets/cards/facebook.png" alt="Facebook" title="Facebook" />
+          <img src="@/assets/cards/instagram.jpeg" alt="Instagram" title="Instagram" />
+          <img src="@/assets/cards/X.png" alt="Twitter" title="Twitter" />
+          <img src="@/assets/cards/youtube.png" alt="YouTube" title="YouTube" />
         </div>
       </div>
-
       <div class="app-download">
-        <h3>BAIXE O APP DAS CASAS BAHIA</h3>
+        <h3>Baixe o App</h3>
         <div class="app-buttons">
-          <img src="@/assets/apps/google-play.svg" alt="Google Play" title="Google Play" />
-          <img src="@/assets/apps/app-store.svg" alt="App Store" title="App Store" />
+          <img src="@/assets/cards/googleplay.png" alt="Google Play" title="Google Play" />
+          <img src="@/assets/cards/appstore.png" alt="App Store" title="Apple Store" />
         </div>
-      </div>
-
-      <div class="trust-badges">
-        <img src="@/assets/trust/confio.svg" alt="Confio Loja Confiável" title="Confio Loja Confiável" />
-        <img src="@/assets/trust/consumidor-govbr.svg" alt="Consumidor Gov.br" title="Consumidor Gov.br" />
       </div>
     </section>
+  <section>
+      <div class="contact">
+        <p>4003-1234 | 0800-1234 | (11) 1234-5678</p>
+      </div>
+    </section>
+
   </footer>
 </template>
 
@@ -66,6 +62,13 @@
 </script>
 
 <style scoped>
+.footer img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
 .footer {
   background-color: #f7f7f7;
   padding: 2rem;
@@ -141,5 +144,31 @@
 
 .trust-badges img {
   height: 64px;
+}
+
+.trust-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.contact {
+  margin-left: auto;
+}
+
+.contact p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.social-and-app h3 {
+  color: #b35400;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 </style>

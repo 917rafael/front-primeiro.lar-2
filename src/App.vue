@@ -4,12 +4,18 @@ import Footer from './components/Footer.vue'
 </script>
 
 <template>
-  <RouterView />
+  <main class="main-content">
+    <RouterView />
+  </main>
 
   <Footer />
 </template>
 
 <style scoped>
+.main-content {
+  flex: 1;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
