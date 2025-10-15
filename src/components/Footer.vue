@@ -15,7 +15,7 @@
           <h4>Outras formas</h4>
           <div class="icons">
             <img src="@/assets/cards/banqi.png" alt="BanQi" title="BanQi" />
-            <img src="@/assets/cards/pix.png" alt="Pix" title="Pix" />
+            <img src="@/assets/cards/pix.png" alt="Pix" title="Pix" class="pix-icon" />
           </div>
         </div>
         <div class="group">
@@ -63,8 +63,8 @@
 
 <style scoped>
 .footer img {
-  width: 32px;
-  height: 32px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
   cursor: pointer;
 }
@@ -78,7 +78,7 @@
 
 .payment-methods h3,
 .social-and-app h3 {
-  color: #b35400;
+  color: #000000;
   font-weight: bold;
   margin-bottom: 1rem;
 }
@@ -110,6 +110,11 @@
   cursor: pointer;
 }
 
+.pix-icon {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .social-and-app {
   display: flex;
   justify-content: space-between;
@@ -129,9 +134,14 @@
   margin-top: 0.5rem;
 }
 
-.social-icons img,
-.app-buttons img {
+.social-icons img {
   height: 32px;
+  cursor: pointer;
+}
+
+.app-buttons img {
+  width: 122px;
+  height: 100px;
   cursor: pointer;
 }
 
@@ -167,8 +177,9 @@
 }
 
 .social-and-app h3 {
-  color: #b35400;
+  color: #000000;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
+
 </style>
