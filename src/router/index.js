@@ -13,7 +13,7 @@ const router = createRouter({
     //   path: '/login',
     //   name: 'login',
     //   component: () => import('../components/LoginECadastro/LoginDoCliente.vue'),
-    //  },      
+    //  },
     //   {
     //   path: '/cadastro',
     //   name: 'Cadastro',
@@ -24,6 +24,11 @@ const router = createRouter({
       path: '/LoginCadastro',
       name: 'login',
       component: () => import('../views/LoginCadastro.vue'),
+     },
+     {
+      path: '/teste',
+      name: 'teste',
+      component: () => import('../views/Pagteste.vue'),
      },
   ],
 })
