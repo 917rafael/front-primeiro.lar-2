@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import { ref } from 'vue'
 
@@ -8,6 +9,7 @@ const quartos = ref('')
 const banheiros = ref('')
 const vagas = ref('')
 const cidade = ref('')
+const metragem = ref('')
 
 function limparFiltros() {
   tipo.value = ''
@@ -17,11 +19,20 @@ function limparFiltros() {
   banheiros.value = ''
   vagas.value = ''
   cidade.value = ''
+  metragem.value = ''
 }
 
 function filtrar() {
-  // Aqui você pode emitir um evento ou manipular os filtros
-  // Exemplo: console.log({ tipo, precoMin, precoMax, quartos, banheiros, vagas, cidade })
+  console.log({
+    tipo: tipo.value,
+    precoMin: precoMin.value,
+    precoMax: precoMax.value,
+    quartos: quartos.value,
+    banheiros: banheiros.value,
+    vagas: vagas.value,
+    cidade: cidade.value,
+    metragem: metragem.value
+  })
 }
 </script>
 
@@ -40,12 +51,21 @@ function filtrar() {
           </select>
         </div>
       </div>
+
       <div class="input-row">
         <div class="input-field">
           <label for="cidade"><span class="icon">📍</span> Cidade/Bairro</label>
           <input id="cidade" type="text" v-model="cidade" placeholder="Digite a cidade ou bairro" />
         </div>
       </div>
+
+      <div class="input-row">
+        <div class="input-field">
+          <label for="metragem"><span class="icon">📐</span> Área (m²)</label>
+          <input id="metragem" type="number" v-model="metragem" placeholder="Ex: 75" min="0" />
+        </div>
+      </div>
+
       <div class="input-row">
         <div class="input-field">
           <label for="precoMin"><span class="icon">💰</span> Preço Mínimo</label>
@@ -56,7 +76,8 @@ function filtrar() {
           <input id="precoMax" type="number" v-model="precoMax" placeholder="Ex: 500000" min="0" />
         </div>
       </div>
-      <div class="input-row">
+
+      <div class="input-row horizontal-3">
         <div class="input-field">
           <label for="quartos"><span class="icon">🛏️</span> Quartos</label>
           <input id="quartos" type="number" v-model="quartos" min="0" placeholder="Ex: 2" />
@@ -70,6 +91,7 @@ function filtrar() {
           <input id="vagas" type="number" v-model="vagas" min="0" placeholder="Ex: 1" />
         </div>
       </div>
+
       <div class="botoes-filtro">
         <button class="btn-filtrar" type="submit">Filtrar</button>
         <button class="btn-limpar" type="button" @click="limparFiltros">Limpar</button>
@@ -83,183 +105,296 @@ function filtrar() {
   position: fixed;
   top: 0;
   left: 0;
-  width: 440px;
+  width: 460px;
   max-width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #f0f4ff 60%, #e0f7fa 100%);
-  padding: 40px 36px 32px 36px;
-  box-shadow: 8px 0 32px 0 rgba(25, 118, 210, 0.13), 0 8px 32px 0 rgba(66, 165, 245, 0.07);
+  background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 100%);
+  padding: 48px 36px;
+  box-shadow: 6px 0 25px rgba(0, 0, 0, 0.08);
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  border-right: 2.5px solid #90caf9;
-  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  border-right: 1px solid #e0e0e0;
+  font-family: "Segoe UI", "Roboto", Arial, sans-serif;
   box-sizing: border-box;
   overflow-y: auto;
-  transition: box-shadow 0.3s, width 0.3s;
-  border-top-right-radius: 32px;
-  border-bottom-right-radius: 32px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
 }
-@media (max-width: 900px) {
-  .filtro-lateral {
-    width: 100vw;
-    border-radius: 0 0 18px 18px;
-    border-right: none;
-    border-bottom: 2.5px solid #90caf9;
-    top: 0;
-    left: 0;
-    height: auto;
-    min-height: 0;
-    max-height: none;
-    padding: 24px 10px 16px 10px;
-  }
-}
+
 .filtro-lateral h3 {
   margin-bottom: 32px;
-  color: #1565c0;
-  font-size: 2.1rem;
-  font-weight: 900;
-  letter-spacing: 1px;
+  color: #222;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: linear-gradient(90deg, #1565c0 60%, #26c6da 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  gap: 10px;
 }
+
+.filtro-lateral h3 .icon {
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
 .filtro-form {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 32px;
 }
+
 .input-row {
   display: flex;
-  gap: 18px;
-  margin-bottom: 0;
+  gap: 20px;
+  flex-wrap: wrap;
 }
-@media (max-width: 900px) {
-  .input-row {
-    flex-direction: column;
-    gap: 12px;
-  }
+
+.input-row.horizontal-3 {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
 }
+
 .input-field {
   display: flex;
   flex-direction: column;
-  flex: 1 1 0;
-  min-width: 0;
-  background: rgba(255,255,255,0.99);
-  border-radius: 18px;
-  box-shadow: 0 2px 16px #e3f0ff, 0 1.5px 0 #b3d1f7;
-  padding: 18px 18px 10px 18px;
-  margin-bottom: 0;
-  border: 1.5px solid #b3e5fc;
-  transition: box-shadow 0.2s, border 0.2s;
-  position: relative;
-}
-.input-field:focus-within {
-  box-shadow: 0 4px 24px #90caf9, 0 2px 0 #1565c0;
-  border: 1.5px solid #1565c0;
-}
-.input-field label {
-  font-size: 1.13rem;
-  color: #1565c0;
-  font-weight: 700;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  letter-spacing: 0.5px;
-}
-.input-field input,
-.input-field select {
-  padding: 16px 18px;
-  border: 1.5px solid #b3e5fc;
+  flex: 1 1 32%;
+  min-width: 100px;
+  background: #ffffff;
   border-radius: 10px;
-  font-size: 1.13rem;
-  background: #fafdff;
-  transition: border 0.2s, box-shadow 0.2s;
-  box-shadow: 0 1px 4px #e3f0ff;
-  width: 100%;
-  min-width: 0;
-  margin-bottom: 0;
-  font-family: inherit;
-  color: #234;
+  padding: 12px 14px;
+  border: 1.5px solid #dcdcdc;
+  transition: all 0.25s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
   box-sizing: border-box;
 }
+
+.input-field:hover {
+  border-color: #c5c5c5;
+  background: #fafafa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.input-field:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
+  background: #fff;
+}
+
+.input-field label {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 2px;
+  justify-content: flex-start;
+}
+
+.input-field label .icon {
+  color: #007bff;
+  flex-shrink: 0;
+  margin-right: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-field input,
+.input-field select {
+  padding: 10px 10px 10px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f9f9f9;
+  color: #111;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-field input:hover,
+.input-field select:hover {
+  background: #f1f1f1;
+}
+
+.input-field input::placeholder {
+  color: #999;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
 .input-field input:focus,
 .input-field select:focus {
-  border: 2px solid #26c6da;
   outline: none;
-  box-shadow: 0 2px 12px #90caf9;
+  border-color: #007bff;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
 }
-.input-field input::placeholder {
-  color: #90caf9;
-  opacity: 1;
-  font-size: 1.01rem;
-}
+
 .input-field select {
   appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%231565c0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23007bff" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
   background-repeat: no-repeat;
   background-position: right 0.7em center;
-  background-size: 1.2em;
-  padding-right: 2.2em;
+  background-size: 0.9em;
+  padding-right: 1.8em;
+  cursor: pointer;
 }
-.icon {
-  font-size: 1.25em;
-  vertical-align: middle;
-  filter: drop-shadow(0 1px 2px #b3d1f7);
-}
+
 .botoes-filtro {
   display: flex;
-  gap: 18px;
-  margin-top: 18px;
+  gap: 12px;
   justify-content: flex-end;
+  margin-top: 16px;
 }
+
 .btn-filtrar {
-  background: linear-gradient(90deg, #1565c0 60%, #26c6da 100%);
+  background: linear-gradient(135deg, #007bff 0%, #0056d2 100%);
   color: #fff;
   border: none;
-  padding: 16px 38px;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 1.18rem;
+  padding: 12px 26px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 2px 12px #90caf9;
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 12px rgba(0, 123, 255, 0.3);
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
 }
+
 .btn-filtrar:hover {
-  background: linear-gradient(90deg, #0d47a1 60%, #26c6da 100%);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 4px 18px #1565c0;
+  background: linear-gradient(135deg, #0056d2 0%, #0041a8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.35);
 }
+
 .btn-limpar {
-  background: #fff;
-  color: #1565c0;
-  border: 1.5px solid #1565c0;
-  padding: 16px 38px;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 1.18rem;
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 12px 26px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 2px 12px #e3f0ff;
-  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
-  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
 }
+
 .btn-limpar:hover {
-  background: #e0f7fa;
-  color: #0d47a1;
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 4px 18px #1565c0;
+  background: #f5f5f5;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
-.filtro-lateral input[type="number"]::-webkit-inner-spin-button,
-.filtro-lateral input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+
+.filtro-lateral::-webkit-scrollbar {
+  width: 10px;
 }
-.filtro-lateral input[type="number"] {
-  -moz-appearance: textfield;
+
+.filtro-lateral::-webkit-scrollbar-track {
+  background: #fafafa;
 }
+
+.filtro-lateral::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 6px;
+  border: 2px solid #fafafa;
+}
+
+.filtro-lateral::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
+}
+
+@media (max-width: 900px) {
+  .filtro-lateral {
+    width: 100vw;
+    height: auto;
+    padding: 24px 20px;
+  }
+
+  .input-row.horizontal-3 {
+    flex-wrap: wrap;
+  }
+
+  .input-field {
+    flex: 1 1 45%;
+    min-width: 160px;
+  }
+
+  .botoes-filtro {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-filtrar,
+  .btn-limpar {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .input-row {
+    flex-direction: column;
+  }
+
+  .input-field {
+    flex: 1 1 100%;
+  }
+
+  .input-field label {
+    font-size: 0.7rem;
+  }
+
+  .input-field input,
+  .input-field select {
+    font-size: 0.75rem;
+  }
+}
+
+.input-field input:focus::placeholder {
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.input-field {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.input-field:hover {
+  transform: translateY(-1px);
+}
+
+.input-field label .icon {
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.input-field:focus-within label .icon {
+  transform: rotate(-5deg);
+  color: #0056d2;
+}
+
+.input-field input:disabled,
+.input-field select:disabled {
+  background: #f1f1f1;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.btn-filtrar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-limpar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 </style>
