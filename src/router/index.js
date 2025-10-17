@@ -25,9 +25,9 @@ const router = createRouter({
       component: () => import('../views/LoginCadastro.vue'),
      },
      {
-      path: '/PaginaImoveis',
+      path: '/PaginaVendas',
       name: 'Vendas',
-      component: () => import('../views/PaginaImoveis.vue'),
+      component: () => import('../views/PagVendas.vue'),
      },
   ],
 })
