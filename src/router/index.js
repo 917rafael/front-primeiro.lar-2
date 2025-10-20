@@ -19,11 +19,15 @@ const router = createRouter({
     //   name: 'Cadastro',
     //   component: () => import('../components/LoginECadastro/CadastroUsuario.vue'),
      },
-
      {
       path: '/LoginCadastro',
       name: 'login',
       component: () => import('../views/LoginCadastro.vue'),
+     },
+     {
+      path: '/vendas',
+      name: 'vendas',
+      component: () => import('../views/PagVendas.vue'),
      },
   ],
 })
