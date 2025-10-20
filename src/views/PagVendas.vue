@@ -1,5 +1,6 @@
 <script>
 import Anuncio from '@/components/Anuncio.vue';
+import filtro from '../components/filtro.vue'
 
 export default {
   components: {
@@ -9,6 +10,7 @@ export default {
 </script>
 
 <template>
+   <filtro />
   <div class="container-anuncio">
     <div class="alinha-direita">
       <Anuncio />

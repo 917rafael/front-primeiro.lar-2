@@ -1,0 +1,4 @@
+- [x] Edit src/App.vue to import Footer component and add it to the template after RouterView
+- [x] Change footer legend colors to black
+- [x] Increase size of app-buttons images
+- [x] Add border only to Pix image
