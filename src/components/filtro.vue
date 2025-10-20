@@ -105,7 +105,7 @@ function filtrar() {
   position: fixed;
   top: 0;
   left: 0;
-  width: 460px;
+  width: 600px;
   max-width: 100vw;
   height: 100vh;
   background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 100%);
