@@ -1,16 +1,18 @@
 <script>
-import Anuncio from '@/components/Anuncio.vue';
-import filtro from '../components/filtro.vue'
+import Anuncio from '../components/Anuncio.vue';
+import Filtro from '../components/filtro.vue'
+
 
 export default {
   components: {
     Anuncio,
+    Filtro,
   },
 };
 </script>
 
 <template>
-   <filtro />
+   <Filtro />
   <div class="container-anuncio">
     <div class="alinha-direita">
       <Anuncio />
