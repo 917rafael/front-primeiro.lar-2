@@ -12,6 +12,9 @@ export default {
   <div class="container-anuncio">
     <div class="alinha-direita">
       <Anuncio />
+      <Anuncio />
+      <Anuncio />
+      <Anuncio />
     </div>
   </div>
 </template>
@@ -30,5 +33,6 @@ export default {
 .alinha-direita {
   width: 100%;
   max-width: 800px;
+  margin-right: 5%;
 }
 </style>
