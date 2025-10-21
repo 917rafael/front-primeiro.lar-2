@@ -29,6 +29,11 @@ const router = createRouter({
       name: 'vendas',
       component: () => import('../views/PagVendas.vue'),
      },
+     {
+      path: '/imovel/:id',
+      name: 'CardInfoImovel',
+      component: () => import('../components/CardInfoImovel.vue'),
+     },
   ],
 })
 

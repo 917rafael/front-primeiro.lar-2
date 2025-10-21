@@ -1,5 +1,28 @@
+<script>
+export default {
+  name: 'AnuncioCard',
+  data() {
+    return {
+      showContact: false,
+      agencyName: 'AUDAZ IMOB',
+    };
+  },
+  methods: {
+    openContact() {
+      this.showContact = true;
+    },
+    closeContact() {
+      this.showContact = false;
+    },
+    goToInfo() {
+      this.$router.push('/imovel/1');
+    }
+  },
+};
+</script>
+
 <template>
-  <div class="property-card">
+  <div class="property-card" @click="goToInfo">
     <div class="image-section">
       <img src="@/assets/img/image.png" alt="Foto do imóvel" />
     </div>
@@ -22,7 +45,7 @@
         <p>Condomínio R$ 100</p>
       </div>
 
-      <button class="contact-button" @click="openContact">Contatar</button>
+      <button class="contact-button" @click.stop="openContact">Contatar</button>
     </div>
   </div>
 
@@ -43,10 +66,6 @@
         </div>
 
         <div class="modal-actions">
-          <button class="action-btn">
-            <div class="action-ico">💬</div>
-            <div class="action-txt">Mensagem</div>
-          </button>
 
           <button class="action-btn">
             <div class="action-ico">📅</div>
@@ -54,12 +73,7 @@
           </button>
 
           <button class="action-btn">
-            <div class="action-ico">📞</div>
-            <div class="action-txt">Telefones</div>
-          </button>
-
-          <button class="action-btn">
-            <div class="action-ico">🟢</div>
+            <div class="action-ico"><img src="../assets/img/whatsapp.png" alt=""></div>
             <div class="action-txt">Whatsapp</div>
           </button>
         </div>
@@ -67,26 +81,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'Anuncio',
-  data() {
-    return {
-      showContact: false,
-      agencyName: 'AUDAZ IMOB',
-    };
-  },
-  methods: {
-    openContact() {
-      this.showContact = true;
-    },
-    closeContact() {
-      this.showContact = false;
-    },
-  },
-};
-</script>
 
 <style scoped>
 .property-card {
@@ -232,6 +226,11 @@ export default {
 .modal-actions { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px; }
 .action-btn { background:#fff5f5; border:1px solid #fdecec; padding:18px; border-radius:12px; display:flex; gap:12px; align-items:center; justify-content:center; cursor:pointer; font-weight:700; color:#c12b2b; }
 .action-ico { font-size:20px; }
+.action-ico img {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
 .action-txt { font-size:1rem; }
 
 @media (max-width:600px) {
