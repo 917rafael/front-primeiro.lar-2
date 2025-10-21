@@ -16,33 +16,42 @@ function handleCadastroSucesso() {
 </script>
 <template>
     <div class="login-cadastro-page">
-     
+         <img src="/src/assets/img/image.png" alt="Imagem ilustrativa" class="image-background"/>
+
+
         <transition name="slide-cadastro">
-     
+
             <div v-if="cadastroAtivo" class="cadastro-side">
-          <CadastroUsuario @cadastro-sucesso="handleCadastroSucesso" />
-          <div class="img-area">
-              <img src="/src/assets/img/image.png" alt="Imagem ilustrativa" class="img" />
-          </div>
-        </div>
-    
-    </transition>
-
-
-      <transition name="slide-login">
-        <div v-if="!cadastroAtivo" class="login-side">
-            
-            <div class="img-area-2">
-                <img src="/src/assets/img/image.png" alt="Imagem ilustrativa" class="img" />
+              <LoginDoCliente @cadastro="cadastroAtivo=false" />
+              <div class="img-area">
+                <!-- <img src="/src/assets/img/image.png" alt="Imagem ilustrativa" class="img" /> -->
+              </div>
             </div>
 
-            <LoginDoCliente />
+          </transition>
+
+
+          <transition name="slide-login">
+            <div v-if="!cadastroAtivo" class="login-side">
+              <CadastroUsuario @cadastro="cadastroAtivo=true" />
+
         </div>
-      </transition> 
+      </transition>
     </div>
 </template>
 
 <style scoped>
+.image-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.7) blur(1px);
+}
+
 .img-area{
     display: flex;
     align-items: stretch;
@@ -64,7 +73,7 @@ function handleCadastroSucesso() {
     margin-right: -10%;
     margin-left: -100%;
 }
-    
+
 .img {
   max-width: 100%;
   max-height: 100%;
@@ -78,6 +87,7 @@ function handleCadastroSucesso() {
   min-height: 100vh;
   width: 100vw;
   overflow: hidden;
+
 }
 
 .cadastro-side,
@@ -112,8 +122,7 @@ function handleCadastroSucesso() {
 .login-side {
   right: 0;
   justify-content: flex-end;
-  background: #fff;
-  z-index: 1;
+
 }
 
 .fade-in {
@@ -181,14 +190,14 @@ function handleCadastroSucesso() {
   }
 }
 
-/* Nova animação para a transição de slide */
+/* Nova animação para a transição de slide (invertida: da direita para a esquerda) */
 .slide-cadastro-enter-active,
 .slide-cadastro-leave-active {
   transition: transform 0.7s cubic-bezier(.77,0,.18,1), opacity 0.7s, filter 0.7s;
   will-change: transform, opacity, filter;
 }
 .slide-cadastro-enter-from {
-  transform: translateX(-100%) scale(0.98) skewY(-2deg);
+  transform: translateX(100%) scale(0.98) skewY(2deg);
   opacity: 0;
   filter: blur(8px) brightness(1.2);
 }
@@ -203,19 +212,19 @@ function handleCadastroSucesso() {
   filter: blur(0) brightness(1);
 }
 .slide-cadastro-leave-to {
-  transform: translateX(100%) scale(0.96) skewY(3deg);
+  transform: translateX(-100%) scale(0.96) skewY(-3deg);
   opacity: 0;
   filter: blur(12px) brightness(1.2);
 }
 
-/* Animação para a transição de login */
+/* Animação para a transição de login (invertida: da esquerda para a direita) */
 .slide-login-enter-active,
 .slide-login-leave-active {
   transition: transform 0.7s cubic-bezier(.77,0,.18,1), opacity 0.7s, filter 0.7s;
   will-change: transform, opacity, filter;
 }
 .slide-login-enter-from {
-  transform: translateX(-100%) scale(0.96) skewY(-3deg);
+  transform: translateX(100%) scale(0.96) skewY(3deg);
   opacity: 0;
   filter: blur(12px) brightness(1.2);
 }
@@ -230,7 +239,7 @@ function handleCadastroSucesso() {
   filter: blur(0) brightness(1);
 }
 .slide-login-leave-to {
-  transform: translateX(-100%) scale(0.98) skewY(-2deg);
+  transform: translateX(100%) scale(0.98) skewY(2deg);
   opacity: 0;
   filter: blur(8px) brightness(1.2);
 }

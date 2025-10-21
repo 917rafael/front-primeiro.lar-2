@@ -103,13 +103,14 @@ function filtrar() {
 <style scoped>
 .filtro-lateral {
   position: fixed;
-  top: 0;
+  top: 70px; 
   left: 0;
-  width: 600px;
+  width: 460px;
+  min-width: 340px;
   max-width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 70px);
   background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 100%);
-  padding: 48px 36px;
+  padding: 32px 18px 24px 18px;
   box-shadow: 6px 0 25px rgba(0, 0, 0, 0.08);
   z-index: 1000;
   display: flex;
@@ -120,6 +121,7 @@ function filtrar() {
   overflow-y: auto;
   transition: all 0.3s ease;
   backdrop-filter: blur(6px);
+  border-radius: 0 16px 16px 0;
 }
 
 .filtro-lateral h3 {
@@ -315,46 +317,25 @@ function filtrar() {
 @media (max-width: 900px) {
   .filtro-lateral {
     width: 100vw;
-    height: auto;
-    padding: 24px 20px;
-  }
-
-  .input-row.horizontal-3 {
-    flex-wrap: wrap;
-  }
-
-  .input-field {
-    flex: 1 1 45%;
-    min-width: 160px;
-  }
-
-  .botoes-filtro {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn-filtrar,
-  .btn-limpar {
-    min-width: 120px;
+    min-width: 0;
+    left: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 18px 6vw 16px 6vw;
+    height: calc(100vh - 70px);
+    border-right: none;
   }
 }
 
 @media (max-width: 600px) {
-  .input-row {
-    flex-direction: column;
-  }
-
-  .input-field {
-    flex: 1 1 100%;
-  }
-
-  .input-field label {
-    font-size: 0.7rem;
-  }
-
-  .input-field input,
-  .input-field select {
-    font-size: 0.75rem;
+  .filtro-lateral {
+    width: 100vw;
+    left: 0;
+    padding: 10px 2vw 10px 2vw;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    height: calc(100vh - 70px);
   }
 }
 

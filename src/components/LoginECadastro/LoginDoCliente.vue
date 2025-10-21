@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+const emit = defineEmits(['cadastro'])
 
 const email = ref('')
 const senha = ref('')
@@ -21,7 +22,7 @@ function login() {
   } else {
     erro.value = 'E-mail ou senha inválidos.'
   }
-} 
+}
 </script>
 
 <template>
@@ -68,7 +69,7 @@ function login() {
     </button>
     <div class="link-cadastro">
       <span>Não tem uma conta?</span>
-      <a href="/LoginCadastro">Cadastre-se</a>
+      <a @click="emit('cadastro')">Cadastre-se</a>
     </div>
   </form>
 

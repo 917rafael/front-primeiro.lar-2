@@ -1,19 +1,24 @@
 <script>
 import Anuncio from '../components/Anuncio.vue';
-import Filtro from '../components/filtro.vue'
+import Filtro from '../components/filtro.vue';
+import HeaderAnuncio from '@/components/HeaderAnuncio.vue';
 
 
 export default {
   components: {
     Anuncio,
     Filtro,
+    HeaderAnuncio
   },
 };
 </script>
 
 <template>
-   <Filtro />
+  <div class="row">
+  <HeaderAnuncio class="colunm"/>
+  </div>
   <div class="container-anuncio">
+    <Filtro />
     <div class="alinha-direita">
       <Anuncio />
       <Anuncio />
@@ -38,5 +43,12 @@ export default {
   width: 100%;
   max-width: 800px;
   margin-right: 5%;
+}
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
 }
 </style>
