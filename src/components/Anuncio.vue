@@ -1,91 +1,95 @@
 <script>
 export default {
   name: 'AnuncioCard',
-  data() {
-    return {
-      showContact: false,
-      agencyName: 'AUDAZ IMOB',
-    };
-  },
-  methods: {
-    openContact() {
-      this.showContact = true;
-    },
-    closeContact() {
-      this.showContact = false;
-    },
-    goToInfo() {
-      this.$router.push('/imovel/1');
+  props: {
+    imovelId: {
+      type: Number,
+      required: true
     }
   },
-};
+  data() {
+    return {
+      mostrarInfo: false
+    }
+  },
+  methods: {
+    abrir() {
+      this.mostrarInfo = true;
+    },
+    fechar() {
+      this.mostrarInfo = false;
+    },
+    fecharFora(e) {
+      if (e.target.classList.contains('info-overlay')) {
+        this.fechar();
+      }
+    }
+  }
+}
 </script>
 
 <template>
-  <div class="property-card" @click="goToInfo">
-    <div class="image-section">
-      <img src="@/assets/img/image.png" alt="Foto do imóvel" />
-    </div>
-
-    <div class="details-section">
-      <p class="address">
-        <strong>Rua Gradau, 100</strong><br />
-        Vila Bela, São Paulo/SP
-      </p>
-
-      <div class="info">
-        <span>165m²</span>
-        <span>· 3 quartos</span>
-        <span>· 4 banheiros</span>
-        <span>· 2 vagas</span>
+  <div class="property-card-wrapper">
+    <div class="property-card" @click="abrir" v-if="!mostrarInfo">
+      <div class="image-section">
+        <img src="@/assets/img/image.png" alt="Foto do imóvel" />
       </div>
-
-      <div class="price">
-        <strong>R$ 589.000</strong>
-        <p>Condomínio R$ 100</p>
+      <div class="details-section">
+        <p class="address">
+          <strong>Rua Gradau, 100</strong><br />
+          Vila Bela, São Paulo/SP
+        </p>
+        <div class="info">
+          <span>165m²</span>
+          <span>· 3 quartos</span>
+          <span>· 4 banheiros</span>
+          <span>· 2 vagas</span>
+        </div>
+        <div class="price">
+          <strong>R$ 589.000</strong>
+          <p>Condomínio R$ 100</p>
+        </div>
       </div>
-
-      <button class="contact-button" @click.stop="openContact">Contatar</button>
     </div>
-  </div>
-
-  <!-- Contact Modal -->
-  <div v-if="showContact" class="modal-overlay" @click.self="closeContact">
-    <div class="modal">
-      <button class="modal-close" @click="closeContact" aria-label="Fechar">×</button>
-
-      <h3 class="modal-title">Falar com {{ agencyName }}</h3>
-
-      <div class="modal-body">
-        <div class="modal-card">
-          <img class="modal-thumb" src="@/assets/img/image.png" alt="thumbnail" />
-          <div class="modal-card-info">
-            <div class="modal-sub">Prédio Para Alugar Na Avenida Miguel Castro, 1280, Nossa Senhora De Nazaré, Natal</div>
-            <div class="modal-price">R$ 8.500</div>
+    <div v-if="mostrarInfo" class="info-overlay" @click="fecharFora">
+      <button class="fechar-info" @click="fechar">×</button>
+      <div class="info-content-row" @click.stop>
+        <img class="info-img" src="@/assets/img/image.png" alt="Foto do imóvel" />
+        <div class="info-colunas">
+          <div class="coluna-esq">
+            <h2>Casa moderna em Vila Bela</h2>
+            <p><strong>Endereço:</strong> Rua Gradau, 100 - Vila Bela, São Paulo/SP</p>
+            <p><strong>Área:</strong> 165m²</p>
+            <p><strong>Quartos:</strong> 3</p>
+            <p><strong>Banheiros:</strong> 4</p>
+            <p><strong>Vagas:</strong> 2</p>
+            <p><strong>Preço:</strong> R$ 589.000</p>
+            <p><strong>Condomínio:</strong> R$ 100</p>
+          </div>
+          <div class="coluna-dir">
+            <p><strong>IPTU:</strong> R$ 1.200/ano</p>
+            <p><strong>Tipo:</strong> Casa térrea</p>
+            <p><strong>Ano de construção:</strong> 2018</p>
+            <p><strong>Estado de conservação:</strong> Excelente</p>
+            <p><strong>Possui piscina:</strong> Sim</p>
+            <p><strong>Possui churrasqueira:</strong> Sim</p>
+            <p><strong>Documentação:</strong> OK</p>
+            <p><strong>Proximidades:</strong> Escola, supermercado, parque, farmácia</p>
           </div>
         </div>
-
-        <div class="modal-actions">
-
-          <button class="action-btn">
-            <div class="action-ico">📅</div>
-            <div class="action-txt">Agendar visita</div>
-          </button>
-
-          <button class="action-btn">
-            <div class="action-ico"><img src="../assets/img/whatsapp.png" alt=""></div>
-            <div class="action-txt">Whatsapp</div>
-          </button>
-        </div>
+      </div>
+      <div class="descricao-row">
+        <strong>Descrição:</strong> Essa casa é legal! Com arquitetura moderna, ambientes amplos e ótima iluminação natural. Pronta para morar, aceita financiamento, aceita pet, rua tranquila e vizinhança amigável.
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.property-card-wrapper {
+  position: relative;
+}
 .property-card {
-  width: 850px;
-  height: 300px;
   display: flex;
   flex-wrap: wrap;
   border: 1px solid #e0e0e0;
@@ -236,5 +240,103 @@ export default {
 @media (max-width:600px) {
   .modal { padding:16px; }
   .modal-actions { grid-template-columns:1fr; }
+}
+
+.info-overlay {
+  position: fixed;
+  top: 0;
+  left: 25vw;
+  width: 75vw;
+  height: 100vh;
+  background: rgba(255,255,255,0.98);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.12);
+  padding: 2vw 2vw;
+  transition: left 0.2s, width 0.2s;
+  border-radius: 1.5vw 0 0 1.5vw;
+}
+.fechar-info {
+  position: absolute;
+  top: 1.5vw;
+  background: none;
+  border: none;
+  font-size: 2.5vw;
+  cursor: pointer;
+  z-index: 20;
+}
+.info-content-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2vw;
+  width: 100%;
+  margin-top: 2vw;
+}
+.info-img {
+  width: 22vw;
+  max-width: 320px;
+  border-radius: 1vw;
+  margin-bottom: 0;
+  object-fit: cover;
+}
+.info-colunas {
+  display: flex;
+  flex-direction: row;
+  gap: 3vw;
+  width: 100%;
+}
+.coluna-esq, .coluna-dir {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7vw;
+  font-size: 1.1vw;
+}
+.coluna-esq h2 {
+  font-size: 2vw;
+  margin-bottom: 0.7vw;
+}
+.descricao-row {
+  margin-top: 2vw;
+  color: #444;
+  font-size: 1.2vw;
+  text-align: left;
+  max-width: 60vw;
+  padding-left: 2vw;
+}
+@media (max-width: 900px) {
+  .info-overlay {
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 2vw 1vw;
+    border-radius: 0;
+  }
+  .info-content-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .info-img {
+    width: 90vw;
+    max-width: 90vw;
+  }
+  .info-colunas {
+    flex-direction: column;
+    gap: 2vw;
+  }
+  .coluna-esq, .coluna-dir {
+    font-size: 2.5vw;
+  }
+  .coluna-esq h2 {
+    font-size: 5vw;
+  }
+  .descricao-row {
+    font-size: 2.5vw;
+    max-width: 98vw;
+    padding-left: 0;
+  }
 }
 </style>

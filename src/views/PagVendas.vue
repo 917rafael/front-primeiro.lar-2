@@ -1,28 +1,12 @@
 <script>
 import Anuncio from '../components/Anuncio.vue';
 import Filtro from '../components/filtro.vue'
-import CardInfoImovel from '../components/CardInfoImovel.vue';
-
 
 export default {
   components: {
     Anuncio,
     Filtro,
-    CardInfoImovel,
   },
-  data() {
-    return {
-      mostrarInfoImovel: false,
-    };
-  },
-  methods: {
-    abrirInfoImovel() {
-      this.mostrarInfoImovel = true;
-    },
-    fecharInfoImovel() {
-      this.mostrarInfoImovel = false;
-    }
-  }
 };
 </script>
 
@@ -30,14 +14,10 @@ export default {
   <Filtro />
   <div class="container-anuncio">
     <div class="alinha-direita">
-      <Anuncio @abrir-info-imovel="abrirInfoImovel" />
-      <Anuncio @abrir-info-imovel="abrirInfoImovel" />
-      <Anuncio @abrir-info-imovel="abrirInfoImovel" />
-      <Anuncio @abrir-info-imovel="abrirInfoImovel" />
-    </div>
-    <div v-if="mostrarInfoImovel" class="modal-imovel-overlay">
-      <CardInfoImovel />
-      <button class="fechar-modal" @click="fecharInfoImovel">×</button>
+      <Anuncio/>
+      <Anuncio/>
+      <Anuncio/>
+      <Anuncio/>
     </div>
   </div>
 </template>
@@ -59,27 +39,8 @@ export default {
   margin-right: 2%;
 }
 
-.modal-imovel-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+@media (max-width: 900px) {
+  .modal-panel { width: 100%; }
 }
 
-.fechar-modal {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
-}
 </style>
