@@ -242,32 +242,51 @@ export default {
   .modal-actions { grid-template-columns:1fr; }
 }
 
+/* Estilizando a seção de mostrarInfo para torná-la mais atraente */
 .info-overlay {
   position: fixed;
   top: 0;
   left: 25vw;
   width: 75vw;
   height: 100vh;
-  background: rgba(255,255,255,0.98);
+  background: linear-gradient(135deg, #f9f9f9, #eaeaea);
   z-index: 10000;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  box-shadow: -8px 0 24px rgba(0,0,0,0.12);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
   padding: 2vw 2vw;
   transition: left 0.2s, width 0.2s;
   border-radius: 1.5vw 0 0 1.5vw;
+  overflow-y: auto;
 }
+
+/* Alterando o botão de fechar para o canto superior esquerdo e mudando a cor para preto */
 .fechar-info {
   position: absolute;
-  top: 1.5vw;
-  background: none;
+  top: 0.5vw;
+  left: 1.5vw; /* Alterado para o canto superior esquerdo */
+  background: #000; /* Alterado para preto */
   border: none;
   font-size: 2.5vw;
+  color: white;
   cursor: pointer;
   z-index: 20;
+  border-radius: 50%;
+  width: 3vw;
+  height: 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
 }
+
+.fechar-info:hover {
+  background: #333; /* Alterado para um tom mais claro de preto ao passar o mouse */
+}
+
 .info-content-row {
   display: flex;
   flex-direction: row;
@@ -275,30 +294,41 @@ export default {
   gap: 2vw;
   width: 100%;
   margin-top: 2vw;
+  background: white;
+  border-radius: 1vw;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2vw;
 }
+
 .info-img {
   width: 22vw;
   max-width: 320px;
   border-radius: 1vw;
   margin-bottom: 0;
   object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .info-colunas {
   display: flex;
   flex-direction: row;
   gap: 3vw;
   width: 100%;
 }
+
 .coluna-esq, .coluna-dir {
   display: flex;
   flex-direction: column;
   gap: 0.7vw;
   font-size: 1.1vw;
 }
+
 .coluna-esq h2 {
   font-size: 2vw;
   margin-bottom: 0.7vw;
+  color: #333;
 }
+
 .descricao-row {
   margin-top: 2vw;
   color: #444;
@@ -306,7 +336,12 @@ export default {
   text-align: left;
   max-width: 60vw;
   padding-left: 2vw;
+  background: #f7f7f7;
+  border-radius: 1vw;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5vw;
 }
+
 @media (max-width: 900px) {
   .info-overlay {
     left: 0;
