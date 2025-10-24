@@ -55,26 +55,28 @@ export default {
       <button class="fechar-info" @click="fechar">×</button>
       <div class="info-content-row" @click.stop>
         <img class="info-img" src="@/assets/img/image.png" alt="Foto do imóvel" />
-        <div class="info-colunas">
-          <div class="coluna-esq">
-            <h2>Casa moderna em Vila Bela</h2>
-            <p><strong>Endereço:</strong> Rua Gradau, 100 - Vila Bela, São Paulo/SP</p>
-            <p><strong>Área:</strong> 165m²</p>
-            <p><strong>Quartos:</strong> 3</p>
-            <p><strong>Banheiros:</strong> 4</p>
-            <p><strong>Vagas:</strong> 2</p>
-            <p><strong>Preço:</strong> R$ 589.000</p>
-            <p><strong>Condomínio:</strong> R$ 100</p>
-          </div>
-          <div class="coluna-dir">
-            <p><strong>IPTU:</strong> R$ 1.200/ano</p>
-            <p><strong>Tipo:</strong> Casa térrea</p>
-            <p><strong>Ano de construção:</strong> 2018</p>
-            <p><strong>Estado de conservação:</strong> Excelente</p>
-            <p><strong>Possui piscina:</strong> Sim</p>
-            <p><strong>Possui churrasqueira:</strong> Sim</p>
-            <p><strong>Documentação:</strong> OK</p>
-            <p><strong>Proximidades:</strong> Escola, supermercado, parque, farmácia</p>
+        <div class="info-direita">
+          <h2>Casa moderna em Vila Bela</h2>
+          <div class="info-colunas">
+            <div class="coluna-esq">
+              <p><strong>Endereço:</strong> Rua Gradau, 100 - Vila Bela, São Paulo/SP</p>
+              <p><strong>Área:</strong> 165m²</p>
+              <p><strong>Quartos:</strong> 3</p>
+              <p><strong>Banheiros:</strong> 4</p>
+              <p><strong>Vagas:</strong> 2</p>
+              <p><strong>Preço:</strong> R$ 589.000</p>
+              <p><strong>Condomínio:</strong> R$ 100</p>
+            </div>
+            <div class="coluna-dir">
+              <p><strong>IPTU:</strong> R$ 1.200/ano</p>
+              <p><strong>Tipo:</strong> Casa térrea</p>
+              <p><strong>Ano de construção:</strong> 2018</p>
+              <p><strong>Estado de conservação:</strong> Excelente</p>
+              <p><strong>Possui piscina:</strong> Sim</p>
+              <p><strong>Possui churrasqueira:</strong> Sim</p>
+              <p><strong>Documentação:</strong> OK</p>
+              <p><strong>Proximidades:</strong> Escola, supermercado, parque, farmácia</p>
+            </div>
           </div>
         </div>
       </div>
@@ -264,7 +266,6 @@ export default {
 
 /* Alterando o botão de fechar para o canto superior esquerdo e mudando a cor para preto */
 .fechar-info {
-  position: absolute;
   top: 0.5vw;
   left: 1.5vw; /* Alterado para o canto superior esquerdo */
   background: #000; /* Alterado para preto */
@@ -290,14 +291,127 @@ export default {
 .info-content-row {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  gap: 2vw;
+  align-items: stretch;
+  gap: 2.5rem;
   width: 100%;
-  margin-top: 2vw;
-  background: white;
-  border-radius: 1vw;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 2vw;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #fff 70%, #f7f7fa 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 12px rgba(227,6,19,0.08);
+  padding: 2.5rem 2rem;
+  border: 1.5px solid #ececec;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+@media (max-width: 900px) {
+  .info-content-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 1.2rem 0.5rem;
+    background: #fff;
+    border: none;
+  }
+}
+
+.info-img {
+  width: 180px;
+  max-width: 220px;
+  border-radius: 16px;
+  margin-bottom: 0;
+  object-fit: cover;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  border: 2px solid #e30613;
+}
+.info-direita {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1 1 60%;
+  min-width: 220px;
+  max-width: 100%;
+  margin-left: 2rem;
+  gap: 1.2rem;
+}
+.info-direita h2 {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: #e30613;
+  margin-bottom: 0.7rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(227,6,19,0.08);
+}
+.info-colunas {
+  display: flex;
+  flex-direction: row;
+  gap: 2.2rem;
+  width: 100%;
+}
+.coluna-esq, .coluna-dir {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 1.08rem;
+  color: #222;
+}
+@media (max-width: 900px) {
+  .info-overlay {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100vw;
+    height: 100vh;
+    padding: 1.2rem 0.5rem;
+    border-radius: 0;
+    min-height: 100vh;
+    box-shadow: none;
+    border: none;
+    animation: none;
+  }
+  .info-content-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 1.2rem 0.5rem;
+  }
+  .info-img {
+    width: 90vw;
+    max-width: 90vw;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 2px solid #e30613;
+  }
+  .info-direita {
+    margin-left: 0;
+    width: 100%;
+    gap: 1rem;
+  }
+  .info-direita h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .info-colunas {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .coluna-esq, .coluna-dir {
+    font-size: 1.1rem;
+    gap: 0.5rem;
+  }
+}
+.info-direita {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1 1 60%;
+  min-width: 220px;
+  max-width: 100%;
+  margin-left: 2rem;
 }
 
 .info-img {
