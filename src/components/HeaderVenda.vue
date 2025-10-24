@@ -45,6 +45,7 @@
   top: 0;
   left: 0;
   z-index: 1002;
+  border-color: #222;
 }
 .header-venda-container {
   max-width: 1400px;
