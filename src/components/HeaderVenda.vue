@@ -1,9 +1,8 @@
-
 <template>
   <header class="header-venda">
     <div class="header-venda-container">
       <div class="header-venda-left">
-        <img src="../assets/img/logo.png" alt="Logo" class="header-venda-logo" />
+        <img src="../assets/img/logo.png" alt="Logo" class="header-venda-logo" @click="$router.push('/')" style="cursor:pointer;" />
         <span class="header-venda-title">Primeiro Lar</span>
       </div>
       <nav class="header-venda-nav">
@@ -104,6 +103,16 @@
 }
 .nav-item.active, .nav-item:hover {
   background: #f7f7f7;
+}
+.nav-item.active:hover {
+  background: #b8000f;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(227,6,19,0.18);
+}
+.nav-item:hover {
+  background: #e30613;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(227,6,19,0.13);
 }
 .header-venda-nav {
   gap: 1.2rem;
