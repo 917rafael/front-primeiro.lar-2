@@ -1,6 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+
 <script setup>
-import { ref } from 'vue'
+import { ref, defineProps } from 'vue'
+
+const props = defineProps({
+  filtroAberto: {
+    type: Boolean,
+    default: true
+  },
+  toggleFiltro: {
+    type: Function,
+    required: true
+  }
+})
 
 const tipo = ref('')
 const precoMin = ref('')
@@ -37,80 +49,94 @@ function filtrar() {
 </script>
 
 <template>
-  <aside class="filtro-lateral">
-    <h3><span class="icon">🏠</span> Filtrar Imóveis</h3>
-    <form @submit.prevent="filtrar" class="filtro-form">
-      <div class="input-row">
-        <div class="input-field">
-          <label for="tipo"><span class="icon">🏢</span> Tipo</label>
-          <select id="tipo" v-model="tipo">
-            <option value="">Todos</option>
-            <option>Apartamento</option>
-            <option>Casa</option>
-            <option>Terreno</option>
-          </select>
+  <div>
+    <!-- Botão seta para abrir/fechar filtro, só aparece em telas pequenas -->
+    <button
+      class="toggle-filtro-btn"
+      @click="props.toggleFiltro"
+      aria-label="Abrir/Recolher filtro"
+    >
+      <span v-if="props.filtroAberto">&laquo;</span>
+      <span v-else>&raquo;</span>
+    </button>
+    <aside
+      class="filtro-lateral"
+      :class="{ 'fechado': !props.filtroAberto }"
+    >
+      <h3><span class="icon">🏠</span> Filtrar Imóveis</h3>
+      <form @submit.prevent="filtrar" class="filtro-form">
+        <div class="input-row">
+          <div class="input-field">
+            <label for="tipo"><span class="icon">🏢</span> Tipo</label>
+            <select id="tipo" v-model="tipo">
+              <option value="">Todos</option>
+              <option>Apartamento</option>
+              <option>Casa</option>
+              <option>Terreno</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="input-row">
-        <div class="input-field">
-          <label for="cidade"><span class="icon">📍</span> Cidade/Bairro</label>
-          <input id="cidade" type="text" v-model="cidade" placeholder="Digite a cidade ou bairro" />
+        <div class="input-row">
+          <div class="input-field">
+            <label for="cidade"><span class="icon">📍</span> Cidade/Bairro</label>
+            <input id="cidade" type="text" v-model="cidade" placeholder="Digite a cidade ou bairro" />
+          </div>
         </div>
-      </div>
 
-      <div class="input-row">
-        <div class="input-field">
-          <label for="metragem"><span class="icon">📐</span> Área (m²)</label>
-          <input id="metragem" type="number" v-model="metragem" placeholder="Ex: 75" min="0" />
+        <div class="input-row">
+          <div class="input-field">
+            <label for="metragem"><span class="icon">📐</span> Área (m²)</label>
+            <input id="metragem" type="number" v-model="metragem" placeholder="Ex: 75" min="0" />
+          </div>
         </div>
-      </div>
 
-      <div class="input-row">
-        <div class="input-field">
-          <label for="precoMin"><span class="icon">💰</span> Preço Mínimo</label>
-          <input id="precoMin" type="number" v-model="precoMin" placeholder="Ex: 100000" min="0" />
+        <div class="input-row">
+          <div class="input-field">
+            <label for="precoMin"><span class="icon">💰</span> Preço Mínimo</label>
+            <input id="precoMin" type="number" v-model="precoMin" placeholder="Ex: 100000" min="0" />
+          </div>
+          <div class="input-field">
+            <label for="precoMax"><span class="icon">💸</span> Preço Máximo</label>
+            <input id="precoMax" type="number" v-model="precoMax" placeholder="Ex: 500000" min="0" />
+          </div>
         </div>
-        <div class="input-field">
-          <label for="precoMax"><span class="icon">💸</span> Preço Máximo</label>
-          <input id="precoMax" type="number" v-model="precoMax" placeholder="Ex: 500000" min="0" />
-        </div>
-      </div>
 
-      <div class="input-row horizontal-3">
-        <div class="input-field">
-          <label for="quartos"><span class="icon">🛏️</span> Quartos</label>
-          <input id="quartos" type="number" v-model="quartos" min="0" placeholder="Ex: 2" />
+        <div class="input-row horizontal-3">
+          <div class="input-field">
+            <label for="quartos"><span class="icon">🛏️</span> Quartos</label>
+            <input id="quartos" type="number" v-model="quartos" min="0" placeholder="Ex: 2" />
+          </div>
+          <div class="input-field">
+            <label for="banheiros"><span class="icon">🛁</span> Banheiros</label>
+            <input id="banheiros" type="number" v-model="banheiros" min="0" placeholder="Ex: 1" />
+          </div>
+          <div class="input-field">
+            <label for="vagas"><span class="icon">🚗</span> Vagas</label>
+            <input id="vagas" type="number" v-model="vagas" min="0" placeholder="Ex: 1" />
+          </div>
         </div>
-        <div class="input-field">
-          <label for="banheiros"><span class="icon">🛁</span> Banheiros</label>
-          <input id="banheiros" type="number" v-model="banheiros" min="0" placeholder="Ex: 1" />
-        </div>
-        <div class="input-field">
-          <label for="vagas"><span class="icon">🚗</span> Vagas</label>
-          <input id="vagas" type="number" v-model="vagas" min="0" placeholder="Ex: 1" />
-        </div>
-      </div>
 
-      <div class="botoes-filtro">
-        <button class="btn-filtrar" type="submit">Filtrar</button>
-        <button class="btn-limpar" type="button" @click="limparFiltros">Limpar</button>
-      </div>
-    </form>
-  </aside>
+        <div class="botoes-filtro">
+          <button class="btn-filtrar" type="submit">Filtrar</button>
+          <button class="btn-limpar" type="button" @click="limparFiltros">Limpar</button>
+        </div>
+      </form>
+    </aside>
+  </div>
 </template>
 
 <style scoped>
 .filtro-lateral {
   position: fixed;
-  top: 0;
+  top: 70px; /* altura do header, ajuste conforme necessário */
   left: 0;
-  width: 600px;
-  max-width: 100vw;
-  height: 100vh;
+  width: 340px;
+  max-width: 90vw;
+  height: calc(100vh - 70px); /* vai até o final da tela, sem reservar espaço para o footer */
   background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 100%);
-  padding: 48px 36px;
-  box-shadow: 6px 0 25px rgba(0, 0, 0, 0.08);
+  padding: 28px 16px 28px 20px;
+  box-shadow: 4px 0 18px rgba(0, 0, 0, 0.08);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -118,8 +144,102 @@ function filtrar() {
   font-family: "Segoe UI", "Roboto", Arial, sans-serif;
   box-sizing: border-box;
   overflow-y: auto;
-  transition: all 0.3s ease;
+  transition: left 0.3s cubic-bezier(.4,0,.2,1), width 0.3s, padding 0.3s, box-shadow 0.3s, top 0.3s;
   backdrop-filter: blur(6px);
+}
+
+.filtro-lateral.fechado {
+  left: -340px;
+  box-shadow: none;
+}
+
+.toggle-filtro-btn {
+  display: none;
+  position: fixed;
+  top: 18px;
+  left: 340px;
+  z-index: 1100;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.3s cubic-bezier(.4,0,.2,1), background 0.2s;
+}
+
+.toggle-filtro-btn:active {
+  background: #0056d2;
+}
+
+@media (max-width: 900px) {
+  .filtro-lateral {
+    position: static;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    margin-top: 70px; /* altura do header */
+    padding: 18px 8px 18px 10px;
+    min-width: 0;
+    max-width: 100vw;
+    height: calc(100vh - 70px); /* vai até o final da tela */
+    box-shadow: none;
+    border-right: none;
+    z-index: auto;
+  }
+  .filtro-lateral.fechado {
+    left: -100vw;
+  }
+  .toggle-filtro-btn {
+    display: flex;
+    left: 90vw;
+    top: 18px;
+    width: 38px;
+    height: 38px;
+    font-size: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    z-index: 1100;
+    transition: left 0.3s cubic-bezier(.4,0,.2,1);
+  }
+}
+
+@media (max-width: 600px) {
+  .filtro-lateral {
+    position: static;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    margin-top: 70px;
+    padding: 10px 2px 10px 2px;
+    min-width: 0;
+    max-width: 100vw;
+    height: calc(100vh - 70px); /* vai até o final da tela */
+    box-shadow: none;
+    border-right: none;
+    z-index: auto;
+  }
+  .filtro-lateral.fechado {
+    left: -100vw;
+  }
+  .toggle-filtro-btn {
+    display: flex;
+    left: 100vw;
+    top: 12px;
+    width: 34px;
+    height: 34px;
+    font-size: 1.2rem;
+  }
 }
 
 .filtro-lateral h3 {
@@ -130,12 +250,16 @@ function filtrar() {
   letter-spacing: 0.3px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
 .filtro-lateral h3 .icon {
   font-size: 1.5rem;
   color: #007bff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .filtro-form {
@@ -192,14 +316,14 @@ function filtrar() {
   align-items: center;
   gap: 5px;
   padding-left: 2px;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .input-field label .icon {
   color: #007bff;
   flex-shrink: 0;
   margin-right: 3px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -250,7 +374,8 @@ function filtrar() {
 .botoes-filtro {
   display: flex;
   gap: 12px;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   margin-top: 16px;
 }
 
@@ -313,29 +438,20 @@ function filtrar() {
 }
 
 @media (max-width: 900px) {
-  .filtro-lateral {
-    width: 100vw;
-    height: auto;
-    padding: 24px 20px;
-  }
-
   .input-row.horizontal-3 {
     flex-wrap: wrap;
   }
-
   .input-field {
     flex: 1 1 45%;
-    min-width: 160px;
+    min-width: 120px;
   }
-
   .botoes-filtro {
     justify-content: center;
     flex-wrap: wrap;
   }
-
   .btn-filtrar,
   .btn-limpar {
-    min-width: 120px;
+    min-width: 100px;
   }
 }
 
