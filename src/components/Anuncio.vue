@@ -1,169 +1,242 @@
-<script setup>
-</script>
 
 <template>
-  <div class="imovel-card">
-    <div class="imovel-img">
-      <!-- <img src="@/assets/img/chave-na-mao.jpg" alt="Casa à venda na Vila Bela, São Paulo" /> -->
+  <div class="property-card">
+    <div class="image-section">
+      <img src="@/assets/img/image.png" alt="Foto do imóvel" />
     </div>
-    <div class="imovel-info">
-      <h2>Casa com 3 quartos à venda</h2>
-      <p class="imovel-endereco">
-        Rua Gradau, 100<br />
+
+    <div class="details-section">
+      <p class="address">
+        <strong>Rua Gradau, 100</strong><br />
         Vila Bela, São Paulo/SP
       </p>
-      <div class="imovel-detalhes">
+
+      <div class="info">
         <span>165m²</span>
-        <span>·</span>
-        <span>3 Quartos</span>
-        <span>·</span>
-        <span>4 Banheiros</span>
-        <span>·</span>
-        <span>2 Vagas</span>
+        <span>· 3 quartos</span>
+        <span>· 4 banheiros</span>
+        <span>· 2 vagas</span>
       </div>
-      <div class="imovel-preco">
+
+      <div class="price">
         <strong>R$ 589.000</strong>
-        <span class="imovel-condominio">Condomínio R$ 100</span>
+        <p>Condomínio R$ 100</p>
       </div>
-      <button class="imovel-contato">Contatar</button>
+
+      <button class="contact-button" @click="openContact">Contatar</button>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div v-if="showContact" class="modal-overlay" @click.self="closeContact">
+    <div class="modal">
+      <button class="modal-close" @click="closeContact" aria-label="Fechar">×</button>
+
+      <h3 class="modal-title">Falar com {{ agencyName }}</h3>
+
+      <div class="modal-body">
+        <div class="modal-card">
+          <img class="modal-thumb" src="@/assets/img/image.png" alt="thumbnail" />
+          <div class="modal-card-info">
+            <div class="modal-sub">Prédio Para Alugar Na Avenida Miguel Castro, 1280, Nossa Senhora De Nazaré, Natal</div>
+            <div class="modal-price">R$ 8.500</div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="action-btn">
+            <div class="action-ico">💬</div>
+            <div class="action-txt">Mensagem</div>
+          </button>
+
+          <button class="action-btn">
+            <div class="action-ico">📅</div>
+            <div class="action-txt">Agendar visita</div>
+          </button>
+
+          <button class="action-btn">
+            <div class="action-ico">📞</div>
+            <div class="action-txt">Telefones</div>
+          </button>
+
+          <button class="action-btn">
+            <div class="action-ico">🟢</div>
+            <div class="action-txt">Whatsapp</div>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'Anuncio',
+  data() {
+    return {
+      showContact: false,
+      agencyName: 'AUDAZ IMOB',
+    };
+  },
+  methods: {
+    openContact() {
+      this.showContact = true;
+    },
+    closeContact() {
+      this.showContact = false;
+    },
+  },
+};
+</script>
+
 <style scoped>
-.imovel-card {
+.property-card {
+  width: 850px;
+  height: 300px;
   display: flex;
-  flex-direction: row;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
   overflow: hidden;
-  margin: 24px 0;
-  max-width: 900px;
-  width: 100%;
-  transition: box-shadow 0.2s;
+  margin: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  transition: transform 0.2s;
 }
 
-.imovel-card:hover {
-  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+.property-card:hover {
+  transform: translateY(-3px);
 }
 
-.imovel-img {
-  flex-shrink: 0;
-  width: 320px;
-  min-width: 180px;
-  max-width: 100vw;
-  display: flex;
-  align-items: stretch;
-  background: #f5f5f5;
+.image-section {
+  position: relative;
+  flex: 1 1 300px;
+  min-width: 300px;
+  max-width: 40%;
 }
 
-.imovel-img img {
+.image-section img {
   width: 100%;
   height: 100%;
-  min-height: 220px;
   object-fit: cover;
   display: block;
-  border-right: 1px solid #eee;
 }
 
-.imovel-info {
-  flex: 1;
-  padding: 32px 28px;
+.details-section {
+  flex: 1 1 60%;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 0;
 }
 
-.imovel-endereco {
-  color: #555;
-  margin: 8px 0 16px 0;
-  font-size: 1.05rem;
-  word-break: break-word;
-}
-
-.imovel-detalhes {
-  color: #444;
-  font-size: 1.05rem;
-  margin-bottom: 18px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.imovel-preco {
-  font-size: 1.7rem;
+.address {
+  font-size: 1rem;
   color: #222;
-  margin-bottom: 14px;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+.info {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1rem;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
-.imovel-condominio {
-  font-size: 1.05rem;
+.price {
+  font-size: 1.2rem;
+  color: #111;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.price p {
+  font-size: 0.95rem;
   color: #888;
+  font-weight: normal;
+  margin-top: 0.3rem;
 }
 
-.imovel-contato {
-  background: #e60023;
-  color: #fff;
+.contact-button {
+  background-color: #e30613;
+  color: white;
+  padding: 0.7rem 1.4rem;
   border: none;
-  border-radius: 6px;
-  padding: 14px 36px;
-  font-size: 1.1rem;
+  border-radius: 5px;
+  font-size: 0.95rem;
   cursor: pointer;
   align-self: flex-start;
-  transition: background 0.2s, transform 0.2s;
-  font-weight: 600;
-  box-shadow: 0 1px 4px rgba(230,0,35,0.08);
+  transition: background-color 0.3s ease;
 }
 
-.imovel-contato:hover {
-  background: #b8001a;
-  transform: translateY(-2px) scale(1.03);
+.contact-button:hover {
+  background-color: #c10510;
 }
 
-@media (max-width: 900px) {
-  .imovel-card {
+/* Responsividade */
+@media (max-width: 768px) {
+  .property-card {
     flex-direction: column;
+  }
+
+  .image-section, .details-section {
     max-width: 100%;
-    margin: 18px 0;
-  }
-  .imovel-img {
-    width: 100%;
-    min-width: 0;
-  }
-  .imovel-img img {
-    width: 100%;
-    min-height: 180px;
-    border-right: none;
-    border-bottom: 1px solid #eee;
-  }
-  .imovel-info {
-    padding: 20px 12px;
+    flex: 1 1 100%;
   }
 }
 
-@media (max-width: 600px) {
-  .imovel-card {
-    border-radius: 0;
-    margin: 10px 0;
-  }
-  .imovel-img img {
-    min-height: 120px;
-  }
-  .imovel-info {
-    padding: 12px 6px;
-  }
-  .imovel-preco {
-    font-size: 1.2rem;
-  }
-  .imovel-contato {
-    width: 100%;
-    align-self: stretch;
-    padding: 12px 0;
-    font-size: 1rem;
-  }
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 24px;
+}
+
+.modal {
+  background: #fff;
+  width: 760px;
+  max-width: calc(100% - 48px);
+  border-radius: 10px;
+  padding: 22px 28px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-close {
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal-title { font-weight: 700; margin: 18px 0; }
+
+.modal-body { display: flex; flex-direction: column; gap: 18px; }
+
+.modal-card { display:flex; gap:12px; align-items:center; padding:10px; border-radius:8px; border:1px solid #f1f1f1; }
+.modal-thumb { width:90px; height:64px; object-fit:cover; border-radius:6px; }
+.modal-card-info { font-size: 0.95rem; color:#333; }
+.modal-sub { color:#666; font-size:0.9rem; }
+.modal-price { font-weight:800; margin-top:6px; }
+
+.modal-actions { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px; }
+.action-btn { background:#fff5f5; border:1px solid #fdecec; padding:18px; border-radius:12px; display:flex; gap:12px; align-items:center; justify-content:center; cursor:pointer; font-weight:700; color:#c12b2b; }
+.action-ico { font-size:20px; }
+.action-txt { font-size:1rem; }
+
+@media (max-width:600px) {
+  .modal { padding:16px; }
+  .modal-actions { grid-template-columns:1fr; }
 }
 </style>
