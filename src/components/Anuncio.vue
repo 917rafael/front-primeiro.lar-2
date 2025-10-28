@@ -1,3 +1,4 @@
+
 <template>
   <div class="property-card">
     <div class="image-section">
