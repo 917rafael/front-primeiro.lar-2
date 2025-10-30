@@ -3,7 +3,7 @@
     <h1>Lista de Usuários</h1>
     <ul>
       <li v-for="usuario in usuarios" :key="usuario.id">
-        {{ usuario.nome }} - {{ usuario.email }}
+        {{ usuario.name }} - {{ usuario.email }}
       </li>
     </ul>
   </div>
@@ -11,12 +11,12 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import api from "../services/api";
+import api from "../../services/api.js";
 
 const usuarios = ref([]);
 
 onMounted(async () => {
   const response = await api.get("usuarios/");
-  usuarios.value = response.data;
+  usuarios.value = response.data.results;
 });
 </script>

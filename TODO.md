@@ -1,4 +1,9 @@
-- [x] Edit src/App.vue to import Footer component and add it to the template after RouterView
-- [x] Change footer legend colors to black
-- [x] Increase size of app-buttons images
-- [x] Add border only to Pix image
+# TODO: Implementar verificação de senha via API no login
+
+- [x] Remover código desnecessário: onMounted que busca usuários (não usado no login)
+- [x] Modificar função login(): substituir verificação hardcoded por requisição POST à API (/login)
+- [x] Adicionar tratamento de erro: try/catch para capturar erros da API
+- [x] Em sucesso: definir sucesso.value e limpar campos email/senha
+- [x] Em erro: definir erro.value com mensagem apropriada
+- [x] Servidor de desenvolvimento iniciado (http://localhost:5174/)
+- [ ] Testar o login após mudanças (navegador não disponível, testar manualmente)
