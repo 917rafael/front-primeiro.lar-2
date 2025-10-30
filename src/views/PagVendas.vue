@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import Anuncio from '../components/Anuncio.vue';
 import Filtro from '../components/filtro.vue';
-import HeaderAnuncio from '@/components/HeaderAnuncio.vue';
+import HeaderVenda from '@/components/HeaderVenda.vue';
 
 
 
@@ -10,7 +10,7 @@ export default {
   components: {
     Anuncio,
     Filtro,
-    HeaderAnuncio
+    HeaderVenda
   },
   setup() {
     const filtroAberto = ref(true);
@@ -24,7 +24,7 @@ export default {
 
 <template>
   <div class="row">
-  <HeaderAnuncio class="colunm"/>
+  <HeaderVenda class="colunm"/>
   </div>
   <div class="container-anuncio">
     <Filtro />
