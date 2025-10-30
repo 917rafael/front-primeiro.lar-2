@@ -1,6 +1,10 @@
 <script setup>
+defineOptions({ name: 'HomeView' });
 import { ref, onMounted, watch } from 'vue';
 import Header from '@/components/Header.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const estados = ref([]);
 const cidades = ref([]);
@@ -44,7 +48,7 @@ watch(estadoSelecionado, async (uf) => {
         </p>
       </div>
       <div class="banner-btn-right" >
-        <button>Ver Imóveis</button>
+        <button @click="router.push('/vendas')">Ver Imóveis</button>
       </div>
     </div>
   </section>
