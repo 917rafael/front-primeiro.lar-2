@@ -5,6 +5,7 @@ function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
 const props = defineProps({ scrolled: Boolean });
+
 </script>
 
 

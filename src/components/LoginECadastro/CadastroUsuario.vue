@@ -1,7 +1,8 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
 
-const emit = defineEmits(['cadastro-sucesso'])
+const emit = defineEmits(['cadastro']);
+
 
 const nome = ref('rafael')
 const email = ref('rafel@gmail.com')
@@ -23,10 +24,10 @@ function cadastrar() {
   }
   // Simulação de cadastro
   sucesso.value = 'Usuário cadastrado com sucesso!'
-  nome.value = ''
-  email.value = ''
-  senha.value = ''
-  confirmarSenha.value = ''
+  nome.value = 'rafael'
+  email.value = 'rafael@gmail.com'
+  senha.value = '123456789'
+  confirmarSenha.value = '123456789'
   setTimeout(() => {
     emit('cadastro-sucesso')
   }, 350) // Reduzido para animação iniciar mais rápido
@@ -87,7 +88,7 @@ function cadastrar() {
     <button type="submit">Cadastrar</button>
     <div class="link-login">
       <span>Já tem uma conta?</span>
-      <a href="/login">Entrar</a>
+      <a @click="emit('cadastro')">Entrar</a>
     </div>
   </form>
 

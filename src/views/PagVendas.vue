@@ -2,13 +2,15 @@
 import { ref } from 'vue';
 import Anuncio from '../components/Anuncio.vue';
 import Filtro from '../components/filtro.vue';
-import HeaderVenda from '../components/HeaderVenda.vue';
+import HeaderAnuncio from '@/components/HeaderAnuncio.vue';
+
+
 
 export default {
   components: {
     Anuncio,
     Filtro,
-  HeaderVenda,
+    HeaderAnuncio
   },
   setup() {
     const filtroAberto = ref(true);
@@ -21,9 +23,11 @@ export default {
 </script>
 
 <template>
-  <HeaderVenda />
-  <Filtro :filtro-aberto="filtroAberto" :toggle-filtro="toggleFiltro" />
-  <div :class="['container-anuncio', { 'filtro-aberto': filtroAberto }]">
+  <div class="row">
+  <HeaderAnuncio class="colunm"/>
+  </div>
+  <div class="container-anuncio">
+    <Filtro />
     <div class="alinha-direita">
       <Anuncio/>
       <Anuncio/>
@@ -66,6 +70,11 @@ export default {
   margin-right: 10%;
 }
 
+.row {
+  display: flex;
+}
 
-
+.column {
+  flex: 50%;
+}
 </style>
