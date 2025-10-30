@@ -100,22 +100,6 @@ export default {
   margin-left: 4vw; /* Adiciona espaçamento à esquerda para deslocar à direita */
 }
 
-.property-card {
-  display: flex;
-  flex-wrap: wrap;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  background-color: #fff;
-  transition: transform 0.2s;
-}
-
-.property-card:hover {
-  transform: translateY(-3px);
-}
-
 .image-section {
   position: relative;
   flex: 1 1 300px;
