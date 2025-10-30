@@ -1,59 +1,45 @@
 <template>
   <footer class="footer">
-    <section class="payment-methods">
-      <h3>FORMAS DE PAGAMENTOS</h3>
-      <div class="payment-groups">
-        <div class="group">
-          <h4>Cartões do Grupo</h4>
-          <div class="icons">
-            <img src="@/assets/cards/casas-bahia.jpg" alt="Casas Bahia" title="Casas Bahia" />
-            <img src="@/assets/cards/pontofrio.jpeg" alt="Pontofrio" title="Pontofrio" />
-            <img src="@/assets/cards/extra.png" alt="Extra" title="Extra" />
+    <div class="footer-container">
+      <div class="footer-row">
+        <div class="footer-col brand-col">
+          <div class="footer-brand">
+            <img src="../assets/img/logo.png" alt="Logo" class="footer-logo" />
+            <span class="footer-title">Primeira Lar Imobiliária</span>
+          </div>
+          <p class="footer-desc">Seu novo lar está aqui! Especialistas em compra, venda e locação de imóveis residenciais e comerciais.</p>
+        </div>
+        <div class="footer-col contact-col">
+          <h4>Contato</h4>
+          <ul>
+            <li>Telefone: <a href="tel:+5511999999999">(11) 99999-9999</a></li>
+            <li>Email: <a href="mailto:contato@primeiralar.com">contato@primeiralar.com</a></li>
+            <li>Endereço: Av. Central, 1234 - São Paulo/SP</li>
+            <li>Atendimento: Seg a Sex, 8h às 18h</li>
+          </ul>
+        </div>
+        <div class="footer-col links-col">
+          <h4>Links Úteis</h4>
+          <ul>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Política de Privacidade</a></li>
+            <li><a href="#">Fale Conosco</a></li>
+            <li><a href="#">Serviço</a></li>
+          </ul>
+        </div>
+        <div class="footer-col social-col">
+          <h4>Redes Sociais</h4>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram" class="social-icon"><img src="/src/assets/cards/instagram.jpeg" alt="Instagram" /></a>
+            <a href="#" aria-label="Facebook" class="social-icon"><img src="/src/assets/cards/facebook.png" alt="Facebook" /></a>
+            <a href="#" aria-label="WhatsApp" class="social-icon"><img src="/src/assets/cards/what.jpg" alt="WhatsApp" /></a>
           </div>
         </div>
-        <div class="group">
-          <h4>Outras formas</h4>
-          <div class="icons">
-            <img src="@/assets/cards/banqi.png" alt="BanQi" title="BanQi" />
-            <img src="@/assets/cards/pix.png" alt="Pix" title="Pix" class="pix-icon" />
-          </div>
-        </div>
-        <div class="group">
-          <h4>Crédito</h4>
-          <div class="icons">
-            <img src="@/assets/cards/visa.png" alt="Visa" title="Visa" />
-            <img src="@/assets/cards/mastercard.png" alt="Mastercard" title="Mastercard" />
-            <img src="@/assets/cards/elo.png" alt="Elo" title="Elo" />
-            <img src="@/assets/cards/hipercard.png" alt="Hipercard" title="Hipercard" />
-          </div>
-        </div>
       </div>
-    </section>
-
-    <section class="social-and-app">
-      <div class="social-media">
-        <h3>Redes Sociais</h3>
-        <div class="social-icons">
-          <img src="@/assets/cards/facebook.png" alt="Facebook" title="Facebook" />
-          <img src="@/assets/cards/instagram.jpeg" alt="Instagram" title="Instagram" />
-          <img src="@/assets/cards/X.png" alt="Twitter" title="Twitter" />
-          <img src="@/assets/cards/youtube.png" alt="YouTube" title="YouTube" />
-        </div>
+      <div class="footer-copy">
+        &copy; 2025 Primeira Lar Imobiliária. Todos os direitos reservados.
       </div>
-      <div class="app-download">
-        <h3>Baixe o App</h3>
-        <div class="app-buttons">
-          <img src="@/assets/cards/googleplay.png" alt="Google Play" title="Google Play" />
-          <img src="@/assets/cards/appstore.png" alt="App Store" title="Apple Store" />
-        </div>
-      </div>
-    </section>
-  <section>
-      <div class="contact">
-        <p>4003-1234 | 0800-1234 | (11) 1234-5678</p>
-      </div>
-    </section>
-
+    </div>
   </footer>
 </template>
 
@@ -62,124 +48,236 @@
 </script>
 
 <style scoped>
-.footer img {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  cursor: pointer;
-}
-
 .footer {
-  background-color: #f7f7f7;
-  padding: 2rem;
-  font-family: Arial, sans-serif;
-  color: #333;
+  background: linear-gradient(90deg, #0d1b2a 0%, #1b263b 100%);
+  color: #fff;
+  padding: 2.5rem 0 1.2rem 0;
+  font-size: 1rem;
+  width: 100%;
+  box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
 }
 
-.payment-methods h3,
-.social-and-app h3 {
-  color: #000000;
-  font-weight: bold;
-  margin-bottom: 1rem;
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.2rem;
 }
 
-.payment-groups {
+.footer-row {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-}
-
-.group {
-  flex: 1;
-  margin-right: 1rem;
-}
-
-.group h4 {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.icons {
-  display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
-}
-
-.icons img {
-  height: 32px;
-  cursor: pointer;
-}
-
-.pix-icon {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.social-and-app {
-  display: flex;
   justify-content: space-between;
+  gap: 2.5rem;
+  width: 100%;
+  margin-bottom: 1.2rem;
+}
+
+.footer-col {
+  flex: 1 1 200px;
+  min-width: 180px;
+  max-width: 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.brand-col {
+  max-width: 260px;
+}
+
+.footer-brand {
+  display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 0.7rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.social-media,
-.app-download {
-  flex: 1;
+.footer-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
 
-.social-icons,
-.app-buttons {
-  display: flex;
-  gap: 1rem;
+.footer-title {
+  color: #f7c873;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.footer-desc {
+  color: #bfc9da;
+  font-size: 0.98rem;
   margin-top: 0.5rem;
 }
 
-.social-icons img {
-  height: 32px;
-  cursor: pointer;
+.footer-col h4 {
+  color: #f7c873;
+  font-size: 1.08rem;
+  margin-bottom: 0.2rem;
+  font-weight: 700;
 }
 
-.app-buttons img {
-  width: 122px;
-  height: 100px;
-  cursor: pointer;
-}
-
-.trust-badges {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-left: auto;
-}
-
-.trust-badges img {
-  height: 64px;
-}
-
-.trust-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #ddd;
-}
-
-.contact {
-  margin-left: auto;
-}
-
-.contact p {
-  font-size: 0.9rem;
-  color: #666;
+.footer-col ul {
+  list-style: none;
+  padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.footer-col ul li {
+  color: #e0e0e0;
+  font-size: 0.98rem;
+}
+.footer-col a {
+  color: #f7c873;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-col a:hover {
+  color: #fff;
+  text-decoration: underline;
 }
 
-.social-and-app h3 {
-  color: #000000;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+.footer-social {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+}
+.social-icon img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: #fff;
+  object-fit: cover;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.social-icon img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px #f7c87344;
 }
 
+.footer-copy {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #bfc9da;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .footer-row {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .footer-col {
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+  .brand-col {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.footer-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.footer-title {
+  color: #f7c873;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.footer-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+.footer-contact a {
+  color: #f7c873;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-contact a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+}
+.social-icon img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: #fff;
+  object-fit: cover;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.social-icon img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px #f7c87344;
+}
+
+.footer-copy {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #bfc9da;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .footer-container {
+    gap: 1.2rem;
+    padding: 0 0.5rem;
+  }
+  .footer-info {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+  .footer-brand {
+    font-size: 1.1rem;
+  }
+  .footer-logo {
+    width: 30px;
+    height: 30px;
+  }
+}
 </style>
