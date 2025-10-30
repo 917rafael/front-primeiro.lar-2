@@ -4,15 +4,15 @@ import LoginDoCliente from '../components/LoginECadastro/LoginDoCliente.vue'
 import CadastroUsuario from '../components/LoginECadastro/CadastroUsuario.vue'
 
 const cadastroAtivo = ref(true)
-const animando = ref(false)
 
-function handleCadastroSucesso() {
-  animando.value = true
-  setTimeout(() => {
-    cadastroAtivo.value = false
-    animando.value = false
-  }, 700)
-}
+// const animando = ref(false)
+// function handleCadastroSucesso() {
+//   animando.value = true
+//   setTimeout(() => {
+//     cadastroAtivo.value = false
+//     animando.value = false
+//   }, 700)
+// }
 </script>
 <template>
     <div class="login-cadastro-page">
