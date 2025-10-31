@@ -4,11 +4,6 @@ import api from "../../services/api";
 
 const emit = defineEmits(['cadastro']);
 
-onMounted(async () => {
-  const response = await api.get("usuarios/");
-  usuarios.value = response.data.results;
-});
-
 const nome = ref('')
 const email = ref('')
 const senha = ref('')
