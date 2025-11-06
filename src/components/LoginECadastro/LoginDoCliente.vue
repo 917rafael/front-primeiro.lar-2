@@ -1,29 +1,56 @@
 <script setup>
 import { ref } from 'vue'
-const emit = defineEmits(['cadastro'])
+import api from "../../services/api"
 
+const emit = defineEmits(['cadastro']);
+
+
+const password = ref('')
 const email = ref('')
-const senha = ref('')
 const erro = ref('')
 const sucesso = ref('')
 
-function login() {
+async function login() {
   erro.value = ''
   sucesso.value = ''
-  if (!email.value || !senha.value) {
+
+  if (!email.value || !password.value) {
     erro.value = 'Preencha todos os campos.'
     return
   }
 
-  if (email.value === 'cliente@email.com' && senha.value === '123456') {
-    sucesso.value = 'Login realizado com sucesso!'
-    email.value = ''
-    senha.value = ''
-  } else {
-    erro.value = 'E-mail ou senha inválidos.'
+  try {
+    const response = await api.post('token/', {
+      email: email.value,
+      password: password.value
+    })
+
+ 
+    if (response.status === 200) {
+      sucesso.value = 'Login realizado com sucesso!'
+      localStorage.setItem('access_token', response.data.access)
+      localStorage.setItem('refresh_token', response.data.refresh)
+      email.value = ''
+      password.value = ''
+
+   
+      setTimeout(() => {
+        window.location.href = '/dashboard'
+      }, 500)
+    }
+
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      erro.value = 'E-mail ou senha inválidos.'
+    } else if (error.response && error.response.status === 400) {
+      erro.value = 'Dados inválidos. Verifique e tente novamente.'
+    } else {
+      erro.value = 'Erro ao fazer login. Tente novamente mais tarde.'
+    }
   }
 }
 </script>
+
 
 <template>
 
@@ -52,8 +79,8 @@ function login() {
           <path stroke="#ff5e62" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4" />
         </svg>
       </span>
-      <input id="senha" v-model="senha" type="password" required placeholder=" " />
-      <label for="senha">Senha</label>
+      <input id="password" v-model="password" type="password" required placeholder=" " />
+      <label for="password">Senha</label>
     </div>
     <div class="login-options">
       <label class="remember-me">

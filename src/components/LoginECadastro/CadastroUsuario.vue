@@ -1,37 +1,56 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
+import api from "../../services/api";
 
 const emit = defineEmits(['cadastro']);
 
-
-const nome = ref('rafael')
-const email = ref('rafel@gmail.com')
-const senha = ref('123')
-const confirmarSenha = ref('123')
+const nome = ref('')
+const email = ref('')
+const senha = ref('')
+const confirmarSenha = ref('')
 const erro = ref('')
 const sucesso = ref('')
 
-function cadastrar() {
+async function cadastrar() {
   erro.value = ''
   sucesso.value = ''
+
   if (!nome.value || !email.value || !senha.value || !confirmarSenha.value) {
     erro.value = 'Preencha todos os campos.'
     return
   }
+
   if (senha.value !== confirmarSenha.value) {
     erro.value = 'As senhas não coincidem.'
     return
   }
-  // Simulação de cadastro
-  sucesso.value = 'Usuário cadastrado com sucesso!'
-  nome.value = 'rafael'
-  email.value = 'rafael@gmail.com'
-  senha.value = '123456789'
-  confirmarSenha.value = '123456789'
-  setTimeout(() => {
-    emit('cadastro-sucesso')
-  }, 350) // Reduzido para animação iniciar mais rápido
+
+  try {
+    const response = await api.post('usuarios/', {
+      nome: nome.value,
+      email: email.value,
+      senha: senha.value
+    });
+
+    if (response.status === 201 || response.status === 200) {
+      sucesso.value = 'Usuário cadastrado com sucesso!'
+      nome.value = ''
+      email.value = ''
+      senha.value = ''
+      confirmarSenha.value = ''
+      setTimeout(() => {
+        emit('cadastro-sucesso')
+      }, 350)
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      erro.value = 'Dados inválidos ou usuário já existe.'
+    } else {
+      erro.value = 'Erro ao cadastrar usuário. Tente novamente.'
+    }
+  }
 }
+
 </script>
 
 <template>
