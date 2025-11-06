@@ -43,10 +43,6 @@
   </footer>
 </template>
 
-<script setup>
-// Footer with payment methods, social media, app download, and trust badges
-</script>
-
 <style scoped>
 .footer {
   background: linear-gradient(90deg, #0d1b2a 0%, #1b263b 100%);
