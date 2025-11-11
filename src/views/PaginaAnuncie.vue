@@ -58,7 +58,10 @@ export default {
 				'Escritório',
 				'Indústria',
 				'Depósito/Armazém'
-			]
+			],
+			quantidadeQuartos: '',
+			quantidadeBanheiros: '',
+			metrosQuadrados: ''
 		};
 	},
 	methods: {
@@ -182,10 +185,14 @@ export default {
 				this.modalStep = 3;
 			} else if (this.modalStep === 3 && this.valor.trim()) {
 				this.modalStep = 4;
+			} else if (this.modalStep === 4 && this.cep.trim() && this.endereco.trim() && this.numero.trim()) {
+				this.modalStep = 5; // Added new step
 			}
 		},
 		voltarEtapa() {
-			if (this.modalStep === 4) {
+			if (this.modalStep === 5) {
+				this.modalStep = 4;
+			} else if (this.modalStep === 4) {
 				this.modalStep = 3;
 			} else if (this.modalStep === 3) {
 				this.modalStep = 2;
@@ -278,9 +285,8 @@ export default {
 			}
 		},
 		finalizarCadastro() {
-			if (!this.cep.trim() || !this.endereco.trim() || !this.numero.trim()) return;
-			
-			// Aqui você pode adicionar a lógica para enviar os dados para o backend
+			if (!this.quantidadeQuartos || !this.quantidadeBanheiros || !this.metrosQuadrados) return;
+
 			console.log('Dados do formulário:', {
 				nome: this.form.nome,
 				email: this.form.email,
@@ -293,11 +299,13 @@ export default {
 				endereco: this.endereco,
 				cidade: this.cidade,
 				estado: this.estado,
-				numero: this.numero
+				numero: this.numero,
+				quantidadeQuartos: this.quantidadeQuartos,
+				quantidadeBanheiros: this.quantidadeBanheiros,
+				metrosQuadrados: this.metrosQuadrados
 			});
 			
-			// Ir para tela de sucesso
-			this.modalStep = 5;
+			this.modalStep = 6; // Proceed to confirmation step
 		},
 		fecharModal() {
 			// Fechar modal e resetar tudo
@@ -390,15 +398,16 @@ export default {
 		</main>
 
 		<!-- Modal lateral -->
-		<div v-if="showModal" class="side-modal-overlay" @click.self="modalStep !== 5 ? showModal = false : null">
+		<div v-if="showModal" class="side-modal-overlay" @click.self="showModal = false">
 			<div class="side-modal">
 				<div class="side-modal-header">
 					<h2 v-if="modalStep === 1">Antes de começar, precisamos das suas informações de contato</h2>
 					<h2 v-else-if="modalStep === 2">Agora, nos conte que tipo de imóvel gostaria de anunciar?</h2>
 					<h2 v-else-if="modalStep === 3">Precisamos de mais informações sobre o seu imóvel</h2>
 					<h2 v-else-if="modalStep === 4">Qual o endereço completo do imóvel?</h2>
-					<h2 v-else-if="modalStep === 5">Anúncio de venda de imóvel criado!</h2>
-					   <button v-if="modalStep !== 5" class="side-modal-close" @click="showModal = false" aria-label="Fechar">
+					<h2 v-else-if="modalStep === 5">Detalhes adicionais do imóvel</h2>
+					<h2 v-else-if="modalStep === 6">Anúncio de venda de imóvel criado!</h2>
+					   <button v-if="modalStep !== 6" class="side-modal-close" @click="showModal = false" aria-label="Fechar">
 						   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							   <path d="M6 6L18 18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
 							   <path d="M18 6L6 18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
@@ -555,12 +564,50 @@ export default {
 					
 					<div class="side-modal-actions">
 						<button class="side-modal-back" @click="voltarEtapa">Voltar</button>
-						<button class="side-modal-submit" :disabled="!cep.trim() || !endereco.trim() || !numero.trim()" @click="finalizarCadastro">Continuar</button>
+						<button class="side-modal-submit" :disabled="!cep.trim() || !endereco.trim() || !numero.trim()" @click="proximaEtapa">Continuar</button>
+					</div>
+				</div>
+
+				<!-- Etapa 5: Detalhes adicionais do imóvel -->
+				<div v-else-if="modalStep === 5" class="side-modal-step5">
+					<div class="side-modal-form-group">
+						<label>Quantidade de Quartos</label>
+						<input 
+							type="number" 
+							v-model="quantidadeQuartos" 
+							placeholder="Ex: 3"
+							class="side-modal-input" 
+						/>
+					</div>
+
+					<div class="side-modal-form-group">
+						<label>Quantidade de Banheiros</label>
+						<input 
+							type="number" 
+							v-model="quantidadeBanheiros" 
+							placeholder="Ex: 2"
+							class="side-modal-input" 
+						/>
+					</div>
+
+					<div class="side-modal-form-group">
+						<label>Metros Quadrados</label>
+						<input 
+							type="number" 
+							v-model="metrosQuadrados" 
+							placeholder="Ex: 120"
+							class="side-modal-input" 
+						/>
+					</div>
+
+					<div class="side-modal-actions">
+						<button class="side-modal-back" @click="voltarEtapa">Voltar</button>
+						<button class="side-modal-submit" :disabled="!quantidadeQuartos || !quantidadeBanheiros || !metrosQuadrados" @click="finalizarCadastro">Continuar</button>
 					</div>
 				</div>
 				
-				<!-- Etapa 5: Tela de sucesso -->
-				<div v-else-if="modalStep === 5" class="side-modal-success">
+				<!-- Etapa 6: Tela de sucesso -->
+				<div v-else-if="modalStep === 6" class="side-modal-success">
 					<div class="success-content">
 						<div class="success-icon">
 							<svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
