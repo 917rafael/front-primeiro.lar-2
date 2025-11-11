@@ -1,4 +1,6 @@
 <script>
+import { useFavoritosStore } from '@/stores/favoritos'
+
 export default {
   name: 'AnuncioCard',
   props: {
@@ -12,6 +14,18 @@ export default {
       mostrarInfo: false
     }
   },
+  setup() {
+    const favoritosStore = useFavoritosStore()
+    return { favoritosStore }
+  },
+  computed: {
+    imovel() {
+      return this.favoritosStore.getImovel(this.imovelId) || {}
+    },
+    isFavorito() {
+      return this.favoritosStore.isFavorito(this.imovelId)
+    }
+  },
   methods: {
     abrir() {
       this.mostrarInfo = true;
@@ -23,6 +37,10 @@ export default {
       if (e.target.classList.contains('info-overlay')) {
         this.fechar();
       }
+    },
+    toggleFavorito(e) {
+      e.stopPropagation() // Impede que o click abra o modal
+      this.favoritosStore.toggleFavorito(this.imovelId)
     }
   }
 }
@@ -32,50 +50,71 @@ export default {
   <div class="property-card-wrapper">
     <div class="property-card modern-card" @click="abrir" v-if="!mostrarInfo">
       <div class="image-section modern-image">
-        <img src="@/assets/img/image.png" alt="Foto do imóvel" />
+        <img :src="imovel.imagem || '@/assets/img/image.png'" :alt="imovel.titulo || 'Foto do imóvel'" />
       </div>
       <div class="details-section modern-details">
         <p class="address modern-address">
-          <strong>Rua Gradau, 100</strong><br />
-          Vila Bela, São Paulo/SP
+          <strong>{{ imovel.titulo || 'Título do imóvel' }}</strong><br />
+          {{ imovel.endereco || 'Endereço não informado' }}
         </p>
         <div class="info modern-info">
-          <span>165m²</span>
-          <span>· 3 quartos</span>
-          <span>· 4 banheiros</span>
-          <span>· 2 vagas</span>
+          <span>{{ imovel.area || '0m²' }}</span>
+          <span>· {{ imovel.quartos || 0 }} quartos</span>
+          <span>· {{ imovel.banheiros || 0 }} banheiros</span>
+          <span>· {{ imovel.vagas || 0 }} vagas</span>
         </div>
         <div class="price modern-price">
-          <strong>R$ 589.000</strong>
-          <p>Condomínio R$ 100</p>
+          <strong>{{ imovel.preco || 'Preço não informado' }}</strong>
+          <p v-if="imovel.condominio">Condomínio {{ imovel.condominio }}</p>
         </div>
         <button class="modern-action-btn">Ver detalhes</button>
+        <button 
+          class="favorite-btn" 
+          :class="{ 'favorite-active': isFavorito }"
+          @click="toggleFavorito"
+          :title="isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </button>
       </div>
     </div>
     <div v-if="mostrarInfo" class="info-overlay modern-overlay" @click="fecharFora">
       <div class="modern-modal-panel" @click.stop>
         <button class="fechar-info modern-close" @click="fechar">×</button>
         <div class="info-content-row modern-modal-content">
-          <img class="info-img modern-modal-img" src="@/assets/img/image.png" alt="Foto do imóvel" />
+          <img class="info-img modern-modal-img" :src="imovel.imagem || '@/assets/img/image.png'" :alt="imovel.titulo" />
           <div class="info-direita modern-modal-info">
-            <h2>Casa moderna em Vila Bela</h2>
+            <div class="modal-header-with-heart">
+              <h2>{{ imovel.titulo || 'Título do imóvel' }}</h2>
+              <button 
+                class="favorite-btn-modal" 
+                :class="{ 'favorite-active': isFavorito }"
+                @click="toggleFavorito"
+                :title="isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'"
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </button>
+            </div>
             <div class="info-colunas modern-modal-cols">
               <div class="coluna-esq modern-modal-col">
-                <p><strong>Endereço:</strong> Rua Gradau, 100 - Vila Bela, São Paulo/SP</p>
-                <p><strong>Área:</strong> 165m²</p>
-                <p><strong>Quartos:</strong> 3</p>
-                <p><strong>Banheiros:</strong> 4</p>
-                <p><strong>Vagas:</strong> 2</p>
-                <p><strong>Preço:</strong> R$ 589.000</p>
-                <p><strong>Condomínio:</strong> R$ 100</p>
+                <p><strong>Endereço:</strong> {{ imovel.endereco || 'Não informado' }}</p>
+                <p><strong>Área:</strong> {{ imovel.area || '0m²' }}</p>
+                <p><strong>Quartos:</strong> {{ imovel.quartos || 0 }}</p>
+                <p><strong>Banheiros:</strong> {{ imovel.banheiros || 0 }}</p>
+                <p><strong>Vagas:</strong> {{ imovel.vagas || 0 }}</p>
+                <p><strong>Preço:</strong> {{ imovel.preco || 'Não informado' }}</p>
+                <p v-if="imovel.condominio"><strong>Condomínio:</strong> {{ imovel.condominio }}</p>
               </div>
               <div class="coluna-dir modern-modal-col">
-                <p><strong>IPTU:</strong> R$ 1.200/ano</p>
-                <p><strong>Tipo:</strong> Casa térrea</p>
-                <p><strong>Ano de construção:</strong> 2018</p>
+                <p><strong>Tipo:</strong> {{ imovel.tipo || 'Não informado' }}</p>
+                <p v-if="imovel.caracteristicas && imovel.caracteristicas.length">
+                  <strong>Características:</strong> {{ imovel.caracteristicas.join(', ') }}
+                </p>
                 <p><strong>Estado de conservação:</strong> Excelente</p>
-                <p><strong>Possui piscina:</strong> Sim</p>
-                <p><strong>Possui churrasqueira:</strong> Sim</p>
                 <p><strong>Documentação:</strong> OK</p>
                 <p><strong>Proximidades:</strong> Escola, supermercado, parque, farmácia</p>
               </div>
@@ -83,7 +122,7 @@ export default {
           </div>
         </div>
         <div class="descricao-row modern-modal-desc">
-          <strong>Descrição:</strong> Essa casa é legal! Com arquitetura moderna, ambientes amplos e ótima iluminação natural. Pronta para morar, aceita financiamento, aceita pet, rua tranquila e vizinhança amigável.
+          <strong>Descrição:</strong> {{ imovel.descricao || 'Descrição não disponível.' }}
         </div>
       </div>
     </div>
@@ -98,6 +137,7 @@ export default {
   justify-content: center;
   align-items: flex-start;
   margin-left: 4vw; /* Adiciona espaçamento à esquerda para deslocar à direita */
+  overflow: visible;
 }
 
 .image-section {
@@ -105,6 +145,7 @@ export default {
   flex: 1 1 300px;
   min-width: 300px;
   max-width: 40%;
+  overflow: visible;
 }
 
 .image-section img {
@@ -168,6 +209,112 @@ export default {
   background-color: #c10510;
 }
 
+/* Estilos para o botão de favoritos */
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #999;
+  z-index: 10;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+
+.favorite-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.favorite-btn.favorite-active {
+  background: rgba(227, 6, 19, 0.95);
+  color: white;
+  transform: scale(1.05);
+}
+
+.favorite-btn.favorite-active:hover {
+  background: rgba(227, 6, 19, 1);
+  transform: scale(1.15);
+}
+
+.favorite-btn svg {
+  transition: all 0.2s ease;
+}
+
+.favorite-btn:hover svg {
+  transform: scale(1.1);
+}
+
+.favorite-btn.favorite-active svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Botão de favoritos no modal */
+.modal-header-with-heart {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.favorite-btn-modal {
+  background: rgba(240, 240, 240, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #999;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.favorite-btn-modal:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-btn-modal.favorite-active {
+  background: rgba(227, 6, 19, 0.95);
+  color: white;
+  transform: scale(1.05);
+}
+
+.favorite-btn-modal.favorite-active:hover {
+  background: rgba(227, 6, 19, 1);
+  transform: scale(1.15);
+}
+
+.favorite-btn-modal svg {
+  transition: all 0.2s ease;
+}
+
+.favorite-btn-modal:hover svg {
+  transform: scale(1.1);
+}
+
+.favorite-btn-modal.favorite-active svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .property-card {
@@ -177,6 +324,45 @@ export default {
   .image-section, .details-section {
     max-width: 100%;
     flex: 1 1 100%;
+  }
+
+  .favorite-btn {
+    width: 34px;
+    height: 34px;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .favorite-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .favorite-btn-modal {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .favorite-btn-modal svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .modal-header-with-heart {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .modal-header-with-heart h2 {
+    margin: 0;
+    order: 2;
+  }
+  
+  .favorite-btn-modal {
+    order: 1;
+    align-self: flex-end;
+    margin-left: 0;
   }
 }
 
@@ -492,13 +678,14 @@ export default {
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 6px 32px rgba(0,0,0,0.10);
-  overflow: hidden;
+  overflow: visible;
   margin: 2rem 0;
   max-width: 900px;
   width: 100%;
   transition: box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
   border: 1.5px solid #f2f2f2;
+  position: relative;
 }
 .modern-card:hover {
   box-shadow: 0 12px 40px rgba(227,6,19,0.10);
@@ -702,6 +889,7 @@ export default {
     flex-direction: column;
     max-width: 98vw;
     margin: 1.2rem auto;
+    overflow: visible;
   }
   .modern-image {
     max-width: 100%;

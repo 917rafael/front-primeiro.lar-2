@@ -29,10 +29,10 @@ export default {
   <div class="container-anuncio">
     <Filtro />
     <div class="alinha-direita">
-      <Anuncio/>
-      <Anuncio/>
-      <Anuncio/>
-      <Anuncio/>
+      <Anuncio :imovel-id="1"/>
+      <Anuncio :imovel-id="2"/>
+      <Anuncio :imovel-id="3"/>
+      <Anuncio :imovel-id="4"/>
     </div>
   </div>
 </template>

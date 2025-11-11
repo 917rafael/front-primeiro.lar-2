@@ -12,14 +12,14 @@ const router = useRouter();
         <span class="header-venda-title">Primeiro Lar</span>
       </div>
       <nav class="header-venda-nav">
-        <a href="#" class="nav-item active">
+        <a href="/vendas" class="nav-item active">
           <span class="nav-icon">
             <!-- Home/Imóveis SVG -->
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M3 10.5L12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10.5z" stroke="#e30613" stroke-width="2"/></svg>
           </span>
           Imóveis
         </a>
-        <a href="#" class="nav-item">
+        <a href="/anuncie" class="nav-item">
           <span class="nav-icon">
             <!-- Anuncie SVG -->
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="#222" stroke-width="2"/></svg>
@@ -28,7 +28,7 @@ const router = useRouter();
         </a>
       </nav>
       <div class="header-venda-right">
-        <button class="header-btn fav-btn" aria-label="Favoritos">
+        <button @click="router.push('/favoritos')" class="header-btn fav-btn" aria-label="Favoritos">
           <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5A5.5 5.5 0 0 1 7.5 3c1.74 0 3.41 0.81 4.5 2.09A6.5 6.5 0 0 1 16.5 3 5.5 5.5 0 0 1 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="#e30613" stroke-width="2" fill="none"/></svg>
           Favoritos
         </button>

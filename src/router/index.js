@@ -34,6 +34,16 @@ const router = createRouter({
       name: 'vendas',
       component: () => import('../views/PagVendas.vue'),
      },
+     {
+      path: '/anuncie',
+      name: 'Anuncie',
+      component: () => import('../views/PaginaAnuncie.vue'),
+     },
+     {
+      path: '/favoritos',
+      name: 'Favoritos',
+      component: () => import('../views/PaginaFavorito.vue'),
+     },
   ],
 })
 

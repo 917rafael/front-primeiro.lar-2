@@ -1,37 +1,56 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
+import api from "../../services/api";
 
 const emit = defineEmits(['cadastro']);
 
-
-const nome = ref('rafael')
-const email = ref('rafel@gmail.com')
-const senha = ref('123')
-const confirmarSenha = ref('123')
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const confirmarSenha = ref('')
 const erro = ref('')
 const sucesso = ref('')
 
-function cadastrar() {
+async function cadastrar() {
   erro.value = ''
   sucesso.value = ''
-  if (!nome.value || !email.value || !senha.value || !confirmarSenha.value) {
+
+  if (!name.value || !email.value || !password.value || !confirmarSenha.value) {
     erro.value = 'Preencha todos os campos.'
     return
   }
-  if (senha.value !== confirmarSenha.value) {
+
+  if (password.value !== confirmarSenha.value) {
     erro.value = 'As senhas não coincidem.'
     return
   }
-  // Simulação de cadastro
-  sucesso.value = 'Usuário cadastrado com sucesso!'
-  nome.value = 'rafael'
-  email.value = 'rafael@gmail.com'
-  senha.value = '123456789'
-  confirmarSenha.value = '123456789'
-  setTimeout(() => {
-    emit('cadastro-sucesso')
-  }, 350) // Reduzido para animação iniciar mais rápido
+
+  try {
+    const response = await api.post('usuarios/', {
+      name: name.value,
+      email: email.value,
+      password: password.value
+    });
+
+    if (response.status === 201 || response.status === 200) {
+      sucesso.value = 'Usuário cadastrado com sucesso!'
+      name.value = ''
+      email.value = ''
+      password.value = ''
+      confirmarSenha.value = ''
+      setTimeout(() => {
+        emit('cadastro-sucesso')
+      }, 350)
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      erro.value = 'Dados inválidos ou usuário já existe.'
+    } else {
+      erro.value = 'Erro ao cadastrar usuário. Tente novamente.'
+    }
+  }
 }
+
 </script>
 
 <template>
@@ -51,7 +70,7 @@ function cadastrar() {
             d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.418 0-8 2.015-8 4.5V21h16v-2.5c0-2.485-3.582-4.5-8-4.5Z" />
         </svg>
       </span>
-      <input id="nome" v-model="nome" type="text" required placeholder=" " />
+      <input id="nome" v-model="name" type="text" required placeholder=" " />
       <label for="nome">Nome</label>
     </div>
     <div class="form-group floating-label">
@@ -71,7 +90,7 @@ function cadastrar() {
           <path stroke="#2575fc" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4" />
         </svg>
       </span>
-      <input id="senha" v-model="senha" type="password" required placeholder=" " />
+      <input id="senha" v-model="password" type="password" required placeholder=" " />
       <label for="senha">Senha</label>
     </div>
     <div class="form-group floating-label">
