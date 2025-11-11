@@ -57,7 +57,7 @@ async function cadastrar() {
 
   <form class="cadastro-form" @submit.prevent="cadastrar">
     <div class="cadastro-header">
-      <img src="/src/assets/img/image.png" alt="Logo" class="cadastro-logo" />
+      <img src="/src/assets/img/logo.png" alt="Logo" class="cadastro-logo" />
       <h2>Crie sua conta</h2>
       <p class="cadastro-subtitle">Junte-se a nós! Preencha os dados abaixo para começar.</p>
     </div>

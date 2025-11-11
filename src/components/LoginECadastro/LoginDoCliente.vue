@@ -56,7 +56,7 @@ async function login() {
 
   <form class="login-form" @submit.prevent="login">
     <div class="login-header">
-      <img src="/src/assets/img/image.png" alt="Logo" class="login-logo" />
+      <img src="/src/assets/img/logo.png" alt="Logo" class="login-logo" />
       <h2>Bem-vindo de volta!</h2>
       <p class="login-subtitle">Acesse sua conta para continuar</p>
     </div>
