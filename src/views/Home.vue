@@ -1,7 +1,7 @@
 <script setup>
 defineOptions({ name: 'HomeView' });
 import { ref, onMounted, watch } from 'vue';
-import Header from '@/components/Header.vue';
+import Header from '@/components/HeaderVenda.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
