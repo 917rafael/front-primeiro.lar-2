@@ -28,7 +28,6 @@ export default {
 			cidade: '',
 			estado: '',
 			numero: '',
-			complemento: '',
 			camposEnderecoReadonly: false,
 			opcoesResidencial: [
 				'Apartamento',
@@ -294,8 +293,7 @@ export default {
 				endereco: this.endereco,
 				cidade: this.cidade,
 				estado: this.estado,
-				numero: this.numero,
-				complemento: this.complemento
+				numero: this.numero
 			});
 			
 			// Ir para tela de sucesso
@@ -314,7 +312,6 @@ export default {
 			this.cidade = '';
 			this.estado = '';
 			this.numero = '';
-			this.complemento = '';
 			this.camposEnderecoReadonly = false;
 			this.modalStep = 1;
 		},
@@ -551,15 +548,6 @@ export default {
 								type="text" 
 								v-model="numero" 
 								placeholder="Qual o número do imóvel?"
-								class="side-modal-input" 
-							/>
-						</div>
-						<div class="side-modal-form-group">
-							<label>Complemento</label>
-							<input 
-								type="text" 
-								v-model="complemento" 
-								placeholder="Tem complemento?"
 								class="side-modal-input" 
 							/>
 						</div>
@@ -1197,10 +1185,11 @@ export default {
 }
 
 .success-icon {
-	margin-bottom: 32px;
-	display: flex;
-	justify-content: center;
-	position: relative;
+  margin: 0 auto; /* Center horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .success-icon::before {
@@ -1263,6 +1252,10 @@ export default {
 }
 
 .success-testimonials-btn {
+  margin: 0 auto; /* Center horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 	background: linear-gradient(135deg, #ff6a3d 0%, #ff8c42 50%, #ffb347 100%);
 	color: white;
 	border: none;
@@ -1273,10 +1266,8 @@ export default {
 	cursor: pointer;
 	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	box-shadow: 0 8px 25px rgba(255, 106, 61, 0.3);
-	display: flex;
 	align-items: center;
 	gap: 12px;
-	margin-top: 32px;
 	position: relative;
 	overflow: hidden;
 	text-transform: uppercase;

@@ -24,11 +24,6 @@ const router = createRouter({
       name: 'login',
       component: () => import('../views/LoginCadastro.vue'),
      },
-     {
-      path: '/teste',
-      name: 'teste',
-      component: () => import('../views/Pagteste.vue'),
-     },
     {
       path: '/vendas',
       name: 'vendas',

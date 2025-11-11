@@ -41,7 +41,7 @@ watch(estadoSelecionado, async (uf) => {
       <div class="banner-left">
         <h1>Encontre o imóvel dos seus sonhos</h1>
         <p class="banner-desc">
-          Somos especialistas em realizar sonhos! Há mais de 20 anos no mercado, a Imobiliária Primeiro Lar oferece
+          Somos especialistas em realizar sonhos! Há mais de 90 anos no mercado, a Imobiliária Primeiro Lar oferece
           atendimento personalizado, transparência e segurança em cada etapa da sua jornada. Nossa equipe está pronta
           para ajudar você a encontrar o imóvel perfeito, seja para morar, investir ou empreender. Conte conosco para
           transformar seu projeto de vida em realidade!
