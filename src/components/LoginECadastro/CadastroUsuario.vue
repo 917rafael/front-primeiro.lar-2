@@ -4,9 +4,9 @@ import api from "../../services/api";
 
 const emit = defineEmits(['cadastro']);
 
-const nome = ref('')
+const name = ref('')
 const email = ref('')
-const senha = ref('')
+const password = ref('')
 const confirmarSenha = ref('')
 const erro = ref('')
 const sucesso = ref('')
@@ -15,28 +15,28 @@ async function cadastrar() {
   erro.value = ''
   sucesso.value = ''
 
-  if (!nome.value || !email.value || !senha.value || !confirmarSenha.value) {
+  if (!name.value || !email.value || !password.value || !confirmarSenha.value) {
     erro.value = 'Preencha todos os campos.'
     return
   }
 
-  if (senha.value !== confirmarSenha.value) {
+  if (password.value !== confirmarSenha.value) {
     erro.value = 'As senhas não coincidem.'
     return
   }
 
   try {
     const response = await api.post('usuarios/', {
-      nome: nome.value,
+      name: name.value,
       email: email.value,
-      senha: senha.value
+      password: password.value
     });
 
     if (response.status === 201 || response.status === 200) {
       sucesso.value = 'Usuário cadastrado com sucesso!'
-      nome.value = ''
+      name.value = ''
       email.value = ''
-      senha.value = ''
+      password.value = ''
       confirmarSenha.value = ''
       setTimeout(() => {
         emit('cadastro-sucesso')
@@ -70,7 +70,7 @@ async function cadastrar() {
             d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.418 0-8 2.015-8 4.5V21h16v-2.5c0-2.485-3.582-4.5-8-4.5Z" />
         </svg>
       </span>
-      <input id="nome" v-model="nome" type="text" required placeholder=" " />
+      <input id="nome" v-model="name" type="text" required placeholder=" " />
       <label for="nome">Nome</label>
     </div>
     <div class="form-group floating-label">
@@ -90,7 +90,7 @@ async function cadastrar() {
           <path stroke="#2575fc" stroke-width="1.5" d="M8 11V7a4 4 0 1 1 8 0v4" />
         </svg>
       </span>
-      <input id="senha" v-model="senha" type="password" required placeholder=" " />
+      <input id="senha" v-model="password" type="password" required placeholder=" " />
       <label for="senha">Senha</label>
     </div>
     <div class="form-group floating-label">
