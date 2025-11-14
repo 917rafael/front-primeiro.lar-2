@@ -27,7 +27,7 @@ export default {
     <HeaderVenda class="column"/>
   </div>
   <div class="container-anuncio">
-    <Filtro class="filtro-side" />
+    <!-- <Filtro class="filtro-side" /> -->
     <div class="alinha-direita">
       <Anuncio :imovel-id="1"/>
       <Anuncio :imovel-id="2"/>
@@ -38,7 +38,6 @@ export default {
 </template>
 
 <style scoped>
-/* Layout empilhado: filtro e anúncios um embaixo do outro (limpo e único) */
 .container-anuncio {
   display: flex;
   flex-direction: column;
@@ -50,7 +49,6 @@ export default {
   gap: 1rem;
 }
 
-/* filtro ocupa 100% no layout empilhado */
 .filtro-side {
   position: static;
   top: auto;

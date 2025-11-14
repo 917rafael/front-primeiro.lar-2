@@ -73,24 +73,18 @@ export default {
 			const cursorPosition = input.selectionStart;
 			const value = input.value;
 			
-			// Se pressionar Backspace
 			if (event.key === 'Backspace') {
-				// Se o cursor está numa posição de hífen ou parêntese, remove o caractere especial e o número anterior
 				if (cursorPosition > 0) {
 					const charBefore = value[cursorPosition - 1];
 					if (charBefore === '-' || charBefore === ')') {
 						event.preventDefault();
-						// Remove o caractere especial e o número que está antes dele
 						let newValue;
 						if (charBefore === '-') {
-							// Remove hífen e número anterior
 							newValue = value.slice(0, cursorPosition - 2) + value.slice(cursorPosition);
 						} else if (charBefore === ')') {
-							// Remove parêntese e número anterior
 							newValue = value.slice(0, cursorPosition - 2) + value.slice(cursorPosition);
 						}
 						
-						// Remove todos os caracteres especiais para reformatar
 						const numbersOnly = newValue.replace(/\D/g, '');
 						this.form.telefone = numbersOnly;
 						this.formatTelefone();
@@ -103,23 +97,19 @@ export default {
 					}
 				}
 			}
-			// Se pressionar Delete
 			else if (event.key === 'Delete') {
-				// Se o cursor está numa posição de hífen ou parêntese, remove o caractere especial e o próximo número
 				if (cursorPosition < value.length) {
 					const charAfter = value[cursorPosition];
 					if (charAfter === '-' || charAfter === '(' || charAfter === ')') {
 						event.preventDefault();
 						let newValue;
 						if (charAfter === '(' || charAfter === ')') {
-							// Remove parêntese e próximo número
 							newValue = value.slice(0, cursorPosition) + value.slice(cursorPosition + 2);
 						} else {
-							// Remove hífen e próximo número
 							newValue = value.slice(0, cursorPosition) + value.slice(cursorPosition + 2);
 						}
 						
-						// Remove todos os caracteres especiais para reformatar
+			
 						const numbersOnly = newValue.replace(/\D/g, '');
 						this.form.telefone = numbersOnly;
 						this.formatTelefone();
@@ -132,41 +122,33 @@ export default {
 				}
 			}
 			
-			// Permite teclas de navegação e controle
 			const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'Home', 'End', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 			
 			if (allowedKeys.includes(event.key)) {
 				return;
 			}
 			
-			// Permite apenas números
 			if (!/^\d$/.test(event.key)) {
 				event.preventDefault();
 			}
 		},
 		formatTelefone() {
-			// Remove todos os caracteres não numéricos
 			let val = this.form.telefone.replace(/\D/g, '');
 			
-			// Limita a 11 dígitos (2 DDD + 9 número)
 			if (val.length > 11) {
 				val = val.slice(0, 11);
 			}
 			
-			// Aplica a formatação baseada no tamanho
 			if (val.length >= 2) {
-				// Adiciona parênteses após os 2 primeiros dígitos (DDD)
 				val = `(${val.slice(0, 2)})${val.slice(2)}`;
 			}
 			
 			if (val.length >= 9) {
-				// Adiciona hífen após os próximos 5 dígitos
 				val = val.replace(/(\(\d{2}\))(\d{5})/, '$1$2-');
 			}
 			
 			this.form.telefone = val;
 			
-			// Validação: verifica se tem pelo menos DDD + 8 dígitos (telefone fixo) ou 9 dígitos (celular)
 			const numeros = val.replace(/\D/g, '');
 			this.telefoneError = numeros.length < 10 || numeros.length > 11;
 		},
@@ -177,7 +159,6 @@ export default {
 		},
 		selecionarTipoImovel(tipo) {
 			this.tipoImovel = tipo;
-			// Reset do subtipo quando muda o tipo principal
 			this.subTipoImovel = '';
 		},
 		proximaEtapa() {
@@ -186,7 +167,7 @@ export default {
 			} else if (this.modalStep === 3 && this.valor.trim()) {
 				this.modalStep = 4;
 			} else if (this.modalStep === 4 && this.cep.trim() && this.endereco.trim() && this.numero.trim()) {
-				this.modalStep = 5; // Added new step
+				this.modalStep = 5; 
 			}
 		},
 		voltarEtapa() {
@@ -198,7 +179,6 @@ export default {
 				this.modalStep = 2;
 			} else if (this.modalStep === 2) {
 				this.modalStep = 1;
-				// Reset das seleções ao voltar para etapa 1
 				this.tipoImovel = '';
 				this.subTipoImovel = '';
 			}
@@ -219,15 +199,12 @@ export default {
 			}
 		},
 		formatCep() {
-			// Remove tudo que não for número
 			let cep = this.cep.replace(/\D/g, '');
 			
-			// Limita a 8 dígitos
 			if (cep.length > 8) {
 				cep = cep.slice(0, 8);
 			}
 			
-			// Aplica máscara do CEP (XXXXX-XXX)
 			if (cep.length > 5) {
 				cep = cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
 			}
@@ -235,7 +212,6 @@ export default {
 			this.cep = cep;
 		},
 		async buscarCep() {
-			// Verificar se CEP está completo (9 caracteres com hífen)
 			if (this.cep.length !== 9) {
 				alert('Por favor, digite um CEP válido com 8 números.');
 				return;
@@ -244,7 +220,6 @@ export default {
 			try {
 				const cepLimpo = this.cep.replace(/\D/g, '');
 				
-				// Fazer requisição para API ViaCEP
 				const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
 				
 				if (!response.ok) {
@@ -254,12 +229,10 @@ export default {
 				const data = await response.json();
 				
 				if (!data.erro) {
-					// Preencher os campos com os dados encontrados
 					this.endereco = data.logradouro || '';
 					this.cidade = data.localidade || '';
 					this.estado = data.uf || '';
 					
-					// Definir campos como readonly quando preenchidos automaticamente
 					this.camposEnderecoReadonly = true;
 					
 					console.log('CEP encontrado:', {
@@ -270,7 +243,6 @@ export default {
 						bairro: data.bairro || ''
 					});
 				} else {
-					// CEP não encontrado
 					alert('CEP não encontrado. Verifique o número digitado.');
 					this.endereco = '';
 					this.cidade = '';
@@ -305,10 +277,9 @@ export default {
 				metrosQuadrados: this.metrosQuadrados
 			});
 			
-			this.modalStep = 6; // Proceed to confirmation step
+			this.modalStep = 6; 
 		},
 		fecharModal() {
-			// Fechar modal e resetar tudo
 			this.showModal = false;
 			this.form = { nome: '', email: '', telefone: '' };
 			this.tipoImovel = '';
@@ -324,9 +295,7 @@ export default {
 			this.modalStep = 1;
 		},
 		verMaisImoveis() {
-			// Fechar modal primeiro
 			this.fecharModal();
-			// Navegar para a página de vendas
 			this.$router.push('/vendas');
 		}
 	}
@@ -414,7 +383,7 @@ export default {
 						   </svg>
 					   </button>
 				</div>
-				<!-- Etapa 1: Formulário de contato -->
+			
 				<form v-if="modalStep === 1" class="side-modal-form" @submit.prevent>
 					<label>Nome
 						<input type="text" v-model="form.nome" placeholder="Seu Nome" />
