@@ -44,6 +44,11 @@ const router = createRouter({
       name: 'Favoritos',
       component: () => import('../views/PaginaFavorito.vue'),
      },
+     {
+      path: '/perfil',
+      name: 'Perfil',
+      component: () => import('../views/Perfil.vue'),
+     },
   ],
 })
 
