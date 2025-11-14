@@ -1,11 +1,25 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const router = useRouter();
+const menuOpen = ref(false);
+const toggleMenu = () => { menuOpen.value = !menuOpen.value; };
+
+const onResize = () => {
+  if (window.innerWidth > 760 && menuOpen.value) menuOpen.value = false;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', onResize);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', onResize);
+});
 </script>
 
 <template>
-  <header class="header-venda">
+  <header class="header-venda" :class="{ 'menu-open': menuOpen }">
     <div class="header-venda-container">
       <div class="header-venda-left">
         <img src="../assets/img/logo.png" alt="Logo" class="header-venda-logo" @click="$router.push('/')" style="cursor:pointer;" />
@@ -28,6 +42,11 @@ const router = useRouter();
         </a>
       </nav>
       <div class="header-venda-right">
+        <button class="menu-toggle" @click="toggleMenu" :aria-expanded="menuOpen" aria-label="Abrir menu">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
         <button @click="router.push('/favoritos')" class="header-btn fav-btn" aria-label="Favoritos">
           <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5A5.5 5.5 0 0 1 7.5 3c1.74 0 3.41 0.81 4.5 2.09A6.5 6.5 0 0 1 16.5 3 5.5 5.5 0 0 1 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="#e30613" stroke-width="2" fill="none"/></svg>
           Favoritos
@@ -38,6 +57,13 @@ const router = useRouter();
         </button>
       </div>
     </div>
+
+    <!-- Menu mobile -->
+    <nav v-if="menuOpen" class="mobile-nav">
+      <a href="/vendas" class="mobile-nav-item" @click="toggleMenu">Imóveis</a>
+      <a href="/anuncie" class="mobile-nav-item" @click="toggleMenu">Anuncie</a>
+      <a href="/favoritos" class="mobile-nav-item" @click="toggleMenu">Favoritos</a>
+    </nav>
   </header>
 </template>
 
@@ -172,7 +198,7 @@ const router = useRouter();
 .fav-btn:hover svg {
   stroke: #fff !important;
   fill: #fff !important;
-}.header-venda
+}
 
 .login-btn {
   background: linear-gradient(90deg, #fff 60%, #e3e3e3 100%);
@@ -189,6 +215,58 @@ const router = useRouter();
   stroke: #fff !important;
   fill: #fff !important;
 }
+
+/***** novo: botão hambúrguer *****/
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.menu-toggle:hover { background: #f2f2f2; }
+
+/***** novo: menu mobile *****/
+.mobile-nav {
+  position: fixed;
+  top: 64px; /* altura aproximada do header */
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-bottom: 1px solid #ececec;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 1rem 0.9rem;
+  gap: 0.4rem;
+  z-index: 1001;
+}
+.mobile-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0.7rem 0.6rem;
+  border-radius: 8px;
+  color: #222;
+  text-decoration: none;
+  font-weight: 700;
+}
+.mobile-nav-item:hover {
+  background: #e30613;
+  color: #fff;
+}
+
+/***** regras responsivas 760px *****/
+@media (max-width: 760px) {
+  .header-venda-title { display: none; } /* esconder "Primeiro Lar" */
+  .header-venda-nav { display: none; } /* links vão para o hambúrguer */
+  .menu-toggle { display: inline-flex; }
+  .header-venda-container { padding: 0.6rem 1rem; }
+  .fav-btn { display: none; } /* esconde o botão Favoritos no header, já está no hambúrguer */
+}
+
 @media (max-width: 600px) {
   .header-venda-title {
     font-size: 1.1rem;

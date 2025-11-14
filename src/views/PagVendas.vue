@@ -24,10 +24,10 @@ export default {
 
 <template>
   <div class="row">
-  <HeaderVenda class="colunm"/>
+    <HeaderVenda class="column"/>
   </div>
   <div class="container-anuncio">
-    <Filtro />
+    <Filtro class="filtro-side" />
     <div class="alinha-direita">
       <Anuncio :imovel-id="1"/>
       <Anuncio :imovel-id="2"/>
@@ -38,43 +38,56 @@ export default {
 </template>
 
 <style scoped>
-
+/* Layout empilhado: filtro e anúncios um embaixo do outro (limpo e único) */
 .container-anuncio {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 100%;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
+  margin-left: 0;
   background-color: #f4f4f4;
-  padding: 5rem;
-  transition: filter 0.3s, opacity 0.3s;
+  padding: clamp(1rem, 4vw, 3rem);
+  gap: 1rem;
 }
 
-.container-anuncio.filtro-aberto {
-  /* Em telas pequenas, esconde os cards visualmente */
-  z-index: 0;
+/* filtro ocupa 100% no layout empilhado */
+.filtro-side {
+  position: static;
+  top: auto;
+  max-width: 100%;
+  flex: 1 1 auto;
 }
 
+/* lista de anúncios em grid fluido */
+.alinha-direita {
+  width: 100%;
+  max-width: 1200px;
+  margin-right: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* remover efeitos de blur em mobile caso existam */
 @media (max-width: 900px) {
-  .container-anuncio.filtro-aberto {
-    filter: blur(2px);
-    opacity: 0.2;
-    pointer-events: none;
-    user-select: none;
+  .container-anuncio {
+    filter: none;
+    opacity: 1;
+    pointer-events: auto;
+    user-select: auto;
+  }
+
+  .alinha-direita {
+    grid-template-columns: 1fr;
+  }
+
+  :deep(.property-card-wrapper) {
+    margin-left: 0;
   }
 }
 
-.alinha-direita {
-  width: 100%;
-  max-width: 800px;
-  margin-right: 10%;
-}
-
-.row {
-  display: flex;
-}
-
-.column {
-  flex: 50%;
+/* Força 1 card por linha acima de 900px */
+@media (min-width: 901px) {
+  .alinha-direita { grid-template-columns: 1fr; }
 }
 </style>

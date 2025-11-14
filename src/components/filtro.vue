@@ -51,14 +51,7 @@ function filtrar() {
 <template>
   <div>
     <!-- Botão seta para abrir/fechar filtro, só aparece em telas pequenas -->
-    <button
-      class="toggle-filtro-btn"
-      @click="props.toggleFiltro"
-      aria-label="Abrir/Recolher filtro"
-    >
-      <span v-if="props.filtroAberto">&laquo;</span>
-      <span v-else>&raquo;</span>
-    </button>
+
     <aside
       class="filtro-lateral"
       :class="{ 'fechado': !props.filtroAberto }"
@@ -129,7 +122,7 @@ function filtrar() {
 <style scoped>
 .filtro-lateral {
   position: fixed;
-  top: 70px; 
+  top: 70px;
   left: 0;
   width: 460px;
   min-width: 340px;

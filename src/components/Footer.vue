@@ -1,3 +1,8 @@
+<script>
+export default {
+  name: "AppFooter"
+};
+</script>
 <template>
   <footer class="footer">
     <div class="footer-container">

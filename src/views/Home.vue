@@ -245,6 +245,7 @@ body {
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
   background: var(--bg-light);
   color: var(--text-light);
+  overflow-x: hidden; /* evita barra caso full-bleed exceda */
 }
 
 .faq-item {
@@ -278,95 +279,33 @@ body {
   background: rgba(30, 41, 59, 0.85);
 }
 
-/* Banner principal */
+/* --- Banner RESPONSIVO (ajustado) --- */
 .banner {
+  /* removido height duplicado */
   min-height: 85vh;
-  height: 85vh;
-  max-height: 100vh;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(30, 41, 59, 0.65), rgba(30, 41, 59, 0.65)), url('@/assets/img/image.png') center center no-repeat;
-  background-size: cover;
+  background: linear-gradient(rgba(30, 41, 59, 0.65), rgba(30, 41, 59, 0.65)), url('@/assets/img/image.png') center center / cover no-repeat;
   background-attachment: fixed;
   color: var(--text-light);
   position: relative;
   z-index: 2;
-  box-shadow: var(--shadow);
-  border-radius: 0 0 var(--radius) var(--radius);
-}
-
-.banner-content {
-  text-align: center;
-  padding: 3rem 2rem;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-.banner-content h1 {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: 0.7rem;
-  letter-spacing: -1px;
-  color: aliceblue;
-}
-
-.banner-content p {
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-  opacity: 0.95;
-  color: aliceblue;
-}
-
-.banner-content button {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 1rem 2.5rem;
-  border-radius: var(--radius);
-  font-weight: 700;
-  font-size: 1.1rem;
-  cursor: pointer;
-  color: aliceblue;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
-  transition: background 0.2s, transform 0.2s;
-}
-
-.banner-content button:hover {
-  background: var(--bg-dark);
-  transform: scale(1.04);
-}
-
-/* Banner flex layout */
-.banner-flex {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 2.5rem;
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
+  box-shadow: none; /* remove sombra que criava efeito de borda clara */
+  border-radius: 0; /* remove cantos arredondados que exibiam fundo claro nas laterais */
+  padding: clamp(1rem, 4vw, 3rem) 1rem; /* melhor espaçamento em telas pequenas */
+  width: 100vw; /* ocupa toda a largura da viewport */
+  margin-left: calc(50% - 50vw); /* centraliza e remove espaços laterais (full-bleed) */
+  margin-right: calc(50% - 50vw);
 }
 
 .banner-flex-align {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
-  min-height: 85vh;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.banner-center {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100%;
-  min-height: 85vh;
+  gap: clamp(1.2rem, 4vw, 3rem);
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -376,104 +315,101 @@ body {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 100%;
-  max-width: 520px;
-  margin-left: 2.5rem;
+  width: min(520px, 100%);
+  padding: 0 0.5rem;
+  margin: 0; /* remove margens negativas */
 }
 
 .banner-left h1 {
+  margin: 0 0 1.2rem 0;
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  color: aliceblue;
   text-align: left;
-  margin-left: 0;
-  margin-bottom: 1.2rem;
-  margin-left: -80%;
 }
 
 .banner-left p {
+  margin: 0 0 1.5rem 0;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.5;
+  color: aliceblue;
   text-align: left;
-  margin-left: 0;
-  margin-bottom: 1.5rem;
-  margin-left: -80%;
-}
-
-.banner-desc {
-  text-align: left;
-  font-size: 0.95rem;
-  margin-bottom: 0;
-  color: var(--text-light);
-  opacity: 0.85;
-  max-width: 650px;
-  line-height: 1.6;
 }
 
 .banner-btn-right {
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
-  height: 100%;
-  width: 50%;
-  padding-top: 4rem;
+  flex: 1 1 260px;
+  width: 100%;
+  padding-top: clamp(1rem, 6vh, 4rem);
 }
 
 .banner-btn-right button {
-  margin: 0 auto;
-  font-size: 1.1rem;
-  padding: 1rem 2.5rem;
-  display: block;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  padding: 0.9rem 2.2rem;
   background: var(--primary-color, #2575fc);
   color: #fff;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.65rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 20px rgba(37, 117, 252, 0.25);
 }
 
 .banner-btn-right button:hover {
   background: #fff;
   color: #222;
   border: 1.5px solid var(--primary-color, #2575fc);
-  transform: scale(1.07) translateY(-50%);
-  z-index: 1;
+  transform: translateY(-4px) scale(1.05);
 }
 
-.banner-btn-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.banner-btn-wrapper button {
-  font-size: 1.1rem;
-  padding: 1rem 2.5rem;
-}
-
-/* Banner flex layout responsive */
+/* Ajuste para telas médias */
 @media (max-width: 900px) {
   .banner-flex-align {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
   }
-
-  .banner-left {
-    margin-left: 0.5rem;
-    max-width: 98vw;
-  }
-
   .banner-btn-right {
-    width: 100%;
     justify-content: flex-start;
-    height: auto;
+    padding-top: 0.5rem;
   }
-
   .banner-btn-right button {
-    top: 0;
     transform: none;
-    margin-top: 1.5rem;
   }
 }
+
+/* Ajuste para telas pequenas */
+@media (max-width: 600px) {
+  .banner {
+    background-attachment: scroll; /* melhora performance mobile */
+    padding: 3.5rem 0.8rem 2.2rem;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+  .banner-flex-align {
+    gap: 1rem;
+  }
+  .banner-left h1 {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+  .banner-left p {
+    font-size: 0.95rem;
+  }
+  .banner-btn-right {
+    width: 100%;
+    padding-top: 0.5rem;
+  }
+  .banner-btn-right button {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+/* --- Mantém demais estilos existentes --- */
 
 /* Seção de busca */
 .search-section {
@@ -717,17 +653,11 @@ body {
 }
 
 .about-text h2 {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 1.2rem;
-  color: #222;
+  font-size: clamp(1.6rem, 4.5vw, 2rem);
 }
 
 .about-text p {
-  font-size: 1.08rem;
-  color: #444;
-  margin-bottom: 2rem;
-  line-height: 1.6;
+  font-size: clamp(0.95rem, 2.2vw, 1.08rem);
 }
 
 .print-contact {
@@ -922,7 +852,7 @@ body {
 .testimonials-list span {
   display: block;
   margin-top: 0.7rem;
-  color: var(--primary);
+  color: var (--primary);
   font-weight: bold;
 }
 
@@ -1083,5 +1013,56 @@ body {
     width: 28px;
     height: 28px;
   }
+}
+
+/* Responsivo específico da seção Sobre nós */
+@media (max-width: 1000px) {
+  .about-flex {
+    gap: 2rem;
+  }
+  .about-img img {
+    width: 300px;
+  }
+}
+@media (max-width: 820px) {
+  .about-flex {
+    flex-direction: column;
+    max-width: 680px;
+  }
+  .about-text {
+    align-items: center;
+    text-align: center;
+  }
+  .about-text p {
+    margin-bottom: 1.5rem;
+  }
+  .about-img img {
+    width: 100%;
+    max-width: 480px;
+  }
+}
+@media (max-width: 560px) {
+  .about-section {
+    padding: 2rem 0 2.2rem;
+  }
+  .about-flex {
+    gap: 1.6rem;
+    padding: 0 0.6rem;
+  }
+  .about-text h2 {
+    font-size: 1.55rem;
+  }
+  .about-text p {
+    font-size: 0.95rem;
+  }
+  .about-img img {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+@media (max-width: 400px) {
+  .about-text h2 { font-size: 1.45rem; }
+  .about-text p { font-size: 0.9rem; }
+  .about-img img { max-width: 330px; }
 }
 </style>
