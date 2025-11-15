@@ -114,6 +114,13 @@ function filtrar() {
           <button class="btn-filtrar" type="submit">Filtrar</button>
           <button class="btn-limpar" type="button" @click="limparFiltros">Limpar</button>
         </div>
+        <button
+          class="btn-toggle-mobile-filtro"
+          type="button"
+          @click="props.toggleFiltro"
+        >
+          {{ props.filtroAberto ? 'Recolher Filtro' : 'Mostrar Filtro' }}
+        </button>
       </form>
     </aside>
   </div>
@@ -182,7 +189,9 @@ function filtrar() {
     padding: 18px 8px 18px 10px;
     min-width: 0;
     max-width: 100vw;
-    height: calc(100vh - 70px); /* vai até o final da tela */
+    height: auto !important;
+    min-height: 0 !important;
+    margin-bottom: 0 !important;
     box-shadow: none;
     border-right: none;
     z-index: auto;
@@ -234,6 +243,28 @@ function filtrar() {
     width: 34px;
     height: 34px;
     font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 1150px) {
+  .filtro-lateral {
+    max-width: 260px;
+    min-width: 0;
+    width: 100%;
+    left: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+@media (max-width: 900px) {
+  .filtro-lateral {
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+    left: 0;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 }
 
@@ -510,6 +541,30 @@ function filtrar() {
 .btn-limpar:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.btn-toggle-mobile-filtro {
+  display: none;
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 0;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.10);
+  transition: background 0.2s;
+}
+.btn-toggle-mobile-filtro:hover {
+  background: #0056d2;
+}
+@media (max-width: 900px) {
+  .btn-toggle-mobile-filtro {
+    display: block;
+  }
 }
 
 </style>

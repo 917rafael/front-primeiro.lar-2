@@ -40,11 +40,12 @@ const router = createRouter({
       component: () => import('../views/PaginaFavorito.vue'),
      },
 
-     {
-      path: '/teste',
-      name: 'teste',
-      component: () => import('../views/DescricaoDoImovel.vue'),
-     },
+    // Removido rota para DescricaoDoImovel.vue pois o arquivo não existe
+    // {
+    //   path: '/teste',
+    //   name: 'teste',
+    //   component: () => import('../views/DescricaoDoImovel.vue'),
+    // },
 
 
 

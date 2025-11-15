@@ -1,4 +1,5 @@
 <script setup>
+defineOptions({ name: 'AppAnuncio' })
 import { useFavoritosStore } from '@/stores/favoritos'
 import { computed, ref } from 'vue'
 
@@ -38,15 +39,10 @@ function fechar() {
   mostrarInfo.value = false;
 }
 
-function fecharFora(e) {
-  if (e.target.classList.contains('info-overlay')) {
-    fechar();
-  }
-}
 
 function toggleFavorito(e) {
   e.stopPropagation() // Impede que o click abra o modal
-  favoritosStore.value.toggleFavorito(imovelId.value)
+  favoritosStore.value.toggleFavorito(props.imovelId)
 }
 
 function enviarContato() {
@@ -101,7 +97,7 @@ function enviarContato() {
           <img class="info-img modern-modal-img" :src="imovel.imagem || '@/assets/img/image.png'"
             :alt="imovel.titulo" />
           <div class="info-direita modern-modal-info">
-          
+
             <div class="anuncio-modal-content">
               <div class="anuncio-modal-info">
                 <div class="modal-header-with-heart">
@@ -143,7 +139,7 @@ function enviarContato() {
         </div>
         <div>
           <h3>Contato com o anunciante</h3>
-          <form>
+          <form @submit.prevent="enviarContato">
             <div>
               <input type="text" v-model="contato.nome" placeholder="Seu nome" required />
               <input type="email" v-model="contato.email" placeholder="Seu e-mail" required />
@@ -174,8 +170,14 @@ function enviarContato() {
    ============================================== */
 .property-card-wrapper {
   width: 100%;
-  max-width: 400px;
+  max-width: 520px;
   margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .property-card-wrapper {
+    max-width: 100%;
+  }
 }
 
 /* ==============================================
@@ -192,6 +194,7 @@ function enviarContato() {
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-height: 340px;
 }
 
 .property-card.modern-card:hover {
@@ -210,7 +213,7 @@ function enviarContato() {
 
 .image-section.modern-image img {
   width: 100%;
-  height: 100%;
+  height: 260px;
   object-fit: cover;
   transition: transform 0.4s ease;
 }
@@ -221,7 +224,7 @@ function enviarContato() {
 
 /* Detalhes do Card */
 .details-section.modern-details {
-  padding: 20px;
+  padding: 2.8rem 2rem 2.2rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -901,5 +904,17 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+@media (max-width: 900px) {
+  .modern-card {
+    min-height: 300px;
+  }
+  .modern-image img {
+    height: 200px;
+  }
+  .modern-details {
+    padding: 1.5rem 1rem 1.2rem 1rem;
+  }
 }
 </style>

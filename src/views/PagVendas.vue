@@ -4,8 +4,6 @@ import Anuncio from '../components/Anuncio.vue';
 import Filtro from '../components/filtro.vue';
 import HeaderVenda from '@/components/HeaderVenda.vue';
 
-
-
 export default {
   components: {
     Anuncio,
@@ -27,7 +25,21 @@ export default {
     <HeaderVenda class="column"/>
   </div>
   <div class="container-anuncio">
-    <!-- <Filtro class="filtro-side" /> -->
+    <div class="btn-toggle-mobile-filtro-global-wrapper">
+      <button
+        v-if="!filtroAberto"
+        class="btn-toggle-mobile-filtro-global"
+        @click="toggleFiltro"
+      >
+        Mostrar Filtro
+      </button>
+    </div>
+    <Filtro
+      class="filtro-side"
+      :filtroAberto="filtroAberto"
+      :toggleFiltro="toggleFiltro"
+      v-show="filtroAberto"
+    />
     <div class="alinha-direita">
       <Anuncio :imovel-id="1"/>
       <Anuncio :imovel-id="2"/>
@@ -42,50 +54,70 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  width: 100%;
-  margin-left: 0;
+  width: 100vw;
+  min-width: 0;
+  margin: 0;
   background-color: #f4f4f4;
-  padding: clamp(1rem, 4vw, 3rem);
-  gap: 1rem;
+  padding: 2vw 0 2vw 0;
+  gap: 2rem;
+  box-sizing: border-box;
 }
 
 .filtro-side {
-  position: static;
-  top: auto;
+  width: 100%;
   max-width: 100%;
-  flex: 1 1 auto;
+  position: static;
+  margin: 0;
+  flex: none;
+  z-index: auto;
 }
 
-/* lista de anúncios em grid fluido */
 .alinha-direita {
   width: 100%;
-  max-width: 1200px;
-  margin-right: 0;
+  max-width: 600px;
+  margin: 0 12vw 0 auto; /* espaço à direita, alinha à direita */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-self: flex-end;
 }
 
-/* remover efeitos de blur em mobile caso existam */
+.btn-toggle-mobile-filtro-global-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-toggle-mobile-filtro-global {
+  display: none;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 0 1rem 0;
+  padding: 12px 0;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.10);
+  transition: background 0.2s;
+}
+.btn-toggle-mobile-filtro-global:hover {
+  background: #0056d2;
+}
+
 @media (max-width: 900px) {
-  .container-anuncio {
-    filter: none;
-    opacity: 1;
-    pointer-events: auto;
-    user-select: auto;
-  }
-
   .alinha-direita {
-    grid-template-columns: 1fr;
+    max-width: 100%;
+    margin: 0;
+    gap: 1rem;
+    align-self: stretch;
   }
-
-  :deep(.property-card-wrapper) {
-    margin-left: 0;
+  .btn-toggle-mobile-filtro-global {
+    display: block;
+    margin-top: 80px;
   }
-}
-
-/* Força 1 card por linha acima de 900px */
-@media (min-width: 901px) {
-  .alinha-direita { grid-template-columns: 1fr; }
 }
 </style>
