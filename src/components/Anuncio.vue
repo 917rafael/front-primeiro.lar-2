@@ -102,10 +102,14 @@ function enviarContato() {
               <div class="anuncio-modal-info">
                 <div class="modal-header-with-heart">
                   <h2>{{ imovel.titulo || 'Título do imóvel' }}</h2>
-                  <button class="favorite-btn-modal" :class="{ 'favorite-active': isFavorito }" @click="toggleFavorito"
+                  <button class="favorite-btn-modal" :class="{ 'favorite-active': isFavorito }" @click.stop="toggleFavorito"
                     :title="isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="28" height="28" viewBox="0 0 24 24"
+                      :fill="isFavorito ? '#e30613' : 'none'"
+                      :stroke="isFavorito ? '#e30613' : '#999'"
+                      stroke-width="2">
                       <path
+                        fill="currentColor"
                         d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
                   </button>
@@ -302,7 +306,7 @@ function enviarContato() {
 /* Botão Favorito */
 .favorite-btn {
   position: absolute;
-  top: 16px;
+  top: 44px;
   right: 16px;
   width: 44px;
   height: 44px;
@@ -352,6 +356,7 @@ function enviarContato() {
   padding: 20px;
   overflow-y: auto;
   backdrop-filter: blur(5px);
+  margin-top: 20px;
 }
 
 .teste > div {
@@ -379,7 +384,7 @@ function enviarContato() {
 /* Botão Fechar Modal */
 .teste > div > button {
   position: absolute;
-  top: 20px;
+  top: 60px;
   right: 20px;
   width: 44px;
   height: 44px;
@@ -432,9 +437,9 @@ function enviarContato() {
 /* Header com Título e Coração */
 .modal-header-with-heart {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
+  gap: 10px;
   margin-bottom: 16px;
 }
 
@@ -444,34 +449,73 @@ function enviarContato() {
   font-weight: 700;
   color: #2d3748;
   line-height: 1.3;
-  flex: 1;
+  flex: none;
 }
 
 /* Botão Favorito no Modal */
 .favorite-btn-modal {
-  background: white;
-  border: 2px solid #e2e8f0;
+  background: rgba(240, 240, 240, 0.8);
+  border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: #999;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
   flex-shrink: 0;
-  color: #cbd5e0;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  margin-left: 18px;
 }
 
 .favorite-btn-modal:hover {
-  border-color: #e53e3e;
-  transform: scale(1.05);
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .favorite-btn-modal.favorite-active {
-  background: #fff5f5;
-  border-color: #e53e3e;
-  color: #e53e3e;
+  background: rgba(227, 6, 19, 0.95);
+  color: white;
+  transform: scale(1.05);
+}
+
+.favorite-btn-modal.favorite-active:hover {
+  background: rgba(227, 6, 19, 1);
+  transform: scale(1.15);
+}
+
+.favorite-btn-modal svg {
+  color: #999;
+  fill: currentColor;
+  stroke: #999;
+  transition: color 0.2s, fill 0.2s, stroke 0.2s;
+}
+
+.favorite-btn-modal.favorite-active svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  color: #e30613;
+  fill: #e30613;
+  stroke: #e30613;
+}
+
+.favorite-btn-modal svg {
+  color: #999;
+  fill: currentColor;
+  stroke: #999;
+  transition: color 0.2s, fill 0.2s, stroke 0.2s;
+}
+
+.favorite-btn-modal.favorite-active svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  color: #e30613;
+  fill: #e30613;
+  stroke: #e30613;
 }
 
 /* Conteúdo do Modal */
@@ -755,7 +799,7 @@ function enviarContato() {
   .favorite-btn {
     width: 40px;
     height: 40px;
-    top: 12px;
+    top: 28px;
     right: 12px;
   }
 
@@ -774,7 +818,7 @@ function enviarContato() {
   }
 
   .teste > div > button {
-    top: 12px;
+    top: 40px;
     right: 12px;
     width: 38px;
     height: 38px;
@@ -790,6 +834,7 @@ function enviarContato() {
   }
 
   .modal-header-with-heart {
+    gap: 6px;
     flex-direction: column;
     align-items: flex-start;
   }
