@@ -25,19 +25,19 @@ export default defineConfig({
         categories: ['imóveis', 'casa', 'apartamento', 'venda', 'aluguel', 'anúncio'],
         icons: [
           {
-            src: 'public/img/logo.png',
+            src: 'src/assets/img/logo.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any maskable'
           },
           {
-            src: 'public/img/logo.png',
+            src: 'src/assets/img/logo.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
           },
           {
-            src: 'public/img/logo.png',
+            src: 'src/assets/img/logo.png',
             sizes: '48x48',
             type: 'image/x-icon'
           }
