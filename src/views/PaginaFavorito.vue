@@ -26,7 +26,7 @@ export default {
       this.favoritosStore.removerFavorito(id);
     },
     verDetalhes(id) {
-      const imovel = this.favoritosStore.favoritos.find(f => f.id === id);
+      const imovel = this.favoritosStore.getImovel(id);
       if (imovel) {
         this.imovelSelecionado = imovel;
         this.mostrarDetalhes = true;
@@ -37,6 +37,11 @@ export default {
       this.imovelSelecionado = null;
     },
     fecharDetalhesClique(e) {
+      if (e.target === e.currentTarget) {
+        this.fecharDetalhes();
+      }
+    },
+    fecharFora(e) {
       if (e.target === e.currentTarget) {
         this.fecharDetalhes();
       }
@@ -230,16 +235,16 @@ export default {
   </div>
 
   <!-- Modal de Detalhes -->
-  <div v-if="mostrarDetalhes && imovelSelecionado" class="detalhes-overlay" @click="fecharDetalhesClique">
-    <div class="detalhes-modal" @click.stop>
-      <button class="btn-fechar-detalhes" @click="fecharDetalhes">×</button>
-      <div class="detalhes-content">
-        <img class="detalhes-img" :src="imovelSelecionado.imagem" :alt="imovelSelecionado.titulo" />
-        <div class="detalhes-info">
-          <div class="detalhes-header">
-            <h2>{{ imovelSelecionado.titulo }}</h2>
+  <div v-if="mostrarDetalhes && imovelSelecionado" class="info-overlay modern-overlay" @click="fecharFora">
+    <div class="modern-modal-panel" @click.stop>
+      <button class="fechar-info modern-close" @click="fecharDetalhes">×</button>
+      <div class="info-content-row modern-modal-content">
+        <img class="info-img modern-modal-img" :src="imovelSelecionado.imagem || '@/assets/img/image.png'" :alt="imovelSelecionado.titulo" />
+        <div class="info-direita modern-modal-info">
+          <div class="modal-header-with-heart">
+            <h2>{{ imovelSelecionado.titulo || 'Título do imóvel' }}</h2>
             <button 
-              class="favorite-btn-detalhes" 
+              class="favorite-btn-modal" 
               :class="{ 'favorite-active': favoritosStore.isFavorito(imovelSelecionado.id) }"
               @click="toggleFavorito(imovelSelecionado.id)"
               :title="favoritosStore.isFavorito(imovelSelecionado.id) ? 'Remover dos favoritos' : 'Adicionar aos favoritos'"
@@ -249,29 +254,30 @@ export default {
               </svg>
             </button>
           </div>
-          <div class="detalhes-colunas">
-            <div class="detalhes-col">
-              <p><strong>Endereço:</strong> {{ imovelSelecionado.endereco }}</p>
-              <p><strong>Área:</strong> {{ imovelSelecionado.area }}</p>
-              <p><strong>Quartos:</strong> {{ imovelSelecionado.quartos }}</p>
-              <p><strong>Banheiros:</strong> {{ imovelSelecionado.banheiros }}</p>
-              <p><strong>Vagas:</strong> {{ imovelSelecionado.vagas }}</p>
-              <p><strong>Preço:</strong> {{ imovelSelecionado.preco }}</p>
+          <div class="info-colunas modern-modal-cols">
+            <div class="coluna-esq modern-modal-col">
+              <p><strong>Endereço:</strong> {{ imovelSelecionado.endereco || 'Não informado' }}</p>
+              <p><strong>Área:</strong> {{ imovelSelecionado.area || '0m²' }}</p>
+              <p><strong>Quartos:</strong> {{ imovelSelecionado.quartos || 0 }}</p>
+              <p><strong>Banheiros:</strong> {{ imovelSelecionado.banheiros || 0 }}</p>
+              <p><strong>Vagas:</strong> {{ imovelSelecionado.vagas || 0 }}</p>
+              <p><strong>Preço:</strong> {{ imovelSelecionado.preco || 'Não informado' }}</p>
+              <p v-if="imovelSelecionado.condominio"><strong>Condomínio:</strong> {{ imovelSelecionado.condominio }}</p>
             </div>
-            <div class="detalhes-col">
-              <p><strong>Tipo:</strong> {{ imovelSelecionado.tipo }}</p>
-              <p><strong>Categoria:</strong> {{ imovelSelecionado.categoria }}</p>
+            <div class="coluna-dir modern-modal-col">
+              <p><strong>Tipo:</strong> {{ imovelSelecionado.tipo || 'Não informado' }}</p>
               <p v-if="imovelSelecionado.caracteristicas && imovelSelecionado.caracteristicas.length">
                 <strong>Características:</strong> {{ imovelSelecionado.caracteristicas.join(', ') }}
               </p>
-              <p><strong>Estado:</strong> Excelente</p>
+              <p><strong>Estado de conservação:</strong> Excelente</p>
               <p><strong>Documentação:</strong> OK</p>
+              <p><strong>Proximidades:</strong> Escola, supermercado, parque, farmácia</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="detalhes-descricao">
-        <strong>Descrição:</strong> {{ imovelSelecionado.descricao }}
+      <div class="descricao-row modern-modal-desc">
+        <strong>Descrição:</strong> {{ imovelSelecionado.descricao || 'Descrição não disponível.' }}
       </div>
     </div>
   </div>
@@ -659,92 +665,126 @@ export default {
   }
 }
 
-/* Modal de Detalhes */
-.detalhes-overlay {
+@media (max-width: 600px) {
+  .modern-modal-panel {
+    padding: 0.7rem 0.2rem;
+  }
+  .info-content-row {
+    gap: 0.7rem;
+  }
+  .info-img {
+    height: 38vw;
+  }
+}
+
+.info-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.75);
+  z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  padding: 20px;
   backdrop-filter: blur(4px);
 }
 
-.detalhes-modal {
-  background: white;
-  border-radius: 20px;
-  max-width: 900px;
-  max-height: 90vh;
-  width: 90%;
-  position: relative;
-  overflow-y: auto;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-}
-
-.btn-fechar-detalhes {
+.fechar-info {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.9);
+  top: 1.2rem;
+  right: 1.2rem;
+  left: auto;
+  background: #e30613;
   border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 2.2rem;
+  color: white;
   cursor: pointer;
-  z-index: 10;
-  transition: all 0.2s ease;
+  z-index: 20;
+  border-radius: 50%;
+  width: 2.8rem;
+  height: 2.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
 }
 
-.btn-fechar-detalhes:hover {
-  background: rgba(239, 68, 68, 0.9);
-  color: white;
+.fechar-info:hover {
+  background: #333;
 }
 
-.detalhes-content {
+.modern-modal-panel {
+  background: #fff;
+  max-width: 96vw;
+  min-width: 340px;
+  height: 100vh;
+  border-radius: 24px 0 0 24px;
+  box-shadow: -8px 0 32px rgba(0,0,0,0.10);
+  padding: 2.8rem 2.2rem 2.2rem 2.2rem;
+  position: relative;
   display: flex;
+  flex-direction: column;
+  animation: modalFadeIn 0.3s ease-out;
+  overflow-y: auto;
+}
+
+@keyframes modalFadeIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.info-content-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
   gap: 30px;
+  width: 100%;
   padding: 30px;
 }
 
-.detalhes-img {
+.info-img {
   width: 400px;
   height: 300px;
-  object-fit: cover;
   border-radius: 12px;
+  object-fit: cover;
   flex-shrink: 0;
 }
 
-.detalhes-info {
-  flex: 1;
+.info-direita {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.detalhes-header {
+.modal-header-with-heart {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
-.detalhes-header h2 {
-  margin: 0;
+.modal-header-with-heart h2 {
   font-size: 1.8rem;
+  color: #333;
+  margin: 0;
   font-weight: 700;
-  color: #1f2937;
   flex: 1;
-  margin-right: 15px;
+  margin-right: 1rem;
 }
 
-.favorite-btn-detalhes {
+.favorite-btn-modal {
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid #e5e7eb;
   border-radius: 50%;
@@ -756,85 +796,107 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
   color: #6b7280;
+  z-index: 10;
 }
 
-.favorite-btn-detalhes:hover {
+.favorite-btn-modal:hover {
   background: #fef2f2;
   border-color: #fca5a5;
   color: #ef4444;
   transform: scale(1.1);
 }
 
-.favorite-btn-detalhes.favorite-active {
+.favorite-btn-modal.favorite-active {
   background: #fef2f2;
-  border-color: #ff6a3d;
-  color: #ff6a3d;
+  border-color: #e30613;
+  color: #e30613;
 }
 
-.favorite-btn-detalhes.favorite-active:hover {
-  background: #ff6a3d;
+.favorite-btn-modal.favorite-active:hover {
+  background: #e30613;
   color: white;
 }
 
-.detalhes-colunas {
+.info-colunas {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.detalhes-col p {
-  margin: 8px 0;
-  color: #374151;
+.coluna-esq p, .coluna-dir p {
+  margin: 0.5rem 0;
+  color: #555;
   line-height: 1.6;
 }
 
-.detalhes-col strong {
-  color: #1f2937;
+.coluna-esq strong, .coluna-dir strong {
+  color: #333;
   font-weight: 600;
 }
 
-.detalhes-descricao {
-  padding: 0 30px 30px;
-  color: #374151;
-  line-height: 1.6;
+.descricao-row {
   border-top: 1px solid #e5e7eb;
+  padding: 20px 30px 30px;
   margin-top: 20px;
-  padding-top: 20px;
+  color: #374151;
+  line-height: 1.6;
 }
 
-.detalhes-descricao strong {
-  color: #1f2937;
+.descricao-row strong {
+  color: #333;
   font-weight: 600;
+}
+
+.modern-modal-panel {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  width: 95%;
+  max-width: 1200px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
-  .detalhes-content {
+  .modern-modal-panel {
+    width: 90%;
+    max-width: none;
+    margin: 20px;
+  }
+  
+  .info-content-row {
     flex-direction: column;
+    gap: 20px;
     padding: 20px;
   }
   
-  .detalhes-img {
+  .info-img {
     width: 100%;
     height: 250px;
   }
   
-  .detalhes-colunas {
+  .info-colunas {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 1rem;
   }
   
-  .detalhes-header {
+  .modal-header-with-heart {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    gap: 1rem;
   }
   
-  .detalhes-header h2 {
+  .modal-header-with-heart h2 {
     margin-right: 0;
   }
   
-  .favorite-btn-detalhes {
+  .favorite-btn-modal {
     align-self: flex-end;
+    width: 45px;
+    height: 45px;
   }
 }
 </style>

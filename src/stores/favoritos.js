@@ -2,8 +2,27 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useFavoritosStore = defineStore('favoritos', () => {
-  // Estado reativo dos favoritos
-  const favoritos = ref([])
+  // Funções para persistência no localStorage
+  const loadFromLocalStorage = () => {
+    try {
+      const saved = localStorage.getItem('primeiro-lar-favoritos')
+      return saved ? JSON.parse(saved) : []
+    } catch (error) {
+      console.error('Erro ao carregar favoritos do localStorage:', error)
+      return []
+    }
+  }
+
+  const saveToLocalStorage = (favoritosArray) => {
+    try {
+      localStorage.setItem('primeiro-lar-favoritos', JSON.stringify(favoritosArray))
+    } catch (error) {
+      console.error('Erro ao salvar favoritos no localStorage:', error)
+    }
+  }
+
+  // Estado reativo dos favoritos (carrega do localStorage)
+  const favoritos = ref(loadFromLocalStorage())
 
   // Dados mockados dos imóveis
   const imoveis = ref([
@@ -83,6 +102,7 @@ export const useFavoritosStore = defineStore('favoritos', () => {
   const adicionarFavorito = (imovelId) => {
     if (!favoritos.value.includes(imovelId)) {
       favoritos.value.push(imovelId)
+      saveToLocalStorage(favoritos.value)
       console.log(`Imóvel ${imovelId} adicionado aos favoritos`)
     }
   }
@@ -92,6 +112,7 @@ export const useFavoritosStore = defineStore('favoritos', () => {
     const index = favoritos.value.indexOf(imovelId)
     if (index > -1) {
       favoritos.value.splice(index, 1)
+      saveToLocalStorage(favoritos.value)
       console.log(`Imóvel ${imovelId} removido dos favoritos`)
     }
   }

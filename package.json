@@ -27,7 +27,9 @@
     "eslint-plugin-vue": "~10.4.0",
     "globals": "^16.3.0",
     "prettier": "3.6.2",
+    "rollup-plugin-copy": "^3.5.0",
     "vite": "npm:rolldown-vite@latest",
+    "vite-plugin-pwa": "^1.1.0",
     "vite-plugin-vue-devtools": "^8.0.2"
   }
 }

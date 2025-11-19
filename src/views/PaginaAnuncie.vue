@@ -33,7 +33,6 @@ export default {
 			cidade: '',
 			estado: '',
 			numero: '',
-			complemento: '',
 			camposEnderecoReadonly: false,
 			opcoesResidencial: [
 				'Apartamento',
@@ -64,7 +63,10 @@ export default {
 				'Escritório',
 				'Indústria',
 				'Depósito/Armazém'
-			]
+			],
+			quantidadeQuartos: '',
+			quantidadeBanheiros: '',
+			metrosQuadrados: ''
 		};
 	},
 	methods: {
@@ -75,29 +77,23 @@ export default {
 			const input = event.target;
 			const cursorPosition = input.selectionStart;
 			const value = input.value;
-			
-			// Se pressionar Backspace
+
 			if (event.key === 'Backspace') {
-				// Se o cursor está numa posição de hífen ou parêntese, remove o caractere especial e o número anterior
 				if (cursorPosition > 0) {
 					const charBefore = value[cursorPosition - 1];
 					if (charBefore === '-' || charBefore === ')') {
 						event.preventDefault();
-						// Remove o caractere especial e o número que está antes dele
 						let newValue;
 						if (charBefore === '-') {
-							// Remove hífen e número anterior
 							newValue = value.slice(0, cursorPosition - 2) + value.slice(cursorPosition);
 						} else if (charBefore === ')') {
-							// Remove parêntese e número anterior
 							newValue = value.slice(0, cursorPosition - 2) + value.slice(cursorPosition);
 						}
-						
-						// Remove todos os caracteres especiais para reformatar
+
 						const numbersOnly = newValue.replace(/\D/g, '');
 						this.form.telefone = numbersOnly;
 						this.formatTelefone();
-						
+
 						this.$nextTick(() => {
 							const newCursorPos = Math.max(0, cursorPosition - 2);
 							input.setSelectionRange(newCursorPos, newCursorPos);
@@ -106,27 +102,23 @@ export default {
 					}
 				}
 			}
-			// Se pressionar Delete
 			else if (event.key === 'Delete') {
-				// Se o cursor está numa posição de hífen ou parêntese, remove o caractere especial e o próximo número
 				if (cursorPosition < value.length) {
 					const charAfter = value[cursorPosition];
 					if (charAfter === '-' || charAfter === '(' || charAfter === ')') {
 						event.preventDefault();
 						let newValue;
 						if (charAfter === '(' || charAfter === ')') {
-							// Remove parêntese e próximo número
 							newValue = value.slice(0, cursorPosition) + value.slice(cursorPosition + 2);
 						} else {
-							// Remove hífen e próximo número
 							newValue = value.slice(0, cursorPosition) + value.slice(cursorPosition + 2);
 						}
-						
-						// Remove todos os caracteres especiais para reformatar
+
+
 						const numbersOnly = newValue.replace(/\D/g, '');
 						this.form.telefone = numbersOnly;
 						this.formatTelefone();
-						
+
 						this.$nextTick(() => {
 							input.setSelectionRange(cursorPosition, cursorPosition);
 						});
@@ -134,42 +126,34 @@ export default {
 					}
 				}
 			}
-			
-			// Permite teclas de navegação e controle
+
 			const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'Home', 'End', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-			
+
 			if (allowedKeys.includes(event.key)) {
 				return;
 			}
-			
-			// Permite apenas números
+
 			if (!/^\d$/.test(event.key)) {
 				event.preventDefault();
 			}
 		},
 		formatTelefone() {
-			// Remove todos os caracteres não numéricos
 			let val = this.form.telefone.replace(/\D/g, '');
-			
-			// Limita a 11 dígitos (2 DDD + 9 número)
+
 			if (val.length > 11) {
 				val = val.slice(0, 11);
 			}
-			
-			// Aplica a formatação baseada no tamanho
+
 			if (val.length >= 2) {
-				// Adiciona parênteses após os 2 primeiros dígitos (DDD)
 				val = `(${val.slice(0, 2)})${val.slice(2)}`;
 			}
-			
+
 			if (val.length >= 9) {
-				// Adiciona hífen após os próximos 5 dígitos
 				val = val.replace(/(\(\d{2}\))(\d{5})/, '$1$2-');
 			}
-			
+
 			this.form.telefone = val;
-			
-			// Validação: verifica se tem pelo menos DDD + 8 dígitos (telefone fixo) ou 9 dígitos (celular)
+
 			const numeros = val.replace(/\D/g, '');
 			this.telefoneError = numeros.length < 10 || numeros.length > 11;
 		},
@@ -180,7 +164,6 @@ export default {
 		},
 		selecionarTipoImovel(tipo) {
 			this.tipoImovel = tipo;
-			// Reset do subtipo quando muda o tipo principal
 			this.subTipoImovel = '';
 		},
 			proximaEtapa() {
@@ -195,13 +178,14 @@ export default {
 				}
 			},
 		voltarEtapa() {
-			if (this.modalStep === 4) {
+			if (this.modalStep === 5) {
+				this.modalStep = 4;
+			} else if (this.modalStep === 4) {
 				this.modalStep = 3;
 			} else if (this.modalStep === 3) {
 				this.modalStep = 2;
 			} else if (this.modalStep === 2) {
 				this.modalStep = 1;
-				// Reset das seleções ao voltar para etapa 1
 				this.tipoImovel = '';
 				this.subTipoImovel = '';
 			}
@@ -209,7 +193,7 @@ export default {
 		formatValor() {
 			// Remove tudo que não for número
 			let valor = this.valor.replace(/\D/g, '');
-			
+
 			// Converte para formato de moeda
 			if (valor) {
 				valor = parseFloat(valor) / 100;
@@ -222,23 +206,19 @@ export default {
 			}
 		},
 		formatCep() {
-			// Remove tudo que não for número
 			let cep = this.cep.replace(/\D/g, '');
-			
-			// Limita a 8 dígitos
+
 			if (cep.length > 8) {
 				cep = cep.slice(0, 8);
 			}
-			
-			// Aplica máscara do CEP (XXXXX-XXX)
+
 			if (cep.length > 5) {
 				cep = cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
 			}
-			
+
 			this.cep = cep;
 		},
 		async buscarCep() {
-			// Verificar se CEP está completo (9 caracteres com hífen)
 			if (this.cep.length !== 9) {
 				alert('Por favor, digite um CEP válido com 8 números.');
 				return;
@@ -246,25 +226,22 @@ export default {
 
 			try {
 				const cepLimpo = this.cep.replace(/\D/g, '');
-				
-				// Fazer requisição para API ViaCEP
+
 				const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-				
+
 				if (!response.ok) {
 					throw new Error('Erro na consulta do CEP');
 				}
-				
+
 				const data = await response.json();
-				
+
 				if (!data.erro) {
-					// Preencher os campos com os dados encontrados
 					this.endereco = data.logradouro || '';
 					this.cidade = data.localidade || '';
 					this.estado = data.uf || '';
-					
-					// Definir campos como readonly quando preenchidos automaticamente
+
 					this.camposEnderecoReadonly = true;
-					
+
 					console.log('CEP encontrado:', {
 						cep: this.cep,
 						endereco: this.endereco,
@@ -273,7 +250,6 @@ export default {
 						bairro: data.bairro || ''
 					});
 				} else {
-					// CEP não encontrado
 					alert('CEP não encontrado. Verifique o número digitado.');
 					this.endereco = '';
 					this.cidade = '';
@@ -288,9 +264,8 @@ export default {
 			}
 		},
 		finalizarCadastro() {
-			if (!this.cep.trim() || !this.endereco.trim() || !this.numero.trim()) return;
-			
-			// Aqui você pode adicionar a lógica para enviar os dados para o backend
+			if (!this.quantidadeQuartos || !this.quantidadeBanheiros || !this.metrosQuadrados) return;
+
 			console.log('Dados do formulário:', {
 				nome: this.form.nome,
 				email: this.form.email,
@@ -304,14 +279,15 @@ export default {
 				cidade: this.cidade,
 				estado: this.estado,
 				numero: this.numero,
-				complemento: this.complemento
+				quantidadeQuartos: this.quantidadeQuartos,
+				quantidadeBanheiros: this.quantidadeBanheiros,
+				metrosQuadrados: this.metrosQuadrados
 			});
 			
 			// Ir para tela de sucesso
 			this.modalStep = 6;
 		},
 		fecharModal() {
-			// Fechar modal e resetar tudo
 			this.showModal = false;
 			this.form = { nome: '', email: '', telefone: '' };
 			this.tipoImovel = '';
@@ -323,14 +299,11 @@ export default {
 			this.cidade = '';
 			this.estado = '';
 			this.numero = '';
-			this.complemento = '';
 			this.camposEnderecoReadonly = false;
 			this.modalStep = 1;
 		},
 		verMaisImoveis() {
-			// Fechar modal primeiro
 			this.fecharModal();
-			// Navegar para a página de vendas
 			this.$router.push('/vendas');
 		}
 	}
@@ -402,22 +375,23 @@ export default {
 		</main>
 
 		<!-- Modal lateral -->
-		<div v-if="showModal" class="side-modal-overlay" @click.self="modalStep !== 5 ? showModal = false : null">
+		<div v-if="showModal" class="side-modal-overlay" @click.self="showModal = false">
 			<div class="side-modal">
 				<div class="side-modal-header">
 					<h2 v-if="modalStep === 1">Antes de começar, precisamos das suas informações de contato</h2>
 					<h2 v-else-if="modalStep === 2">Agora, nos conte que tipo de imóvel gostaria de anunciar?</h2>
 					<h2 v-else-if="modalStep === 3">Precisamos de mais informações sobre o seu imóvel</h2>
 					<h2 v-else-if="modalStep === 4">Qual o endereço completo do imóvel?</h2>
-					<h2 v-else-if="modalStep === 5">Anúncio de venda de imóvel criado!</h2>
-					   <button v-if="modalStep !== 5" class="side-modal-close" @click="showModal = false" aria-label="Fechar">
+					<h2 v-else-if="modalStep === 5">Detalhes adicionais do imóvel</h2>
+					<h2 v-else-if="modalStep === 6">Anúncio de venda de imóvel criado!</h2>
+					   <button v-if="modalStep !== 6" class="side-modal-close" @click="showModal = false" aria-label="Fechar">
 						   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							   <path d="M6 6L18 18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
 							   <path d="M18 6L6 18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
 						   </svg>
 					   </button>
 				</div>
-				<!-- Etapa 1: Formulário de contato -->
+
 				<form v-if="modalStep === 1" class="side-modal-form" @submit.prevent>
 					<label>Nome
 						<input type="text" v-model="form.nome" placeholder="Seu Nome" />
@@ -427,10 +401,10 @@ export default {
 						<span v-if="emailError" class="input-error-msg">Informe um e-mail válido.</span>
 					</label>
 					<label>Telefone
-						<input type="tel" v-model="form.telefone" placeholder="Seu telefone" 
-							@input="formatTelefone" 
-							@keydown="handleTelefoneKeydown" 
-							maxlength="15" 
+						<input type="tel" v-model="form.telefone" placeholder="Seu telefone"
+							@input="formatTelefone"
+							@keydown="handleTelefoneKeydown"
+							maxlength="15"
 							:class="{'input-error': telefoneError}" />
 						<span v-if="telefoneError" class="input-error-msg">Informe um telefone válido. Ex: (99) 99999-9999</span>
 					</label>
@@ -445,72 +419,72 @@ export default {
 						<button type="button" class="side-modal-option" :class="{'selected': tipoImovel === 'residencial'}" @click="selecionarTipoImovel('residencial')">Imóvel residencial</button>
 						<button type="button" class="side-modal-option" :class="{'selected': tipoImovel === 'comercial'}" @click="selecionarTipoImovel('comercial')">Imóvel comercial</button>
 					</div>
-					
+
 					<!-- Dropdown com opções específicas -->
 					<div v-if="tipoImovel" class="side-modal-dropdown">
 						<label>Selecione o tipo de imóvel</label>
 						<select v-model="subTipoImovel" class="side-modal-select">
 							<option value="">Selecione o tipo de imóvel</option>
-							<option 
-								v-for="opcao in (tipoImovel === 'residencial' ? opcoesResidencial : opcoesComercial)" 
-								:key="opcao" 
+							<option
+								v-for="opcao in (tipoImovel === 'residencial' ? opcoesResidencial : opcoesComercial)"
+								:key="opcao"
 								:value="opcao">
 								{{opcao}}
 							</option>
 						</select>
 					</div>
-					
+
 					<div class="side-modal-actions">
 						<button class="side-modal-back" @click="voltarEtapa">Voltar</button>
 						<button class="side-modal-submit" :disabled="!tipoImovel || !subTipoImovel" @click="proximaEtapa">Continuar</button>
 					</div>
 				</div>
-				
+
 				<!-- Etapa 3: Informações do imóvel -->
 				<div v-else-if="modalStep === 3" class="side-modal-step3">
 					<div class="side-modal-form-group">
 						<label>Valor</label>
-						<input 
-							type="text" 
-							v-model="valor" 
-							placeholder="R$ 0,00" 
+						<input
+							type="text"
+							v-model="valor"
+							placeholder="R$ 0,00"
 							@input="formatValor"
-							class="side-modal-input" 
+							class="side-modal-input"
 						/>
 					</div>
-					
+
 					<div class="side-modal-form-group">
 						<label>Outras informações</label>
-						<textarea 
-							v-model="outrasInformacoes" 
+						<textarea
+							v-model="outrasInformacoes"
 							placeholder="Mais detalhes que considera relevante sobre o imóvel"
 							class="side-modal-textarea"
 							rows="4"
 						></textarea>
 					</div>
-					
+
 					<div class="side-modal-actions">
 						<button class="side-modal-back" @click="voltarEtapa">Voltar</button>
 						<button class="side-modal-submit" :disabled="!valor.trim()" @click="proximaEtapa">Continuar</button>
 					</div>
 				</div>
-				
+
 				<!-- Etapa 4: Endereço do imóvel -->
 				<div v-else-if="modalStep === 4" class="side-modal-step4">
 					<div class="side-modal-form-group">
 						<label>CEP</label>
 						<div class="cep-input-container">
-							<input 
-								type="text" 
-								v-model="cep" 
+							<input
+								type="text"
+								v-model="cep"
 								placeholder="00000-000"
 								@input="formatCep"
 								maxlength="9"
-								class="side-modal-input cep-input" 
+								class="side-modal-input cep-input"
 							/>
-							<button 
-								type="button" 
-								class="buscar-cep-btn" 
+							<button
+								type="button"
+								class="buscar-cep-btn"
 								@click="buscarCep"
 								:disabled="cep.length !== 9"
 							>
@@ -518,53 +492,91 @@ export default {
 							</button>
 						</div>
 					</div>
-					
+
 					<div class="side-modal-form-group">
 						<label>Endereço</label>
-						<input 
-							type="text" 
-							v-model="endereco" 
+						<input
+							type="text"
+							v-model="endereco"
 							placeholder="Qual o endereço do imóvel?"
-							class="side-modal-input" 
+							class="side-modal-input"
 						/>
 					</div>
-					
+
 					<div class="side-modal-form-row">
 						<div class="side-modal-form-group">
 							<label>Cidade</label>
-							<input 
-								type="text" 
-								v-model="cidade" 
+							<input
+								type="text"
+								v-model="cidade"
 								placeholder="Cidade"
-								class="side-modal-input" 
+								class="side-modal-input"
 								:readonly="camposEnderecoReadonly"
 							/>
 						</div>
 						<div class="side-modal-form-group">
 							<label>Estado</label>
-							<input 
-								type="text" 
-								v-model="estado" 
+							<input
+								type="text"
+								v-model="estado"
 								placeholder="UF"
-								class="side-modal-input" 
+								class="side-modal-input"
 								:readonly="camposEnderecoReadonly"
 								maxlength="2"
 							/>
 						</div>
 					</div>
-					
+
 					<div class="side-modal-form-row">
 						<div class="side-modal-form-group">
 							<label>Número</label>
-							<input 
-								type="text" 
-								v-model="numero" 
+							<input
+								type="text"
+								v-model="numero"
 								placeholder="Qual o número do imóvel?"
 								class="side-modal-input" 
 							/>
 						</div>
 					</div>
-					
+
+					<div class="side-modal-actions">
+						<button class="side-modal-back" @click="voltarEtapa">Voltar</button>
+						<button class="side-modal-submit" :disabled="!cep.trim() || !endereco.trim() || !numero.trim()" @click="proximaEtapa">Continuar</button>
+					</div>
+				</div>
+
+				<!-- Etapa 5: Detalhes adicionais do imóvel -->
+				<div v-else-if="modalStep === 5" class="side-modal-step5">
+					<div class="side-modal-form-group">
+						<label>Quantidade de Quartos</label>
+						<input
+							type="number"
+							v-model="quantidadeQuartos"
+							placeholder="Ex: 3"
+							class="side-modal-input"
+						/>
+					</div>
+
+					<div class="side-modal-form-group">
+						<label>Quantidade de Banheiros</label>
+						<input
+							type="number"
+							v-model="quantidadeBanheiros"
+							placeholder="Ex: 2"
+							class="side-modal-input"
+						/>
+					</div>
+
+					<div class="side-modal-form-group">
+						<label>Metros Quadrados</label>
+						<input
+							type="number"
+							v-model="metrosQuadrados"
+							placeholder="Ex: 120"
+							class="side-modal-input"
+						/>
+					</div>
+
 					<div class="side-modal-actions">
 						<button class="side-modal-back" @click="voltarEtapa">Voltar</button>
 						<button class="side-modal-submit" :disabled="!cep.trim() || !endereco.trim() || !numero.trim()" @click="proximaEtapa">Continuar</button>
@@ -993,32 +1005,118 @@ export default {
 	font-weight: 500;
 	display: block;
 }
+@media (max-width: 1100px) {
+  .cr-hero-card {
+    flex-direction: column;
+    padding: 32px 18px;
+    gap: 32px;
+    align-items: stretch;
+  }
+  .cr-hero-img {
+    min-width: unset;
+    max-width: 100%;
+    padding: 18px;
+    margin: 0 auto;
+  }
+  .cr-hero-content {
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+}
 @media (max-width: 900px) {
-	.cr-hero {
-		flex-direction: column;
-		gap: 40px;
-	}
-	.cr-main {
-		padding: 0 2vw;
-	}
-	.cr-hero-img {
-		min-width: unset;
-		max-width: 100%;
-		padding: 24px;
-	}
-	.cr-hero-text {
-		padding: 40px 16px 28px 16px;
-	}
-	.cr-stats {
-		flex-direction: column;
-		gap: 32px;
-		padding: 40px 0 24px 0;
-		border-radius: 0 0 28px 28px;
-	}
-	.cr-stat {
-		margin: 16px 0;
-		padding: 28px 8px 18px 8px;
-	}
+  .cr-main {
+    padding: 0 2vw;
+  }
+  .cr-hero-card {
+    flex-direction: column;
+    padding: 18px 4vw;
+    gap: 24px;
+    border-radius: 18px;
+  }
+  .cr-hero-img {
+    padding: 10px;
+    max-width: 100%;
+  }
+  .cr-hero-img img {
+    max-width: 98vw;
+    border-radius: 18px;
+  }
+  .cr-hero-content h1 {
+    font-size: 2rem;
+    margin-bottom: 18px;
+  }
+  .cr-list li {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+  .cr-btn-main {
+    font-size: 1.1rem;
+    padding: 16px 32px;
+  }
+  .cr-stats {
+    flex-direction: column;
+    gap: 18px;
+    padding: 24px 0 16px 0;
+    border-radius: 0 0 18px 18px;
+  }
+  .cr-stat {
+    margin: 10px 0;
+    padding: 18px 8px 12px 8px;
+    min-width: 0;
+  }
+  .cr-stat-num {
+    font-size: 2.1rem;
+    margin-bottom: 8px;
+  }
+  .cr-stat-label {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .cr-main {
+    padding: 0 1vw;
+  }
+  .cr-hero-card {
+    padding: 8px 0;
+    gap: 12px;
+    border-radius: 10px;
+  }
+  .cr-hero-content h1 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .cr-list li {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+  .cr-btn-main {
+    font-size: 0.98rem;
+    padding: 10px 10px;
+  }
+  .cr-hero-img {
+    padding: 2px;
+  }
+  .cr-hero-img img {
+    max-width: 98vw;
+    border-radius: 10px;
+  }
+  .cr-stats {
+    padding: 10px 0 8px 0;
+    gap: 8px;
+    border-radius: 0 0 10px 10px;
+  }
+  .cr-stat {
+    padding: 10px 2px 8px 2px;
+    margin: 4px 0;
+  }
+  .cr-stat-num {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+  }
+  .cr-stat-label {
+    font-size: 0.85rem;
+  }
 }
 @keyframes fadeInUp {
 	0% { opacity: 0; transform: translateY(40px); }
@@ -1276,10 +1374,11 @@ export default {
 }
 
 .success-icon {
-	margin-bottom: 32px;
-	display: flex;
-	justify-content: center;
-	position: relative;
+  margin: 0 auto; /* Center horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .success-icon::before {
@@ -1342,6 +1441,10 @@ export default {
 }
 
 .success-testimonials-btn {
+  margin: 0 auto; /* Center horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 	background: linear-gradient(135deg, #ff6a3d 0%, #ff8c42 50%, #ffb347 100%);
 	color: white;
 	border: none;
@@ -1352,10 +1455,8 @@ export default {
 	cursor: pointer;
 	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	box-shadow: 0 8px 25px rgba(255, 106, 61, 0.3);
-	display: flex;
 	align-items: center;
 	gap: 12px;
-	margin-top: 32px;
 	position: relative;
 	overflow: hidden;
 	text-transform: uppercase;
