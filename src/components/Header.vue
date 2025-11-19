@@ -1,10 +1,15 @@
 <script setup>
+
 import { ref, defineProps } from 'vue';
 const menuOpen = ref(false);
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
 const props = defineProps({ scrolled: Boolean });
+
+// Simulação de autenticação e foto do usuário
+const usuarioLogado = ref(true); // Troque para false para testar sem login
+const fotoUsuario = ref('https://randomuser.me/api/portraits/men/32.jpg'); // URL da foto do usuário
 
 </script>
 
@@ -26,12 +31,43 @@ const props = defineProps({ scrolled: Boolean });
         <a href="#" class="nav-link">Sobre</a>
         <a href="#" class="nav-link">Serviços</a>
         <a href="#" class="nav-link">Contato</a>
+        <div v-if="usuarioLogado" class="usuario-header">
+          <img :src="fotoUsuario" alt="Foto do usuário" class="usuario-foto" />
+        </div>
+        <button v-else class="nav-link entrar-btn">Entrar</button>
       </nav>
     </div>
   </header>
 </template>
 
 <style scoped>
+/* Foto do usuário no header */
+.usuario-header {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+.usuario-foto {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #0077ff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.entrar-btn {
+  background: #0077ff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.entrar-btn:hover {
+  background: #005bb5;
+}
 .header-transparente {
   position: fixed;
   top: 0;
