@@ -4,8 +4,6 @@ import Anuncio from '../components/Anuncio.vue';
 import Filtro from '../components/filtro.vue';
 import HeaderVenda from '@/components/HeaderVenda.vue';
 
-
-
 export default {
   components: {
     Anuncio,
@@ -24,10 +22,24 @@ export default {
 
 <template>
   <div class="row">
-  <HeaderVenda class="colunm"/>
+    <HeaderVenda class="column"/>
   </div>
   <div class="container-anuncio">
-    <Filtro />
+    <div class="btn-toggle-mobile-filtro-global-wrapper">
+      <button
+        v-if="!filtroAberto"
+        class="btn-toggle-mobile-filtro-global"
+        @click="toggleFiltro"
+      >
+        Mostrar Filtro
+      </button>
+    </div>
+    <Filtro
+      class="filtro-side"
+      :filtroAberto="filtroAberto"
+      :toggleFiltro="toggleFiltro"
+      v-show="filtroAberto"
+    />
     <div class="alinha-direita">
       <Anuncio :imovel-id="1"/>
       <Anuncio :imovel-id="2"/>
@@ -38,43 +50,74 @@ export default {
 </template>
 
 <style scoped>
-
 .container-anuncio {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 100%;
-  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100vw;
+  min-width: 0;
+  margin: 0;
   background-color: #f4f4f4;
-  padding: 5rem;
-  transition: filter 0.3s, opacity 0.3s;
+  padding: 2vw 0 2vw 0;
+  gap: 2rem;
+  box-sizing: border-box;
 }
 
-.container-anuncio.filtro-aberto {
-  /* Em telas pequenas, esconde os cards visualmente */
-  z-index: 0;
-}
-
-@media (max-width: 900px) {
-  .container-anuncio.filtro-aberto {
-    filter: blur(2px);
-    opacity: 0.2;
-    pointer-events: none;
-    user-select: none;
-  }
+.filtro-side {
+  width: 100%;
+  max-width: 100%;
+  position: static;
+  margin: 0;
+  flex: none;
+  z-index: auto;
 }
 
 .alinha-direita {
   width: 100%;
-  max-width: 800px;
-  margin-right: 10%;
+  max-width: 600px;
+  margin: 0 12vw 0 auto; /* espaço à direita, alinha à direita */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-self: flex-end;
 }
 
-.row {
+.btn-toggle-mobile-filtro-global-wrapper {
+  width: 100%;
   display: flex;
+  justify-content: center;
 }
 
-.column {
-  flex: 50%;
+.btn-toggle-mobile-filtro-global {
+  display: none;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 0 1rem 0;
+  padding: 12px 0;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.10);
+  transition: background 0.2s;
+}
+.btn-toggle-mobile-filtro-global:hover {
+  background: #0056d2;
+}
+
+@media (max-width: 900px) {
+  .alinha-direita {
+    max-width: 100%;
+    margin: 0;
+    gap: 1rem;
+    align-self: stretch;
+  }
+  .btn-toggle-mobile-filtro-global {
+    display: block;
+    margin-top: 80px;
+  }
 }
 </style>
