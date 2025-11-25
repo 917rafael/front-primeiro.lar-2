@@ -42,7 +42,7 @@ function fechar() {
 
 function toggleFavorito(e) {
   e.stopPropagation() // Impede que o click abra o modal
-  favoritosStore.value.toggleFavorito(props.imovelId)
+  favoritosStore.toggleFavorito(props.imovelId)
 }
 
 function enviarContato() {
@@ -90,29 +90,29 @@ function enviarContato() {
       </div>
     </div>
 
-    <div v-else class="teste">
-      <div>
+    <div v-else class="teste" @click="fechar">
+      <div @click.stop>
         <button @click="fechar">×</button>
-        <div>
-          <img class="info-img modern-modal-img" :src="imovel.imagem || '@/assets/img/image.png'"
-            :alt="imovel.titulo" />
+        <div class="modal-content-wrapper">
           <div class="info-direita modern-modal-info">
-
             <div class="anuncio-modal-content">
               <div class="anuncio-modal-info">
                 <div class="modal-header-with-heart">
-                  <h2>{{ imovel.titulo || 'Título do imóvel' }}</h2>
-                  <button class="favorite-btn-modal" :class="{ 'favorite-active': isFavorito }" @click.stop="toggleFavorito"
+                  <div class="modal-title-section">
+                    <h2>{{ imovel.titulo || 'Casa moderna em Vila Bela' }}</h2>
+                  </div>
+                  <button class="favorite-btn-modal" :class="{ 'favorite-active': isFavorito }" @click="toggleFavorito"
                     :title="isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'">
-                    <svg width="28" height="28" viewBox="0 0 24 24"
-                      :fill="isFavorito ? '#e30613' : 'none'"
-                      :stroke="isFavorito ? '#e30613' : '#999'"
-                      stroke-width="2">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                       <path
-                        fill="currentColor"
                         d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
                   </button>
+                </div>
+                
+                <div class="modal-image-container">
+                  <img class="info-img modern-modal-img" :src="imovel.imagem || '@/assets/img/image.png'"
+                    :alt="imovel.titulo" />
                 </div>
                 <div class="anuncio-modal-cols">
                   <div class="anuncio-modal-col">
@@ -169,9 +169,6 @@ function enviarContato() {
 </template>
 
 <style scoped>
-/* ==============================================
-   CARD DE ANÚNCIO - CONTAINER PRINCIPAL
-   ============================================== */
 .property-card-wrapper {
   width: 100%;
   max-width: 520px;
@@ -184,9 +181,6 @@ function enviarContato() {
   }
 }
 
-/* ==============================================
-   CARD DE ANÚNCIO - VISUALIZAÇÃO RESUMIDA
-   ============================================== */
 .property-card.modern-card {
   background: #ffffff;
   border-radius: 16px;
@@ -201,10 +195,7 @@ function enviarContato() {
   min-height: 340px;
 }
 
-.property-card.modern-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
+/* Hover do card removido */
 
 /* Imagem do Card */
 .image-section.modern-image {
@@ -219,12 +210,10 @@ function enviarContato() {
   width: 100%;
   height: 260px;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: none;
 }
 
-.property-card.modern-card:hover .image-section.modern-image img {
-  transform: scale(1.1);
-}
+/* Hover da imagem removido */
 
 /* Detalhes do Card */
 .details-section.modern-details {
@@ -298,10 +287,7 @@ function enviarContato() {
   margin-top: auto;
 }
 
-.modern-action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-}
+/* Hover do botão Ver detalhes removido */
 
 /* Botão Favorito */
 .favorite-btn {
@@ -325,22 +311,24 @@ function enviarContato() {
 
 .favorite-btn:hover {
   background: white;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .favorite-btn.favorite-active {
-  color: #e53e3e;
+  color: #ef4444;
+  background: rgba(255, 255, 255, 1);
   animation: heartBeat 0.5s ease;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
 }
 
 @keyframes heartBeat {
   0%, 100% { transform: scale(1); }
-  25% { transform: scale(1.2); }
-  50% { transform: scale(1.1); }
+  25% { transform: scale(1.15); }
+  50% { transform: scale(1.08); }
 }
 
 /* ==============================================
-   MODAL DE DETALHES - OVERLAY
+   MODAL DE DETALHES - OVERLAY SLIDE-IN
    ============================================== */
 .teste {
   position: fixed;
@@ -348,186 +336,203 @@ function enviarContato() {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px;
-  overflow-y: auto;
-  backdrop-filter: blur(5px);
-  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  overflow: hidden;
+  backdrop-filter: blur(3px);
 }
 
 .teste > div {
-  background: white;
-  border-radius: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70%;
   max-width: 1000px;
-  width: 100%;
-  max-height: 95vh;
+  height: 100%;
+  background: white;
   overflow-y: auto;
-  position: relative;
-  animation: modalSlideIn 0.3s ease;
+  animation: slideInFromLeft 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: left center;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+  z-index: 10001;
 }
 
-@keyframes modalSlideIn {
+@keyframes slideInFromLeft {
   from {
+    transform: translateX(-100%);
     opacity: 0;
-    transform: translateY(-30px);
   }
   to {
+    transform: translateX(0);
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 /* Botão Fechar Modal */
 .teste > div > button {
-  position: absolute;
-  top: 60px;
-  right: 20px;
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 2px solid rgba(226, 232, 240, 0.8);
   border-radius: 50%;
   font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
   color: #4a5568;
   cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 10;
-  display: flex;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 10002;
+  display: flex !important;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
 }
 
 .teste > div > button:hover {
-  background: #e53e3e;
-  color: white;
-  transform: rotate(90deg);
+  background: #ef4444 !important;
+  color: white !important;
+  border-color: #ef4444;
+  transform: rotate(90deg) scale(1.15);
+  box-shadow: 0 8px 30px rgba(239, 68, 68, 0.5);
 }
 
 /* ==============================================
    MODAL - CONTEÚDO PRINCIPAL
    ============================================== */
-.teste > div > div:first-of-type {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
+.modal-content-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Container da Imagem no Modal */
+.modal-image-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 24px auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 /* Imagem do Modal */
 .info-img.modern-modal-img {
   width: 100%;
-  height: 100%;
-  min-height: 400px;
+  height: 250px;
   object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
-/* Informações Laterais do Modal */
+/* Informações do Modal */
 .info-direita.modern-modal-info {
-  padding: 40px 30px;
-  display: flex;
+  padding: 50px 40px;
+  display: flex !important;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   background: #f7fafc;
+  flex: 1;
+  width: 100%;
+  visibility: visible !important;
+  overflow: visible;
 }
 
 /* Header com Título e Coração */
 .modal-header-with-heart {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 20px;
+  margin-bottom: 24px;
+  width: 100%;
+  visibility: visible !important;
+  position: relative;
+  z-index: 10;
+  overflow: visible;
+  padding-right: 10px;
+}
+
+.modal-title-section {
+  flex: 1;
+  min-width: 0;
+  display: block !important;
+  visibility: visible !important;
 }
 
 .modal-header-with-heart h2 {
   margin: 0;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 700;
-  color: #2d3748;
-  line-height: 1.3;
-  flex: none;
+  color: #1a202c !important;
+  line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: block !important;
+  visibility: visible !important;
 }
 
 /* Botão Favorito no Modal */
 .favorite-btn-modal {
-  background: rgba(240, 240, 240, 0.8);
-  border: none;
+  background: rgba(255, 255, 255, 0.98);
+  border: 2px solid #e2e8f0;
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
+  width: 56px;
+  height: 56px;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  color: #999;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(4px);
+  transition: none;
+  color: #a0aec0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: none;
   flex-shrink: 0;
-  margin-top: 0.5rem;
-  align-self: flex-start;
-  margin-left: 18px;
+  visibility: visible !important;
+  z-index: 1000;
+  position: relative;
+  overflow: visible;
 }
 
-.favorite-btn-modal:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
+/* Hover removido */
 
 .favorite-btn-modal.favorite-active {
-  background: rgba(227, 6, 19, 0.95);
-  color: white;
-  transform: scale(1.05);
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 2px solid #ef4444;
+  animation: heartBeat 0.5s ease;
+  box-shadow: none;
+  transform-origin: center center;
+  z-index: 1001 !important;
 }
 
-.favorite-btn-modal.favorite-active:hover {
-  background: rgba(227, 6, 19, 1);
-  transform: scale(1.15);
-}
+/* Hover ativo removido */
 
 .favorite-btn-modal svg {
-  color: #999;
-  fill: currentColor;
-  stroke: #999;
-  transition: color 0.2s, fill 0.2s, stroke 0.2s;
+  transition: none;
 }
 
 .favorite-btn-modal.favorite-active svg {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  color: #e30613;
-  fill: #e30613;
-  stroke: #e30613;
-}
-
-.favorite-btn-modal svg {
-  color: #999;
-  fill: currentColor;
-  stroke: #999;
-  transition: color 0.2s, fill 0.2s, stroke 0.2s;
-}
-
-.favorite-btn-modal.favorite-active svg {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  color: #e30613;
-  fill: #e30613;
-  stroke: #e30613;
+  color: #ef4444;
+  filter: none;
 }
 
 /* Conteúdo do Modal */
 .anuncio-modal-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: visible;
 }
 
 .anuncio-modal-info {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow: visible;
 }
 
 /* Colunas de Informações */
@@ -730,21 +735,26 @@ function enviarContato() {
     font-size: 20px;
   }
 
-  /* Modal em tablets */
-  .teste > div > div:first-of-type {
-    grid-template-columns: 1fr;
+  /* Modal em tablets - aumenta largura */
+  .teste > div {
+    width: 85%;
+    max-width: 750px;
+  }
+
+  .modal-image-container {
+    max-width: 350px;
   }
 
   .info-img.modern-modal-img {
-    min-height: 300px;
+    height: 220px;
   }
 
   .info-direita.modern-modal-info {
-    padding: 30px 20px;
+    padding: 40px 30px;
   }
 
   .modal-header-with-heart h2 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .anuncio-modal-cols {
@@ -753,11 +763,18 @@ function enviarContato() {
   }
 
   .descricao-row.modern-modal-desc {
-    padding: 20px;
+    padding: 30px;
   }
 
   .teste > div > div:last-child {
-    padding: 20px;
+    padding: 30px;
+  }
+
+  .teste > div > button {
+    top: 15px;
+    right: 15px;
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -808,25 +825,26 @@ function enviarContato() {
     height: 20px;
   }
 
-  /* Modal em smartphones */
-  .teste {
-    padding: 10px;
-  }
-
+  /* Modal em smartphones - ocupa quase toda a tela */
   .teste > div {
-    border-radius: 16px;
+    width: 95%;
+    max-width: none;
   }
 
   .teste > div > button {
-    top: 40px;
-    right: 12px;
-    width: 38px;
-    height: 38px;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
     font-size: 24px;
   }
 
+  .modal-image-container {
+    max-width: 300px;
+  }
+
   .info-img.modern-modal-img {
-    min-height: 240px;
+    height: 200px;
   }
 
   .info-direita.modern-modal-info {
@@ -961,5 +979,54 @@ img {
   .modern-details {
     padding: 1.5rem 1rem 1.2rem 1rem;
   }
+}
+
+/* ==============================================
+   FORÇAR VISIBILIDADE DOS ELEMENTOS PRINCIPAIS
+   ============================================== */
+
+/* Forçar visibilidade do botão fechar */
+.teste > div > button {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Forçar visibilidade do título */
+.modal-header-with-heart h2,
+.modal-title-section h2 {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Forçar visibilidade do header completo */
+.modal-header-with-heart,
+.modal-title-section {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+}
+
+/* Forçar visibilidade do botão favorito */
+.favorite-btn-modal {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Garantir que o botão de favoritos não seja cortado durante animação */
+.favorite-btn-modal.favorite-active {
+  transform-origin: center center;
+  z-index: 1001 !important;
+}
+
+/* Garantir overflow visível nos containers pai */
+.modal-title-section,
+.modal-header-with-heart,
+.anuncio-modal-content,
+.anuncio-modal-info,
+.info-direita.modern-modal-info {
+  overflow: visible !important;
 }
 </style>

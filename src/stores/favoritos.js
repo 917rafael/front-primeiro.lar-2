@@ -88,10 +88,10 @@ export const useFavoritosStore = defineStore('favoritos', () => {
     }
   ])
 
-  // Computed para verificar se um imóvel está nos favoritos
-  const isFavorito = computed(() => (imovelId) => {
+  // Função para verificar se um imóvel está nos favoritos
+  const isFavorito = (imovelId) => {
     return favoritos.value.includes(imovelId)
-  })
+  }
 
   // Computed para obter lista de imóveis favoritos
   const imoveisFavoritos = computed(() => {
@@ -119,7 +119,7 @@ export const useFavoritosStore = defineStore('favoritos', () => {
 
   // Função para alternar favorito
   const toggleFavorito = (imovelId) => {
-    if (isFavorito.value(imovelId)) {
+    if (isFavorito(imovelId)) {
       removerFavorito(imovelId)
     } else {
       adicionarFavorito(imovelId)
