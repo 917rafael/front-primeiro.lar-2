@@ -39,10 +39,17 @@ function fechar() {
   mostrarInfo.value = false;
 }
 
+function fecharDetalhesClique(e) {
+  if (e.target === e.currentTarget) {
+    fechar();
+  }
+}
+
 
 function toggleFavorito(e) {
   e.stopPropagation() // Impede que o click abra o modal
-  favoritosStore.value.toggleFavorito(props.imovelId)
+  console.log(`Clicou no favorito do imóvel ${props.imovelId}`)
+  favoritosStore.toggleFavorito(props.imovelId)
 }
 
 function enviarContato() {
@@ -90,8 +97,8 @@ function enviarContato() {
       </div>
     </div>
 
-    <div v-else class="teste">
-      <div>
+    <div v-else class="teste" @click="fecharDetalhesClique">
+      <div @click.stop>
         <button @click="fechar">×</button>
         <div>
           <img class="info-img modern-modal-img" :src="imovel.imagem || '@/assets/img/image.png'"
@@ -104,12 +111,8 @@ function enviarContato() {
                   <h2>{{ imovel.titulo || 'Título do imóvel' }}</h2>
                   <button class="favorite-btn-modal" :class="{ 'favorite-active': isFavorito }" @click.stop="toggleFavorito"
                     :title="isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'">
-                    <svg width="28" height="28" viewBox="0 0 24 24"
-                      :fill="isFavorito ? '#e30613' : 'none'"
-                      :stroke="isFavorito ? '#e30613' : '#999'"
-                      stroke-width="2">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                       <path
-                        fill="currentColor"
                         d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
                   </button>
@@ -341,51 +344,51 @@ function enviarContato() {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 9999;
+  padding: 0;
   overflow-y: auto;
   backdrop-filter: blur(5px);
-  margin-top: 20px;;
 }
 
 .teste > div {
   background: white;
-  border-radius: 20px;
-  max-width: 1000px;
-  width: 100%;
-  max-height: 95vh;
+  border-radius: 0;
+  width: 75%;
+  min-height: 100vh;
+  height: 100%;
   overflow-y: auto;
   position: relative;
-  animation: modalSlideIn 0.3s ease;
+  animation: modalSlideInLeft 0.4s ease;
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes modalSlideIn {
+@keyframes modalSlideInLeft {
   from {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateX(-100%);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
 /* Botão Fechar Modal */
 .teste > div > button {
   position: absolute;
-  top: 60px;
+  top: 20px;
   right: 20px;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   background: rgba(255, 255, 255, 0.95);
   border: none;
   border-radius: 50%;
-  font-size: 28px;
+  font-size: 24px;
   color: #4a5568;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -448,19 +451,18 @@ function enviarContato() {
 
 /* Botão Favorito no Modal */
 .favorite-btn-modal {
-  background: rgba(240, 240, 240, 0.8);
+  background: rgba(255, 255, 255, 0.95);
   border: none;
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: #999;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(4px);
+  color: #cbd5e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   flex-shrink: 0;
   margin-top: 0.5rem;
   align-self: flex-start;
@@ -468,34 +470,21 @@ function enviarContato() {
 }
 
 .favorite-btn-modal:hover {
-  background: rgba(255, 255, 255, 1);
+  background: white;
   transform: scale(1.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .favorite-btn-modal.favorite-active {
-  background: rgba(227, 6, 19, 0.95);
-  color: white;
-  transform: scale(1.05);
-}
-
-.favorite-btn-modal.favorite-active:hover {
-  background: rgba(227, 6, 19, 1);
-  transform: scale(1.15);
+  color: #e53e3e;
+  animation: heartBeat 0.5s ease;
 }
 
 .favorite-btn-modal svg {
-  color: #999;
-  fill: currentColor;
-  stroke: #999;
-  transition: color 0.2s, fill 0.2s, stroke 0.2s;
+  transition: all 0.3s ease;
 }
 
 .favorite-btn-modal.favorite-active svg {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  color: #e30613;
-  fill: #e30613;
-  stroke: #e30613;
+  color: #e53e3e;
 }
 
 .favorite-btn-modal svg {
