@@ -101,21 +101,23 @@ function enviarContato() {
       <div @click.stop>
         <button @click="fechar">×</button>
         <div>
-          <img class="info-img modern-modal-img" :src="imovel.imagem || '@/assets/img/image.png'"
-            :alt="imovel.titulo" />
+          <div class="image-section-modal">
+            <img class="info-img modern-modal-img" :src="imovel.imagem || '@/assets/img/image.png'"
+              :alt="imovel.titulo" />
+            <button class="favorite-btn-modal" :class="{ 'favorite-active': isFavorito }" @click.stop="toggleFavorito"
+              :title="isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </button>
+          </div>
           <div class="info-direita modern-modal-info">
 
             <div class="anuncio-modal-content">
               <div class="anuncio-modal-info">
                 <div class="modal-header-with-heart">
                   <h2>{{ imovel.titulo || 'Título do imóvel' }}</h2>
-                  <button class="favorite-btn-modal" :class="{ 'favorite-active': isFavorito }" @click.stop="toggleFavorito"
-                    :title="isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                      <path
-                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                    </svg>
-                  </button>
                 </div>
                 <div class="anuncio-modal-cols">
                   <div class="anuncio-modal-col">
@@ -414,6 +416,13 @@ function enviarContato() {
   gap: 0;
 }
 
+/* Seção de Imagem do Modal */
+.image-section-modal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 /* Imagem do Modal */
 .info-img.modern-modal-img {
   width: 100%;
@@ -431,18 +440,20 @@ function enviarContato() {
   background: #f7fafc;
 }
 
-/* Header com Título e Coração */
+/* Header com Título */
 .modal-header-with-heart {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e2e8f0;
 }
 
 .modal-header-with-heart h2 {
   margin: 0;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   color: #2d3748;
   line-height: 1.3;
@@ -451,6 +462,9 @@ function enviarContato() {
 
 /* Botão Favorito no Modal */
 .favorite-btn-modal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   background: rgba(255, 255, 255, 0.95);
   border: none;
   border-radius: 50%;
@@ -463,10 +477,7 @@ function enviarContato() {
   transition: all 0.3s ease;
   color: #cbd5e0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  flex-shrink: 0;
-  margin-top: 0.5rem;
-  align-self: flex-start;
-  margin-left: 18px;
+  z-index: 10;
 }
 
 .favorite-btn-modal:hover {
