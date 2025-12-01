@@ -1,6 +1,6 @@
 <script>
 import { ref } from 'vue';
-import Anuncio from '../components/Anuncio.vue';
+import Anuncio from '../components/DescricaoCard.vue';
 import Filtro from '../components/filtro.vue';
 import HeaderVenda from '@/components/HeaderVenda.vue';
 

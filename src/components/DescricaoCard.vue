@@ -1,157 +1,53 @@
 <script>
-import HeaderVenda from '@/components/HeaderVenda.vue';
-import FooterComponent from '@/components/Footer.vue';
-import { useFavoritosStore } from '@/stores/favoritos';
 
 export default {
-  components: {
-    HeaderVenda,
-    FooterComponent
-  },
+  
   name: "PaginaFavorito",
-  setup() {
-    const favoritosStore = useFavoritosStore()
-    return { favoritosStore }
-  },
+  
   data() {
     return {
-      filtroTipo: 'todos',
-      ordenacao: 'relevancia',
       mostrarDetalhes: false,
       imovelSelecionado: null
     };
   },
   methods: {
-    removerFavorito(id) {
-      this.favoritosStore.removerFavorito(id);
-    },
-    // verDetalhes(id) {
-    //   const imovel = this.favoritosStore.getImovel(id);
-    //   if (imovel) {
-    //     this.imovelSelecionado = imovel;
-    //     this.mostrarDetalhes = true;
-    //   }
-    // },
-    // fecharDetalhes() {
-    //   this.mostrarDetalhes = false;
-    //   this.imovelSelecionado = null;
-    // },
-    // fecharDetalhesClique(e) {
-    //   if (e.target === e.currentTarget) {
-    //     this.fecharDetalhes();
-    //   }
-    // },
-    // fecharFora(e) {
-    //   if (e.target === e.currentTarget) {
-    //     this.fecharDetalhes();
-    //   }
-    // },
-    // toggleFavorito(id) {
-    //   this.favoritosStore.toggleFavorito(id);
-    // },
-    // entrarEmContato(imovel) {
-    //   // Abrir WhatsApp ou modal de contato
-    //   const mensagem = `Olá! Tenho interesse no imóvel: ${imovel.titulo} - ${imovel.endereco}`;
-    //   const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(mensagem)}`;
-    //   window.open(whatsappUrl, '_blank');
-    // }
-  },
-  computed: {
-    favoritos() {
-      return this.favoritosStore.imoveisFavoritos;
-    },
-    favoritosFiltrados() {
-      let filtrados = this.favoritos;
-      
-      if (this.filtroTipo !== 'todos') {
-        filtrados = filtrados.filter(fav => fav.tipo && fav.tipo.toLowerCase() === this.filtroTipo);
+    
+    verDetalhes(id) {
+      const imovel = this.favoritosStore.getImovel(id);
+      if (imovel) {
+        this.imovelSelecionado = imovel;
+        this.mostrarDetalhes = true;
       }
-      
-      // Ordenação
-      if (this.ordenacao === 'preco-crescente') {
-        filtrados.sort((a, b) => {
-          const precoA = parseFloat(a.preco.replace(/[^\d,]/g, '').replace(',', '.'));
-          const precoB = parseFloat(b.preco.replace(/[^\d,]/g, '').replace(',', '.'));
-          return precoA - precoB;
-        });
-      } else if (this.ordenacao === 'preco-decrescente') {
-        filtrados.sort((a, b) => {
-          const precoA = parseFloat(a.preco.replace(/[^\d,]/g, '').replace(',', '.'));
-          const precoB = parseFloat(b.preco.replace(/[^\d,]/g, '').replace(',', '.'));
-          return precoB - precoA;
-        });
+    },
+    fecharDetalhes() {
+      this.mostrarDetalhes = false;
+      this.imovelSelecionado = null;
+    },
+    fecharDetalhesClique(e) {
+      if (e.target === e.currentTarget) {
+        this.fecharDetalhes();
       }
-      
-      return filtrados;
+    },
+    fecharFora(e) {
+      if (e.target === e.currentTarget) {
+        this.fecharDetalhes();
+      }
+    },
+    toggleFavorito(id) {
+      this.favoritosStore.toggleFavorito(id);
+    },
+    entrarEmContato(imovel) {
+      // Abrir WhatsApp ou modal de contato
+      const mensagem = `Olá! Tenho interesse no imóvel: ${imovel.titulo} - ${imovel.endereco}`;
+      const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(mensagem)}`;
+      window.open(whatsappUrl, '_blank');
     }
+  },
   }
-};
+;
 </script>
 
 <template>
-  <HeaderVenda />
-  <div class="favoritos-container">
-    <!-- Hero Section -->
-    <section class="favoritos-hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="#ff6a3d"/>
-            </svg>
-            Meus Favoritos
-          </h1>
-          <p>Gerencie seus imóveis salvos e encontre sua próxima oportunidade</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Filtros e Controles -->
-    <section class="favoritos-controles">
-      <div class="container">
-        <div class="controles-wrapper">
-          <div class="filtros">
-            <div class="filtro-grupo">
-              <label>Tipo:</label>
-              <select v-model="filtroTipo" class="filtro-select">
-                <option value="todos">Todos</option>
-                <option value="venda">Venda</option>
-                <option value="aluguel">Aluguel</option>
-              </select>
-            </div>
-            <div class="filtro-grupo">
-              <label>Ordenar por:</label>
-              <select v-model="ordenacao" class="filtro-select">
-                <option value="relevancia">Relevância</option>
-                <option value="preco-crescente">Menor preço</option>
-                <option value="preco-decrescente">Maior preço</option>
-              </select>
-            </div>
-          </div>
-          <div class="contador">
-            <span>{{ favoritosFiltrados.length }} imóvel{{ favoritosFiltrados.length !== 1 ? 'eis' : '' }} {{ favoritosFiltrados.length !== 1 ? 'encontrados' : 'encontrado' }}</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Lista de Favoritos -->
-    <section class="favoritos-lista">
-      <div class="container">
-        <div v-if="favoritosFiltrados.length === 0" class="favoritos-vazio">
-          <div class="vazio-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#d1d5db" stroke-width="2" fill="none"/>
-            </svg>
-          </div>
-          <h3>Nenhum favorito encontrado</h3>
-          <p>Você ainda não possui imóveis salvos nos favoritos.</p>
-          <router-link to="/vendas" class="btn-explorar">
-            Explorar Imóveis
-          </router-link>
-        </div>
-
-        <!-- <div v-else class="favoritos-grid">
           <div v-for="imovel in favoritosFiltrados" :key="imovel.id" class="favorito-card">
             <div class="card-imagem">
               <img :src="imovel.imagem" :alt="imovel.titulo" />
@@ -229,13 +125,9 @@ export default {
               </div>
             </div>
           </div>
-        </div>-->
-      </div> 
-    </section>
-  </div>
 
   <!-- Modal de Detalhes -->
-  <!-- <div v-if="mostrarDetalhes && imovelSelecionado" class="info-overlay modern-overlay" @click="fecharFora">
+  <div v-if="mostrarDetalhes && imovelSelecionado" class="info-overlay modern-overlay" @click="fecharFora">
     <div class="modern-modal-panel" @click.stop>
       <button class="fechar-info modern-close" @click="fecharDetalhes">×</button>
       <div class="info-content-row modern-modal-content">
@@ -280,159 +172,20 @@ export default {
         <strong>Descrição:</strong> {{ imovelSelecionado.descricao || 'Descrição não disponível.' }}
       </div>
     </div>
-  </div> -->
+  </div>
 
-  <FooterComponent />
+
 </template>
 
 <style scoped>
-.favoritos-container {
-  font-family: 'Inter', 'Montserrat', 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(120deg, #f6f7fb 0%, #fbeede 100%);
-  min-height: 100vh;
-  padding-top: 80px;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Hero Section */
-.favoritos-hero {
-  padding: 60px 0;
-  background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.hero-content {
-  text-align: center;
-}
-
-.hero-content h1 {
-  font-size: 3rem;
-  font-weight: 900;
-  color: #1f2937;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  font-family: 'Montserrat', 'Inter', sans-serif;
-  letter-spacing: -1px;
-}
-
-.hero-content p {
-  font-size: 1.25rem;
-  color: #6b7280;
-  font-weight: 400;
-}
-
-/* Controles */
-.favoritos-controles {
-  padding: 32px 0;
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.controles-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 24px;
-}
-
-.filtros {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.filtro-grupo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.filtro-grupo label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 0.95rem;
-}
-
-.filtro-select {
-  background: white;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 0.95rem;
-  color: #374151;
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.filtro-select:focus {
-  outline: none;
-  border-color: #ff6a3d;
-}
-
-.contador {
-  color: #6b7280;
-  font-weight: 500;
-}
-
-/* Lista de Favoritos */
-.favoritos-lista {
-  padding: 40px 0 80px;
-}
-
-.favoritos-vazio {
-  text-align: center;
-  padding: 80px 20px;
-}
-
-.vazio-icon {
-  margin-bottom: 24px;
-}
-
-.favoritos-vazio h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #374151;
-  margin-bottom: 12px;
-}
-
-.favoritos-vazio p {
-  font-size: 1.1rem;
-  color: #6b7280;
-  margin-bottom: 32px;
-}
-
-.btn-explorar {
-  background: linear-gradient(90deg, #ff6a3d 0%, #ffb347 100%);
-  color: white;
-  text-decoration: none;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(255, 106, 61, 0.3);
-}
-
-.btn-explorar:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 106, 61, 0.4);
-}
 
 /* Grid de Favoritos */
-/* .favoritos-grid {
+.favoritos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
   gap: 32px;
-} */
-/* 
+}
+
 .favorito-card {
   background: white;
   border-radius: 16px;
@@ -462,9 +215,9 @@ export default {
 
 .favorito-card:hover .card-imagem img {
   transform: scale(1.05);
-} */
+}
 
-/* .card-badges {
+.card-badges {
   position: absolute;
   top: 12px;
   left: 12px;
@@ -490,35 +243,9 @@ export default {
 .badge-aluguel {
   background: rgba(59, 130, 246, 0.9);
   color: white;
-} */
-
-.btn-remover-favorito {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(4px);
-  z-index: 10;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.btn-remover-favorito:hover {
-  background: rgba(239, 68, 68, 0.9);
-}
 
-.btn-remover-favorito:hover svg path {
-  fill: white;
-}
-/* 
 .card-content {
   padding: 24px;
 }
@@ -632,37 +359,19 @@ export default {
   background: #ff6a3d;
   color: white;
   transform: translateY(-1px);
-} */
+}
 
 /* Responsividade */
 @media (max-width: 768px) {
-  /* .favoritos-container {
+   .favoritos-container {
     padding-top: 60px;
   }
-   */
-  .hero-content h1 {
-    font-size: 2.5rem;
-    flex-direction: column;
-    gap: 12px;
-  }
   
-  .controles-wrapper {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .filtros {
-    justify-content: center;
-  }
-/*   
   .favoritos-grid {
     grid-template-columns: 1fr;
     gap: 24px;
-  } */
-  
-  .card-acoes {
-    flex-direction: column;
   }
+  
 }
 
 @media (max-width: 600px) {
@@ -677,23 +386,6 @@ export default {
   }
 }
 
-.info-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  backdrop-filter: blur(4px);
-}
-/* 
 .fechar-info {
   position: absolute;
   top: 1.2rem;
@@ -713,26 +405,12 @@ export default {
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: background 0.3s;
-} */
-
-/* .fechar-info:hover {
-  background: #333;
-} */
-
-.modern-modal-panel {
-  background: #fff;
-  max-width: 96vw;
-  min-width: 340px;
-  height: 100vh;
-  border-radius: 24px 0 0 24px;
-  box-shadow: -8px 0 32px rgba(0,0,0,0.10);
-  padding: 2.8rem 2.2rem 2.2rem 2.2rem;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  animation: modalFadeIn 0.3s ease-out;
-  overflow-y: auto;
 }
+
+.fechar-info:hover {
+  background: #333;
+}
+
 
 @keyframes modalFadeIn {
   from { 
@@ -848,55 +526,4 @@ export default {
   font-weight: 600;
 }
 
-.modern-modal-panel {
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-  width: 95%;
-  max-width: 1200px;
-  max-height: 85vh;
-  overflow-y: auto;
-  position: relative;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .modern-modal-panel {
-    width: 90%;
-    max-width: none;
-    margin: 20px;
-  }
-  
-  .info-content-row {
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  .info-img {
-    width: 100%;
-    height: 250px;
-  }
-  
-  .info-colunas {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .modal-header-with-heart {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .modal-header-with-heart h2 {
-    margin-right: 0;
-  }
-  
-  .favorite-btn-modal {
-    align-self: flex-end;
-    width: 45px;
-    height: 45px;
-  }
-}
 </style>
