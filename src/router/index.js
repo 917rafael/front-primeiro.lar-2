@@ -39,6 +39,11 @@ const router = createRouter({
       name: 'Favoritos',
       component: () => import('../views/PaginaFavorito.vue'),
      },
+     {
+      path: '/perfil',
+      name: 'Perfil',
+      component: () => import('../views/PerfilUsu.vue'),
+     },
 
     // Removido rota para DescricaoDoImovel.vue pois o arquivo não existe
     // {
