@@ -25,36 +25,36 @@ export default {
     removerFavorito(id) {
       this.favoritosStore.removerFavorito(id);
     },
-    verDetalhes(id) {
-      const imovel = this.favoritosStore.getImovel(id);
-      if (imovel) {
-        this.imovelSelecionado = imovel;
-        this.mostrarDetalhes = true;
-      }
-    },
-    fecharDetalhes() {
-      this.mostrarDetalhes = false;
-      this.imovelSelecionado = null;
-    },
-    fecharDetalhesClique(e) {
-      if (e.target === e.currentTarget) {
-        this.fecharDetalhes();
-      }
-    },
-    fecharFora(e) {
-      if (e.target === e.currentTarget) {
-        this.fecharDetalhes();
-      }
-    },
-    toggleFavorito(id) {
-      this.favoritosStore.toggleFavorito(id);
-    },
-    entrarEmContato(imovel) {
-      // Abrir WhatsApp ou modal de contato
-      const mensagem = `Olá! Tenho interesse no imóvel: ${imovel.titulo} - ${imovel.endereco}`;
-      const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(mensagem)}`;
-      window.open(whatsappUrl, '_blank');
-    }
+    // verDetalhes(id) {
+    //   const imovel = this.favoritosStore.getImovel(id);
+    //   if (imovel) {
+    //     this.imovelSelecionado = imovel;
+    //     this.mostrarDetalhes = true;
+    //   }
+    // },
+    // fecharDetalhes() {
+    //   this.mostrarDetalhes = false;
+    //   this.imovelSelecionado = null;
+    // },
+    // fecharDetalhesClique(e) {
+    //   if (e.target === e.currentTarget) {
+    //     this.fecharDetalhes();
+    //   }
+    // },
+    // fecharFora(e) {
+    //   if (e.target === e.currentTarget) {
+    //     this.fecharDetalhes();
+    //   }
+    // },
+    // toggleFavorito(id) {
+    //   this.favoritosStore.toggleFavorito(id);
+    // },
+    // entrarEmContato(imovel) {
+    //   // Abrir WhatsApp ou modal de contato
+    //   const mensagem = `Olá! Tenho interesse no imóvel: ${imovel.titulo} - ${imovel.endereco}`;
+    //   const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(mensagem)}`;
+    //   window.open(whatsappUrl, '_blank');
+    // }
   },
   computed: {
     favoritos() {
@@ -151,7 +151,7 @@ export default {
           </router-link>
         </div>
 
-        <div v-else class="favoritos-grid">
+        <!-- <div v-else class="favoritos-grid">
           <div v-for="imovel in favoritosFiltrados" :key="imovel.id" class="favorito-card">
             <div class="card-imagem">
               <img :src="imovel.imagem" :alt="imovel.titulo" />
@@ -229,13 +229,13 @@ export default {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div>-->
+      </div> 
     </section>
   </div>
 
   <!-- Modal de Detalhes -->
-  <div v-if="mostrarDetalhes && imovelSelecionado" class="info-overlay modern-overlay" @click="fecharFora">
+  <!-- <div v-if="mostrarDetalhes && imovelSelecionado" class="info-overlay modern-overlay" @click="fecharFora">
     <div class="modern-modal-panel" @click.stop>
       <button class="fechar-info modern-close" @click="fecharDetalhes">×</button>
       <div class="info-content-row modern-modal-content">
@@ -280,7 +280,7 @@ export default {
         <strong>Descrição:</strong> {{ imovelSelecionado.descricao || 'Descrição não disponível.' }}
       </div>
     </div>
-  </div>
+  </div> -->
 
   <FooterComponent />
 </template>
@@ -427,12 +427,12 @@ export default {
 }
 
 /* Grid de Favoritos */
-.favoritos-grid {
+/* .favoritos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
   gap: 32px;
-}
-
+} */
+/* 
 .favorito-card {
   background: white;
   border-radius: 16px;
@@ -462,9 +462,9 @@ export default {
 
 .favorito-card:hover .card-imagem img {
   transform: scale(1.05);
-}
+} */
 
-.card-badges {
+/* .card-badges {
   position: absolute;
   top: 12px;
   left: 12px;
@@ -490,7 +490,7 @@ export default {
 .badge-aluguel {
   background: rgba(59, 130, 246, 0.9);
   color: white;
-}
+} */
 
 .btn-remover-favorito {
   position: absolute;
@@ -518,7 +518,7 @@ export default {
 .btn-remover-favorito:hover svg path {
   fill: white;
 }
-
+/* 
 .card-content {
   padding: 24px;
 }
@@ -632,14 +632,14 @@ export default {
   background: #ff6a3d;
   color: white;
   transform: translateY(-1px);
-}
+} */
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .favoritos-container {
+  /* .favoritos-container {
     padding-top: 60px;
   }
-  
+   */
   .hero-content h1 {
     font-size: 2.5rem;
     flex-direction: column;
@@ -654,11 +654,11 @@ export default {
   .filtros {
     justify-content: center;
   }
-  
+/*   
   .favoritos-grid {
     grid-template-columns: 1fr;
     gap: 24px;
-  }
+  } */
   
   .card-acoes {
     flex-direction: column;
@@ -693,7 +693,7 @@ export default {
   padding: 20px;
   backdrop-filter: blur(4px);
 }
-
+/* 
 .fechar-info {
   position: absolute;
   top: 1.2rem;
@@ -713,11 +713,11 @@ export default {
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: background 0.3s;
-}
+} */
 
-.fechar-info:hover {
+/* .fechar-info:hover {
   background: #333;
-}
+} */
 
 .modern-modal-panel {
   background: #fff;
