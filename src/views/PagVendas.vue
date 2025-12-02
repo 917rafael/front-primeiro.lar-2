@@ -139,7 +139,7 @@ export default {
 .alinha-direita {
   width: 100%;
   max-width: 600px;
-  margin: 0 12vw 0 auto; /* espaço à direita, alinha à direita */
+  margin: 0 12vw 0 auto; 
   display: grid;
   grid-template-columns: 1fr;
   gap: 2.5rem;
