@@ -17,6 +17,7 @@ const props = defineProps({
       endereco: '',
       imagem: '',
       imagens: [],
+      DImagem:  '',
       tipo: '',
       categoria: '',
       preco: '',
@@ -38,8 +39,9 @@ const mostrarDetalhes = ref(false);
 const currentSlide = ref(0);
 const imagemPadrao = '/src/assets/img/image.png';
 
+const isFavorito = computed(() => favoritosStore.isFavorito(props.imovel.id))
 
-const isFavorito = computed(() => favoritosStore.isFavorito(props.imovelId))
+
 
 // Métodos / Funções
 function verDetalhes() {
@@ -58,12 +60,12 @@ function fecharFora(e) {
   }
 }
 
-
 function toggleFavorito(e) {
-  e.stopPropagation() // Impede que o click abra o modal
-  console.log(`Clicou no favorito do imóvel ${props.imovelId}`)
-  favoritosStore.toggleFavorito(props.imovelId)
+  e.stopPropagation()
+  console.log(`Clicou no favorito do imóvel ${props.imovel.id}`)
+  favoritosStore.toggleFavorito(props.imovel.id)
 }
+
 
 function entrarEmContato(imovel) {
   const mensagem = `Olá! Tenho interesse no imóvel: ${imovel.titulo} - ${imovel.endereco}`;
@@ -79,10 +81,10 @@ function handleImageError(event) {
 <template>
   <div class="favorito-card">
     <div class="card-imagem">
-      <img 
-        :src="imovel.imagem || imagemPadrao" 
-        :alt="imovel.titulo || 'Foto do imóvel'" 
-        @error="handleImageError" 
+      <img
+        :src= "imovel.imagem"
+        :alt="imovel.titulo"
+        @error="handleImageError"
       />
       <div class="card-badges">
         <span class="badge" :class="`badge-${imovel.tipo?.toLowerCase() || 'default'}`">
@@ -90,7 +92,7 @@ function handleImageError(event) {
         </span>
         <span class="badge badge-categoria">{{ imovel.categoria }}</span>
       </div>
-      
+
       <button class="favorite-btn" :class="{ 'favorite-active': isFavorito }" @click="toggleFavorito"
           :title="isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -171,15 +173,17 @@ function handleImageError(event) {
   <div v-if="mostrarDetalhes && imovel" class="info-overlay" @click="fecharFora">
     <div class="modern-modal-panel" @click.stop>
       <button class="fechar-info" @click="fecharDetalhes">×</button>
-      <div class="sketchfab-embed-wrapper"> 
-        <iframe title="CASA FRAILES - HASEN [Taller de Arquitectura]"
-          frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"
-          allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport
-          execution-while-not-rendered web-share
-          src="https://sketchfab.com/models/ab698b84c9c2419fbf15364fe6a43053/embed"> 
-        </iframe>
+      <div class="sketchfab-embed-wrapper">
+      <iframe
+        :src="imovel.Dimagem"
+        frameborder="0"
+        allowfullscreen
+        mozallowfullscreen="true"
+        webkitallowfullscreen="true"
+        allow="autoplay; fullscreen; xr-spatial-tracking"
+      ></iframe>
       </div>
-    
+
       <div class="info-direita">
         <div class="modal-header-with-heart">
           <h2>{{ imovel.titulo || 'Título do imóvel' }}</h2>
