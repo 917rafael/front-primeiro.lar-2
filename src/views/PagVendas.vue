@@ -1,14 +1,41 @@
 <script>
 import { ref } from 'vue';
-import Anuncio from '../components/DescricaoCard.vue';
+import AnuncioDescricao from '../components/DescricaoCard.vue';
 import Filtro from '../components/filtro.vue';
 import HeaderVenda from '@/components/HeaderVenda.vue';
 
 export default {
   components: {
-    Anuncio,
+    AnuncioDescricao,
     Filtro,
     HeaderVenda
+  },
+   data() {
+    return {
+      imoveis: [
+        {
+          id: 1,
+          titulo: 'Apartamento Moderno',
+          endereco: 'Rua das Flores, 123',
+          imagem: '/img/apto1.jpg',
+          tipo: 'Venda',
+          categoria: 'Apartamento',
+          preco: 'R$ 450.000',
+          area: '85m²',
+          quartos: 3,
+          banheiros: 2,
+          vagas: 2,
+          caracteristicas: ['Piscina', 'Academia', 'Sacada'],
+          descricao: 'Lindo apartamento...'
+        }
+      ]
+    };
+  },
+  methods: {
+    handleToggleFavorito(id) {
+      // Lógica para adicionar/remover favorito
+      console.log('Toggle favorito:', id);
+    }
   },
   setup() {
     const filtroAberto = ref(true);
@@ -41,10 +68,12 @@ export default {
       v-show="filtroAberto"
     />
     <div class="alinha-direita">
-      <Anuncio :imovel-id="1"/>
-      <Anuncio :imovel-id="2"/>
-      <Anuncio :imovel-id="3"/>
-      <Anuncio :imovel-id="4"/>
+    <AnuncioDescricao 
+      v-for="imovel in imoveis" 
+      :key="imovel.id"
+      :imovel="imovel"
+      @toggle-favorito="handleToggleFavorito"
+    />      
     </div>
   </div>
 </template>
