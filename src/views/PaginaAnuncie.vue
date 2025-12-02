@@ -22,6 +22,11 @@ export default {
 			tipoImovel: '',
 			subTipoImovel: '',
 			valor: '',
+			area: '',
+			quartos: '',
+			banheiros: '',
+			vagas: '',
+			caracteristicas: '',
 			outrasInformacoes: '',
 			cep: '',
 			endereco: '',
@@ -161,15 +166,17 @@ export default {
 			this.tipoImovel = tipo;
 			this.subTipoImovel = '';
 		},
-		proximaEtapa() {
-			if (this.modalStep === 2 && this.tipoImovel && this.subTipoImovel) {
-				this.modalStep = 3;
-			} else if (this.modalStep === 3 && this.valor.trim()) {
-				this.modalStep = 4;
-			} else if (this.modalStep === 4 && this.cep.trim() && this.endereco.trim() && this.numero.trim()) {
-				this.modalStep = 5;
-			}
-		},
+			proximaEtapa() {
+				if (this.modalStep === 2 && this.tipoImovel && this.subTipoImovel) {
+					this.modalStep = 3;
+				} else if (this.modalStep === 3 && this.valor.trim()) {
+					this.modalStep = 4;
+				} else if (this.modalStep === 4 && this.cep.trim() && this.endereco.trim() && this.numero.trim()) {
+					this.modalStep = 5;
+				} else if (this.modalStep === 5 && this.area && this.quartos && this.banheiros && this.vagas && this.valor.trim()) {
+					this.modalStep = 6;
+				}
+			},
 		voltarEtapa() {
 			if (this.modalStep === 5) {
 				this.modalStep = 4;
@@ -276,7 +283,8 @@ export default {
 				quantidadeBanheiros: this.quantidadeBanheiros,
 				metrosQuadrados: this.metrosQuadrados
 			});
-
+			
+			// Ir para tela de sucesso
 			this.modalStep = 6;
 		},
 		fecharModal() {
@@ -526,7 +534,7 @@ export default {
 								type="text"
 								v-model="numero"
 								placeholder="Qual o número do imóvel?"
-								class="side-modal-input"
+								class="side-modal-input" 
 							/>
 						</div>
 					</div>
@@ -571,36 +579,69 @@ export default {
 
 					<div class="side-modal-actions">
 						<button class="side-modal-back" @click="voltarEtapa">Voltar</button>
-						<button class="side-modal-submit" :disabled="!quantidadeQuartos || !quantidadeBanheiros || !metrosQuadrados" @click="finalizarCadastro">Continuar</button>
+						<button class="side-modal-submit" :disabled="!cep.trim() || !endereco.trim() || !numero.trim()" @click="proximaEtapa">Continuar</button>
+					</div>
+				</div>
+
+				<!-- Etapa 5: Informações do imóvel -->
+				<div v-else-if="modalStep === 5" class="side-modal-step5">
+					<div class="modern-modal-fields">
+						<div class="modern-fields-row">
+							<div class="modern-field">
+								<label><span class="modern-icon">🏠</span> Área (m²)</label>
+								<input type="number" v-model="area" placeholder="Área total" class="side-modal-input modern-input" min="0" />
+							</div>
+							<div class="modern-field">
+								<label><span class="modern-icon">🛏️</span> Quartos</label>
+								<input type="number" v-model="quartos" placeholder="Quantidade de quartos" class="side-modal-input modern-input" min="0" />
+							</div>
+						</div>
+						<div class="modern-fields-row">
+							<div class="modern-field">
+								<label><span class="modern-icon">🛁</span> Banheiros</label>
+								<input type="number" v-model="banheiros" placeholder="Quantidade de banheiros" class="side-modal-input modern-input" min="0" />
+							</div>
+							<div class="modern-field">
+								<label><span class="modern-icon">🚗</span> Vagas</label>
+								<input type="number" v-model="vagas" placeholder="Vagas de garagem" class="side-modal-input modern-input" min="0" />
+							</div>
+						</div>
+						<div class="modern-fields-row">
+							<div class="modern-field" style="flex:1;">
+								<label><span class="modern-icon">✨</span> Características do imóvel</label>
+								<input type="text" v-model="caracteristicas" placeholder="Ex: varanda, piscina, mobiliado" class="side-modal-input modern-input" />
+							</div>
+						</div>
+						<div class="side-modal-actions modern-actions">
+							<button class="side-modal-back" @click="voltarEtapa">Voltar</button>
+							<button class="side-modal-submit" :disabled="!area || !quartos || !banheiros || !vagas" @click="finalizarCadastro">Continuar</button>
+						</div>
 					</div>
 				</div>
 
 				<!-- Etapa 6: Tela de sucesso -->
 				<div v-else-if="modalStep === 6" class="side-modal-success">
 					<div class="success-content">
-						<div class="success-icon">
+						<div class="success-icon success-icon-center">
 							<svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<circle cx="12" cy="12" r="10" fill="#10B981"/>
 								<path d="m9 12 2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 						</div>
-
 						<h3>Seu anúncio foi criado com sucesso!</h3>
-
 						<p>Parabéns! Seu anúncio de imóvel foi <strong>publicado</strong> com sucesso.</p>
-
 						<p>Seu imóvel já está disponível no site da Primeiro Lar e nossa equipe entrará em contato em breve para auxiliar no processo de venda.</p>
-
 						<p class="success-note">Esta confirmação permanecerá visível para seu controle. Use o botão abaixo quando desejar continuar navegando.</p>
-
-						<button class="success-testimonials-btn" @click="verMaisImoveis">
+											<div class="success-btn-center">
+												<button class="success-testimonials-btn" @click="verMaisImoveis">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M12 2L3 7L12 12L21 7L12 2Z" fill="white"/>
 								<path d="M3 17L12 22L21 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 								<path d="M3 12L12 17L21 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 							Veja mais imóveis
-						</button>
+												</button>
+											</div>
 					</div>
 				</div>
 			</div>
@@ -610,6 +651,52 @@ export default {
 </template>
 
 <style scoped>
+.success-icon-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 24px;
+}
+.success-btn-center {
+	display: flex;
+	justify-content: center;
+	margin-top: 24px;
+}
+.modern-modal-fields {
+	padding: 12px 0 0 0;
+}
+.modern-fields-row {
+	display: flex;
+	gap: 24px;
+	margin-bottom: 18px;
+}
+.modern-field {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+.modern-icon {
+	font-size: 1.2em;
+	margin-right: 6px;
+}
+.modern-input {
+	border: 2px solid #e5e7eb;
+	border-radius: 10px;
+	padding: 14px 12px;
+	font-size: 1.08rem;
+	background: #f9f9fb;
+	transition: border-color 0.2s;
+}
+.modern-input:focus {
+	border-color: #ff6a3d;
+	outline: none;
+}
+.modern-actions {
+	margin-top: 24px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 18px;
+}
 .cr-anuncie-container {
 	font-family: 'Inter', 'Montserrat', 'Segoe UI', Arial, sans-serif;
 	background: linear-gradient(120deg, #f6f7fb 0%, #fbeede 100%);

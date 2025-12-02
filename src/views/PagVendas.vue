@@ -1,14 +1,74 @@
 <script>
 import { ref } from 'vue';
-import Anuncio from '../components/Anuncio.vue';
+import AnuncioDescricao from '../components/DescricaoCard.vue';
 import Filtro from '../components/filtro.vue';
 import HeaderVenda from '@/components/HeaderVenda.vue';
 
 export default {
   components: {
-    Anuncio,
+    AnuncioDescricao,
     Filtro,
     HeaderVenda
+  },
+   data() {
+    return {
+      imoveis: [
+           {
+      id: 1,
+      titulo: 'Casa moderna em Vila Bela',
+      endereco: 'Rua Gradau, 100 - Vila Bela, São Paulo/SP',
+      preco: 'R$ 589.000',
+      condominio: 'R$ 100',
+      area: '165m²',
+      quartos: 3,
+      banheiros: 4,
+      vagas: 2,
+      imagem:'src/assets/img/Casa-moderna-9.jpg' ,
+      Dimagem:'https://sketchfab.com/models/ab698b84c9c2419fbf15364fe6a43053/embed',
+      tipo: 'Casa',
+      descricao: 'Essa casa é legal! Com arquitetura moderna, ambientes amplos e ótima iluminação natural.',
+      caracteristicas: ['Piscina', 'Churrasqueira', 'Garagem', 'Jardim']
+    },
+    {
+      id: 2,
+      titulo: 'Apartamento no Centro',
+      endereco: 'Av. Paulista, 1500 - Bela Vista, São Paulo/SP',
+      preco: 'R$ 450.000',
+      condominio: 'R$ 350',
+      area: '85m²',
+      quartos: 2,
+      banheiros: 2,
+      vagas: 1,
+      imagem: 'src/assets/img/aparatmento.jpg',
+       Dimagem:'https://sketchfab.com/models/cb7e16179949431ea74e75a22bfd8002/embed',
+      tipo: 'Apartamento',
+      descricao: 'Apartamento moderno com vista panorâmica da cidade.',
+      caracteristicas: ['Varanda', 'Academia', 'Portaria 24h', 'Elevador']
+    },
+    {
+      id: 3,
+      titulo: 'Loft Moderno Vila Madalena',
+      endereco: 'Rua Harmonia, 789 - Vila Madalena, São Paulo/SP',
+      preco: 'R$ 380.000',
+      condominio: 'R$ 200',
+      area: '55m²',
+      quartos: 1,
+      banheiros: 1,
+      vagas: 1,
+      imagem: '/src/assets/img/image.png',
+       Dimagem:'https://sketchfab.com/models/8059c23f509c47a1815d7341915f8ab6/embed',
+      tipo: 'Loft',
+      descricao: 'Loft moderno em região boêmia com excelente vida noturna.',
+      caracteristicas: ['Mobiliado', 'Pet Friendly', 'Coworking', 'Bike Space']
+    }
+      ]
+    };
+  },
+  methods: {
+    handleToggleFavorito(id) {
+      // Lógica para adicionar/remover favorito
+      console.log('Toggle favorito:', id);
+    }
   },
   setup() {
     const filtroAberto = ref(true);
@@ -41,10 +101,14 @@ export default {
       v-show="filtroAberto"
     />
     <div class="alinha-direita">
-      <Anuncio :imovel-id="1"/>
-      <Anuncio :imovel-id="2"/>
-      <Anuncio :imovel-id="3"/>
-      <Anuncio :imovel-id="4"/>
+    <AnuncioDescricao
+      v-for="imovel in imoveis"
+      :key="imovel.id"
+      :imovel="imovel"
+      @toggle-favorito="handleToggleFavorito"
+    />
+
+
     </div>
   </div>
 </template>
